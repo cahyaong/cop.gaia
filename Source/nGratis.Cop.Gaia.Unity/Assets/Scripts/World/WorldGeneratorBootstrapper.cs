@@ -23,7 +23,7 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 23 May 2015 1:22:03 AM</creation_timestamp>
+// <creation_timestamp>Saturday, 23 May 2015 1:22:03 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 using strange.extensions.context.impl;

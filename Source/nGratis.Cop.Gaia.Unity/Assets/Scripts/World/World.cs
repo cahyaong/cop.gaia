@@ -23,7 +23,7 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Sunday, 17 May 2015 1:05:29 PM</creation_timestamp>
+// <creation_timestamp>Sunday, 17 May 2015 1:05:29 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 using UnityEngine;

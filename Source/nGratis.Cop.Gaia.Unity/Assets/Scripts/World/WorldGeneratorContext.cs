@@ -23,7 +23,7 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 23 May 2015 1:30:14 AM</creation_timestamp>
+// <creation_timestamp>Saturday, 23 May 2015 1:30:14 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 using nGratis.Cop.Gaia.Engine;
