@@ -23,7 +23,7 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 1:11:28 PM</creation_timestamp>
+// <creation_timestamp>Wednesday, 27 May 2015 1:11:28 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #pragma warning disable 1591

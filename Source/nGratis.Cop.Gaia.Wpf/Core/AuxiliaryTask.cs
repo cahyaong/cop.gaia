@@ -23,7 +23,7 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 3 June 2015 1:17:15 PM</creation_timestamp>
+// <creation_timestamp>Wednesday, 3 June 2015 1:17:15 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 using System.Windows.Threading;

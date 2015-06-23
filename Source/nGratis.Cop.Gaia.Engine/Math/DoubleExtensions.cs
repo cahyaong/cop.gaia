@@ -23,7 +23,7 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 30 May 2015 1:08:00 AM</creation_timestamp>
+// <creation_timestamp>Saturday, 30 May 2015 1:08:00 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine

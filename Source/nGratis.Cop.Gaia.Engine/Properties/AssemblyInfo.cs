@@ -23,7 +23,7 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Monday, 18 May 2015 1:13:45 PM</creation_timestamp>
+// <creation_timestamp>Monday, 18 May 2015 1:13:45 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 using System.Reflection;
