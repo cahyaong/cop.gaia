@@ -53,6 +53,8 @@ namespace nGratis.Cop.Gaia.Wpf
 
         private TimeSpan elapsedPeriod;
 
+        private string seed;
+
         public WorldViewModel()
         {
             this.WorldRenderer = new WorldRenderer(Colors.CornflowerBlue);
@@ -86,10 +88,14 @@ namespace nGratis.Cop.Gaia.Wpf
             private set { this.RaiseAndSetIfChanged(ref this.elapsedPeriod, value); }
         }
 
-        public ICommand GenerateWorldCommand { get; private set; }
-
         [AsField(FieldMode.Input, FieldType.Text, "Seed:")]
-        public string Seed { get; set; }
+        public string Seed
+        {
+            get { return this.seed; }
+            set { this.RaiseAndSetIfChanged(ref this.seed, value); }
+        }
+
+        public ICommand GenerateWorldCommand { get; private set; }
 
         private async Task GenerateWorldAsync()
         {
