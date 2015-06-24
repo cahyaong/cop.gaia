@@ -63,9 +63,9 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             this.Focusable = true;
 
-            WeakEventManager<AweTileMapViewer, MouseButtonEventArgs>.AddHandler(this, "MouseDown", this.OnMouseDown);
-            WeakEventManager<AweTileMapViewer, MouseButtonEventArgs>.AddHandler(this, "MouseUp", this.OnMouseUp);
-            WeakEventManager<AweTileMapViewer, MouseEventArgs>.AddHandler(this, "MouseMove", this.OnMouseMove);
+            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseDown", this.OnMouseDown);
+            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseUp", this.OnMouseUp);
+            this.AddEventHandler<AweTileMapViewer, MouseEventArgs>("MouseMove", this.OnMouseMove);
         }
 
         public TileMap TileMap
