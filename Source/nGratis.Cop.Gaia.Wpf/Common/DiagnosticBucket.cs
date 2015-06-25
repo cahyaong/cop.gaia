@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="StringExtensions.cs" company="nGratis">
+// <copyright file="DiagnosticBucket.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,35 +23,50 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 1:12:15 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 25 June 2015 1:12:26 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// ReSharper disable CheckNamespace
-namespace System
-// ReSharper restore CheckNamespace
+namespace nGratis.Cop.Gaia.Wpf
 {
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
+    using System.Collections.ObjectModel;
     using System.Linq;
-    using JetBrains.Annotations;
+    using nGratis.Cop.Core.Contract;
+    using ReactiveUI;
 
-    public static class StringExtensions
+    public class DiagnosticBucket : ReactiveObject
     {
-        [StringFormatMethod("format")]
-        internal static string WithCurrentFormat(this string format, params object[] args)
+        private ObservableCollection<DiagnosticItem> items;
+
+        public DiagnosticBucket()
         {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.CurrentCulture, format, args);
+            this.Items = new ObservableCollection<DiagnosticItem>();
         }
 
-        [StringFormatMethod("format")]
-        internal static string WithInvariantFormat(this string format, params object[] args)
+        public ObservableCollection<DiagnosticItem> Items
         {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.InvariantCulture, format, args);
+            get { return this.items; }
+            private set { this.RaiseAndSetIfChanged(ref this.items, value); }
+        }
+
+        public void AddOrUpdateItem(DiagnosticKey key, object value)
+        {
+            Guard.AgainstNullArgument(() => key);
+            Guard.AgainstInvalidArgument(key == DiagnosticKey.Unknown, () => key);
+            Guard.AgainstNullArgument(() => value);
+
+            var matchedItem = this
+                .Items
+                .SingleOrDefault(item => item.Key == key);
+
+            if (matchedItem == null)
+            {
+                this.Items.Add(new DiagnosticItem(key, value));
+            }
+            else
+            {
+                matchedItem.Value = value;
+            }
         }
     }
 }

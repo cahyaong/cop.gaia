@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="StringExtensions.cs" company="nGratis">
+// <copyright file="DiagnosticKey.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,35 +23,48 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 1:12:15 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 25 June 2015 1:02:10 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// ReSharper disable CheckNamespace
-namespace System
-// ReSharper restore CheckNamespace
+namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
-    using JetBrains.Annotations;
 
-    public static class StringExtensions
+    public sealed class DiagnosticKey
     {
-        [StringFormatMethod("format")]
-        internal static string WithCurrentFormat(this string format, params object[] args)
+        public static readonly DiagnosticKey Unknown = new DiagnosticKey("[__UNKNOWN__]");
+
+        public static readonly DiagnosticKey RenderTime = new DiagnosticKey(
+            "Render time (ms)",
+            value => value.ToDouble().ToString("N0", CultureInfo.InvariantCulture));
+
+        public static readonly DiagnosticKey FramesPerSecond = new DiagnosticKey(
+            "Frames per second",
+            value => value.ToDouble().ToString("F0", CultureInfo.InvariantCulture));
+
+        public static readonly DiagnosticKey GenerationTime = new DiagnosticKey(
+            "Generation time (ms)",
+            value => value.ToDouble().ToString("N0", CultureInfo.InvariantCulture));
+
+        public static readonly DiagnosticKey SelectedCoordinate = new DiagnosticKey(
+            "Selected coordinate",
+            value =>
+            {
+                var point = value.ToPoint();
+                var isInvalid = double.IsNaN(point.X) || double.IsNaN(point.Y);
+
+                return isInvalid ? "<NULL>" : "({0:N0}, {1:N0})".WithInvariantFormat(point.X, point.Y);
+            });
+
+        private DiagnosticKey(string name = null, Func<object, string> formatValue = null)
         {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.CurrentCulture, format, args);
+            this.Name = name ?? "[__UNDEFINED__]";
+            this.FormatValue = formatValue ?? (value => value.ToString());
         }
 
-        [StringFormatMethod("format")]
-        internal static string WithInvariantFormat(this string format, params object[] args)
-        {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.InvariantCulture, format, args);
-        }
+        public string Name { get; private set; }
+
+        public Func<object, string> FormatValue { get; private set; }
     }
 }

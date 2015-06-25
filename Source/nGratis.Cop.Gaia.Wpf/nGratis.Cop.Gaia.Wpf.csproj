@@ -137,9 +137,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\DiagnosticBucket.cs" />
+    <Compile Include="Common\DiagnosticItem.cs" />
+    <Compile Include="Common\DiagnosticKey.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
     <Compile Include="Core\AweTile.cs" />
+    <Compile Include="Core\ObjectExtensions.cs" />
     <Compile Include="Render\GrayscaleTileShader.cs" />
     <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Render\ITileMapViewport.cs" />

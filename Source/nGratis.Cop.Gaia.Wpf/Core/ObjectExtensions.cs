@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="StringExtensions.cs" company="nGratis">
+// <copyright file="ObjectExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,35 +23,30 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 1:12:15 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 25 June 2015 12:09:50 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // ReSharper disable CheckNamespace
 namespace System
 // ReSharper restore CheckNamespace
 {
-    using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
-    using JetBrains.Annotations;
+    using System.Windows;
 
-    public static class StringExtensions
+    internal static class ObjectExtensions
     {
-        [StringFormatMethod("format")]
-        internal static string WithCurrentFormat(this string format, params object[] args)
+        public static double ToDouble(this object instance)
         {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.CurrentCulture, format, args);
+            return instance == null
+                ? double.NaN
+                : Convert.ToDouble(instance, CultureInfo.InvariantCulture);
         }
 
-        [StringFormatMethod("format")]
-        internal static string WithInvariantFormat(this string format, params object[] args)
+        public static Point ToPoint(this object instance)
         {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.InvariantCulture, format, args);
+            return instance == null
+                ? new Point(double.NaN, double.NaN)
+                : (Point)instance;
         }
     }
 }

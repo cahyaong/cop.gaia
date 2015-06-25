@@ -51,13 +51,14 @@ namespace nGratis.Cop.Gaia.Wpf
 
         private IWorldRenderer worldRenderer;
 
-        private TimeSpan elapsedPeriod;
+        private DiagnosticBucket diagnosticBucket;
 
         private string seed;
 
         public WorldViewModel()
         {
             this.WorldRenderer = new WorldRenderer(Colors.CornflowerBlue);
+            this.DiagnosticBucket = new DiagnosticBucket();
 
             this.GenerateWorldCommand = ReactiveCommand.CreateAsyncTask(
                 this.WhenAnyValue(vm => vm.IsBusy, isBusy => !isBusy),
@@ -82,10 +83,10 @@ namespace nGratis.Cop.Gaia.Wpf
             private set { this.RaiseAndSetIfChanged(ref this.worldRenderer, value); }
         }
 
-        public TimeSpan ElapsedPeriod
+        public DiagnosticBucket DiagnosticBucket
         {
-            get { return this.elapsedPeriod; }
-            private set { this.RaiseAndSetIfChanged(ref this.elapsedPeriod, value); }
+            get { return this.diagnosticBucket; }
+            private set { this.RaiseAndSetIfChanged(ref this.diagnosticBucket, value); }
         }
 
         [AsField(FieldMode.Input, FieldType.Text, "Seed:")]
@@ -130,7 +131,7 @@ namespace nGratis.Cop.Gaia.Wpf
             await Task.WhenAll(tasks);
 
             stopwatch.Stop();
-            this.ElapsedPeriod = stopwatch.Elapsed;
+            this.DiagnosticBucket.AddOrUpdateItem(DiagnosticKey.GenerationTime, stopwatch.ElapsedMilliseconds);
 
             this.IsBusy = false;
         }

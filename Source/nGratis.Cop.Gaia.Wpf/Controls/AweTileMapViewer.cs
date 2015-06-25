@@ -29,6 +29,7 @@
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -54,6 +55,12 @@ namespace nGratis.Cop.Gaia.Wpf
             typeof(bool),
             typeof(AweTileMapViewer),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty DiagnosticBucketProperty = DependencyProperty.Register(
+            "DiagnosticBucket",
+            typeof(DiagnosticBucket),
+            typeof(AweTileMapViewer),
+            new PropertyMetadata(null));
 
         private Point? selectedPoint;
 
@@ -84,6 +91,12 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             get { return (bool)this.GetValue(IsBusyProperty); }
             set { this.SetValue(IsBusyProperty, value); }
+        }
+
+        public DiagnosticBucket DiagnosticBucket
+        {
+            get { return (DiagnosticBucket)this.GetValue(DiagnosticBucketProperty); }
+            set { this.SetValue(DiagnosticBucketProperty, value); }
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -130,6 +143,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
             var tileMap = this.TileMap;
             var isBusy = this.IsBusy;
+            var diagnosticBucket = this.DiagnosticBucket;
 
             var tileSize = renderer.TileSize;
             var canvas = new WpfDrawingCanvas(drawingContext);
@@ -139,14 +153,15 @@ namespace nGratis.Cop.Gaia.Wpf
                 null,
                 new Rect(0.0, 0.0, renderer.ViewportSize.Width, renderer.ViewportSize.Height));
 
+            var stopwatch = Stopwatch.StartNew();
+            var selectedCoordinate = new Point(double.NaN, double.NaN);
+
             if (!isBusy)
             {
                 if (tileMap != null)
                 {
                     renderer.RenderLayer(canvas, tileMap);
                 }
-
-                renderer.RenderGridLines(canvas);
 
                 var viewportBoundary = new Rect(
                     new Point(0.0, 0.0),
@@ -158,10 +173,24 @@ namespace nGratis.Cop.Gaia.Wpf
                     var column = Math.Min((int)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
 
                     renderer.RenderTileSelection(canvas, row, column);
+                    selectedCoordinate.X = renderer.TileMapViewport.Column + column;
+                    selectedCoordinate.Y = renderer.TileMapViewport.Row + row;
                 }
             }
 
             renderer.RenderGridBorder(canvas);
+            stopwatch.Stop();
+
+            if (diagnosticBucket != null)
+            {
+                if (stopwatch.ElapsedMilliseconds > 0)
+                {
+                    diagnosticBucket.AddOrUpdateItem(DiagnosticKey.RenderTime, stopwatch.ElapsedMilliseconds);
+                    diagnosticBucket.AddOrUpdateItem(DiagnosticKey.FramesPerSecond, 1000.0 / stopwatch.ElapsedMilliseconds);
+                }
+
+                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.SelectedCoordinate, selectedCoordinate);
+            }
         }
 
         private static void OnTileMapChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
