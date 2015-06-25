@@ -247,8 +247,8 @@ namespace nGratis.Cop.Gaia.Wpf
                         renderer.TileMapViewport.Row +
                         ((int)(this.draggedPoint.Value.Y / renderer.TileSize.Height) - (int)(currentPoint.Y / renderer.TileSize.Height));
 
-                    renderer.TileMapViewport.Column = column.Clamp(0, tileMap.NumColumns - renderer.TileMapViewport.NumColumns - 1);
-                    renderer.TileMapViewport.Row = row.Clamp(0, tileMap.NumRows - renderer.TileMapViewport.NumRows - 1);
+                    renderer.TileMapViewport.Column = column.Clamp(0, tileMap.NumColumns - renderer.TileMapViewport.NumColumns);
+                    renderer.TileMapViewport.Row = row.Clamp(0, tileMap.NumRows - renderer.TileMapViewport.NumRows);
 
                     this.InvalidateVisual();
                 }
