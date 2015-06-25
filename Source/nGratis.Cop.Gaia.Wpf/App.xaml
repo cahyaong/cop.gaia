@@ -24,7 +24,7 @@
             <Setter Property="ContentLoader" Value="{StaticResource CaliburnContentLoader}" />
           </Style>
         </ResourceDictionary>
-        <ResourceDictionary Source="/nGratis.Cop.Core.Theme;component/Cop.Theme.Dark.xaml" />
+        <core:SharedResourceDictionary Source="/nGratis.Cop.Gaia.Wpf;component/Themes/Cop.Theme.Dark.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

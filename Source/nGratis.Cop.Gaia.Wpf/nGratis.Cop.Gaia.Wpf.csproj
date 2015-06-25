@@ -139,6 +139,7 @@
     </Compile>
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
+    <Compile Include="Core\AweTile.cs" />
     <Compile Include="Render\GrayscaleTileShader.cs" />
     <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Render\ITileMapViewport.cs" />
@@ -172,11 +173,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Cop.Style.AweTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Environment\WorldView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Cop.Theme.Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Cop.Theme.Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,9 +200,7 @@
       <Name>nGratis.Cop.Gaia.Engine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Themes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Properties\App.ico" />
   </ItemGroup>

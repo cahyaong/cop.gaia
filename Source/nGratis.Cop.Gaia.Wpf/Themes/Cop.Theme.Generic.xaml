@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:core="http://schemas.ngratis.com/2014/core">
+  <ResourceDictionary.MergedDictionaries>
+    <core:SharedResourceDictionary Source="/nGratis.Cop.Gaia.Wpf;component/Themes/Cop.Style.AweTile.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <Color x:Key="Cop.Color.Accent">CornflowerBlue</Color>
+  <SolidColorBrush x:Key="Cop.Brush.Accent" Color="{DynamicResource Cop.Color.Accent}" />
+</ResourceDictionary>

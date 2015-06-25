@@ -26,13 +26,12 @@
 // <creation_timestamp>Wednesday, 3 June 2015 1:17:15 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-using System.Windows.Threading;
-
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Windows.Threading;
 
     public static class AuxiliaryTask
     {

@@ -11,8 +11,12 @@
   mc:Ignorable="d">
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="320" />
-      <ColumnDefinition Width="*" MinWidth="100" />
+      <ColumnDefinition Width="310" />
+      <ColumnDefinition
+        Width="*"
+        MinWidth="110"
+        MaxWidth="660" />
+      <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
     <StackPanel Grid.Column="0" Orientation="Vertical">
       <ItemsControl ItemsSource="{Binding InputFieldGroup.Fields, Mode=OneWay}">
@@ -28,7 +32,7 @@
         </ItemsControl.ItemsPanel>
       </ItemsControl>
       <Button
-        Width="100"
+        Width="110"
         HorizontalAlignment="Right"
         Command="{Binding GenerateWorldCommand, Mode=OneWay}"
         Content="Generate" />

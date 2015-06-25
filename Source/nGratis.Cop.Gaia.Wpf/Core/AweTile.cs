@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="CopModuleProvider.cs" company="nGratis">
+// <copyright file="AweTile.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,45 +23,41 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 12:36:23 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 24 June 2015 1:58:41 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Wpf
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using nGratis.Cop.Core.Contract;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+    using nGratis.Cop.Core.Wpf;
 
-    [Export(typeof(IModuleProvider))]
-    internal class CopModuleProvider : IModuleProvider
+    [TemplatePart(Name = "PART_Border", Type = typeof(Border))]
+    public class AweTile : ContentControl
     {
-        public IEnumerable<Assembly> FindModuleAssemblies()
+        public static readonly DependencyProperty AccentColorProperty = DependencyProperty.Register(
+            "AccentColor",
+            typeof(Color),
+            typeof(AweTile),
+            new PropertyMetadata(Colors.CornflowerBlue));
+
+        public static readonly DependencyProperty MeasurementProperty = DependencyProperty.Register(
+            "Measurement",
+            typeof(Measurement),
+            typeof(AweTile),
+            new PropertyMetadata(Measurement.M));
+
+        public Color AccentColor
         {
-            var assemblies = Enumerable.Empty<Assembly>();
-            var moduleFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Modules");
-
-            if (Directory.Exists(moduleFolderPath))
-            {
-                assemblies = Directory
-                    .GetFiles(moduleFolderPath, "nGratis.Cop.Gaia.Module.*.dll")
-                    .Select(Assembly.LoadFile);
-            }
-
-            return assemblies;
+            get { return (Color)this.GetValue(AccentColorProperty); }
+            set { this.SetValue(AccentColorProperty, value); }
         }
 
-        public IEnumerable<Assembly> FindInternalAssemblies()
+        public Measurement Measurement
         {
-            var assemblies = Directory
-                 .GetFiles(Directory.GetCurrentDirectory(), "nGratis.Cop.*.dll")
-                 .Where(file => !file.Contains("Module"))
-                 .Select(Assembly.LoadFile);
-
-            return assemblies;
+            get { return (Measurement)this.GetValue(MeasurementProperty); }
+            set { this.SetValue(MeasurementProperty, value); }
         }
     }
 }
