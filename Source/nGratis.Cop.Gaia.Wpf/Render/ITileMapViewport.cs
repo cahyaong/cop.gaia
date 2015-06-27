@@ -30,9 +30,9 @@ namespace nGratis.Cop.Gaia.Wpf
 {
     public interface ITileMapViewport
     {
-        uint Row { get; set; }
+        uint Row { get; }
 
-        uint Column { get; set; }
+        uint Column { get; }
 
         uint NumRows { get; }
 
@@ -42,6 +42,10 @@ namespace nGratis.Cop.Gaia.Wpf
 
         uint MaxNumColumns { get; }
 
+        void Reset();
+
         void Resize(uint numRows, uint numColumns);
+
+        void Pan(uint deltaRows, uint deltaColumns);
     }
 }

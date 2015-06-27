@@ -239,18 +239,17 @@ namespace nGratis.Cop.Gaia.Wpf
                     var tileMap = this.TileMap;
                     var renderer = this.TileMapRenderer;
 
-                    var column =
-                        renderer.TileMapViewport.Column +
-                        ((uint)(this.draggedPoint.Value.X / renderer.TileSize.Width) - (uint)(currentPoint.X / renderer.TileSize.Width));
+                    var deltaRows = (uint)(this.draggedPoint.Value.Y / renderer.TileSize.Height) - (uint)(currentPoint.Y / renderer.TileSize.Height);
+                    var deltaColumns = (uint)(this.draggedPoint.Value.X / renderer.TileSize.Width) - (uint)(currentPoint.X / renderer.TileSize.Width);
 
-                    var row =
-                        renderer.TileMapViewport.Row +
-                        ((uint)(this.draggedPoint.Value.Y / renderer.TileSize.Height) - (uint)(currentPoint.Y / renderer.TileSize.Height));
+                    if (deltaRows > 0U || deltaColumns > 0U)
+                    {
+                        renderer.TileMapViewport.Pan(
+                            (renderer.TileMapViewport.Row + renderer.TileMapViewport.NumRows + deltaRows) > tileMap.NumRows ? 0U : deltaRows,
+                            (renderer.TileMapViewport.Column + renderer.TileMapViewport.NumColumns + deltaColumns) > tileMap.NumColumns ? 0U : deltaColumns);
 
-                    renderer.TileMapViewport.Column = Math.Min(column, tileMap.NumColumns - renderer.TileMapViewport.NumColumns);
-                    renderer.TileMapViewport.Row = Math.Min(row, tileMap.NumRows - renderer.TileMapViewport.NumRows);
-
-                    this.InvalidateVisual();
+                        this.InvalidateVisual();
+                    }
                 }
 
                 this.draggedPoint = currentPoint;
@@ -272,8 +271,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
             if (renderer != null)
             {
-                renderer.TileMapViewport.Row = 0;
-                renderer.TileMapViewport.Column = 0;
+                renderer.TileMapViewport.Reset();
             }
 
             this.InvalidateVisual();

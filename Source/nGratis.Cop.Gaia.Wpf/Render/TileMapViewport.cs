@@ -43,9 +43,9 @@ namespace nGratis.Cop.Gaia.Wpf
             this.MaxNumColumns = 64;
         }
 
-        public uint Column { get; set; }
+        public uint Column { get; private set; }
 
-        public uint Row { get; set; }
+        public uint Row { get; private set; }
 
         public uint NumRows { get; private set; }
 
@@ -55,16 +55,27 @@ namespace nGratis.Cop.Gaia.Wpf
 
         public uint MaxNumColumns { get; private set; }
 
+        public void Reset()
+        {
+            this.Row = 0;
+            this.Column = 0;
+        }
+
         public void Resize(uint numRows, uint numColumns)
         {
             numRows = Math.Min(numRows, this.MaxNumRows);
             numColumns = Math.Min(numColumns, this.MaxNumColumns);
 
-            this.Row = (uint)Math.Max(0, (int)(this.Row - (numRows - this.NumRows)));
-            this.Column = (uint)Math.Max(0, (int)(this.Column - (numColumns - this.NumColumns)));
+            this.Pan(this.NumRows - numRows, this.NumColumns - numColumns);
 
             this.NumRows = numRows;
             this.NumColumns = numColumns;
+        }
+
+        public void Pan(uint deltaRows, uint deltaColumns)
+        {
+            this.Row = (uint)Math.Max(0, (int)(this.Row + deltaRows));
+            this.Column = (uint)Math.Max(0, (int)(this.Column + deltaColumns));
         }
     }
 }
