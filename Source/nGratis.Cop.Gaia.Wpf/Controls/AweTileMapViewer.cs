@@ -169,8 +169,8 @@ namespace nGratis.Cop.Gaia.Wpf
 
                 if (this.selectedPoint.HasValue && viewportBoundary.Contains(this.selectedPoint.Value))
                 {
-                    var row = Math.Min((int)(this.selectedPoint.Value.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
-                    var column = Math.Min((int)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
+                    var row = Math.Min((uint)(this.selectedPoint.Value.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
+                    var column = Math.Min((uint)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
 
                     renderer.RenderTileSelection(canvas, row, column);
                     selectedCoordinate.X = renderer.TileMapViewport.Column + column;
@@ -241,14 +241,14 @@ namespace nGratis.Cop.Gaia.Wpf
 
                     var column =
                         renderer.TileMapViewport.Column +
-                        ((int)(this.draggedPoint.Value.X / renderer.TileSize.Width) - (int)(currentPoint.X / renderer.TileSize.Width));
+                        ((uint)(this.draggedPoint.Value.X / renderer.TileSize.Width) - (uint)(currentPoint.X / renderer.TileSize.Width));
 
                     var row =
                         renderer.TileMapViewport.Row +
-                        ((int)(this.draggedPoint.Value.Y / renderer.TileSize.Height) - (int)(currentPoint.Y / renderer.TileSize.Height));
+                        ((uint)(this.draggedPoint.Value.Y / renderer.TileSize.Height) - (uint)(currentPoint.Y / renderer.TileSize.Height));
 
-                    renderer.TileMapViewport.Column = column.Clamp(0, tileMap.NumColumns - renderer.TileMapViewport.NumColumns);
-                    renderer.TileMapViewport.Row = row.Clamp(0, tileMap.NumRows - renderer.TileMapViewport.NumRows);
+                    renderer.TileMapViewport.Column = Math.Min(column, tileMap.NumColumns - renderer.TileMapViewport.NumColumns);
+                    renderer.TileMapViewport.Row = Math.Min(row, tileMap.NumRows - renderer.TileMapViewport.NumRows);
 
                     this.InvalidateVisual();
                 }

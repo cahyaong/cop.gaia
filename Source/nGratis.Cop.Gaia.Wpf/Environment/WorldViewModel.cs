@@ -38,6 +38,7 @@ namespace nGratis.Cop.Gaia.Wpf
     using System.Windows.Media;
     using nGratis.Cop.Core.Wpf;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Core;
     using ReactiveUI;
 
     [Export]
@@ -109,7 +110,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
             var noise = new PerlinNoise(this.Seed.ToStableSeed());
 
-            var tasks = Enumerable
+            var tasks = AuxiliaryEnumerable
                 .Range(0, this.WorldMap.NumRows / ChunkSize)
                 .Select(index => new
                     {
@@ -120,7 +121,7 @@ namespace nGratis.Cop.Gaia.Wpf
                     {
                         for (var row = chunk.StartRow; row <= chunk.EndRow; row++)
                         {
-                            for (var column = 0; column < this.WorldMap.NumColumns; column++)
+                            for (var column = 0U; column < this.WorldMap.NumColumns; column++)
                             {
                                 var altitude = (int)(((noise.GetValue(column, row, 0.0) + 1.0) / 2.0).Clamp(0.0, 1.0) * WorldMap.Limits.Altitude);
                                 this.WorldMap[column, row].Altitude = altitude;

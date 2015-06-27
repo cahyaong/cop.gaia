@@ -117,14 +117,9 @@ namespace nGratis.Cop.Gaia.Wpf
         {
         }
 
-        public virtual void RenderTileSelection(ICanvas canvas, int row, int column)
+        public virtual void RenderTileSelection(ICanvas canvas, uint row, uint column)
         {
             Guard.AgainstNullArgument(() => canvas);
-
-            if (row < 0 || column < 0)
-            {
-                return;
-            }
 
             canvas.DrawRectangle(
                 this.cellSelectionPen,
@@ -141,9 +136,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
         public void ArrangeViewport(Size finalSize)
         {
-            this.TileMapViewport.NumRows = (int)(finalSize.Height / this.TileSize.Height).Clamp(0, this.TileMapViewport.MaxNumRows);
-            this.TileMapViewport.NumColumns = (int)(finalSize.Width / this.TileSize.Width).Clamp(0, this.TileMapViewport.MaxNumColumns);
-
+            this.TileMapViewport.Resize((uint)(finalSize.Height / this.TileSize.Height), (uint)(finalSize.Width / this.TileSize.Width));
             this.ViewportSize = new Size(this.TileMapViewport.NumColumns * this.TileSize.Width, this.TileMapViewport.NumRows * this.TileSize.Height);
         }
     }

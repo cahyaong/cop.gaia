@@ -28,6 +28,9 @@
 
 namespace nGratis.Cop.Gaia.Wpf
 {
+    using System;
+    using nGratis.Cop.Gaia.Engine;
+
     internal class TileMapViewport : ITileMapViewport
     {
         public TileMapViewport()
@@ -40,16 +43,28 @@ namespace nGratis.Cop.Gaia.Wpf
             this.MaxNumColumns = 64;
         }
 
-        public int Column { get; set; }
+        public uint Column { get; set; }
 
-        public int Row { get; set; }
+        public uint Row { get; set; }
 
-        public int NumRows { get; set; }
+        public uint NumRows { get; private set; }
 
-        public int NumColumns { get; set; }
+        public uint NumColumns { get; private set; }
 
-        public int MaxNumRows { get; private set; }
+        public uint MaxNumRows { get; private set; }
 
-        public int MaxNumColumns { get; private set; }
+        public uint MaxNumColumns { get; private set; }
+
+        public void Resize(uint numRows, uint numColumns)
+        {
+            numRows = Math.Min(numRows, this.MaxNumRows);
+            numColumns = Math.Min(numColumns, this.MaxNumColumns);
+
+            this.Row = (uint)Math.Max(0, (int)(this.Row - (numRows - this.NumRows)));
+            this.Column = (uint)Math.Max(0, (int)(this.Column - (numColumns - this.NumColumns)));
+
+            this.NumRows = numRows;
+            this.NumColumns = numColumns;
+        }
     }
 }

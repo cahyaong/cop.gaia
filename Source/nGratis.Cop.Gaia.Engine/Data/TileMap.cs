@@ -35,19 +35,19 @@ namespace nGratis.Cop.Gaia.Engine
     {
         private readonly TTile[] tiles;
 
-        protected TileMap(int numColumns, int numRows)
+        protected TileMap(uint numColumns, uint numRows)
             : base(numColumns, numRows)
         {
             this.tiles = new TTile[this.NumColumns * this.NumRows];
         }
 
-        public TTile this[int x, int y]
+        public TTile this[uint x, uint y]
         {
             get { return this.tiles[(y * this.NumColumns) + x]; }
             protected set { this.tiles[(y * this.NumColumns) + x] = value; }
         }
 
-        public TTile this[int index]
+        public TTile this[uint index]
         {
             get { return this.tiles[index]; }
             protected set { this.tiles[index] = value; }
@@ -57,7 +57,7 @@ namespace nGratis.Cop.Gaia.Engine
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "By design.")]
     public class TileMap
     {
-        protected TileMap(int numColumns, int numRows)
+        protected TileMap(uint numColumns, uint numRows)
         {
             Guard.AgainstInvalidArgument(numColumns <= 0, () => numColumns);
             Guard.AgainstInvalidArgument(numRows <= 0, () => numRows);
@@ -66,8 +66,8 @@ namespace nGratis.Cop.Gaia.Engine
             this.NumRows = numRows;
         }
 
-        public int NumColumns { get; private set; }
+        public uint NumColumns { get; private set; }
 
-        public int NumRows { get; private set; }
+        public uint NumRows { get; private set; }
     }
 }

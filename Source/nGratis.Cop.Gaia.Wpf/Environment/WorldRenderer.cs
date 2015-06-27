@@ -28,6 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Wpf
 {
+    using System;
     using System.Windows;
     using System.Windows.Media;
     using nGratis.Cop.Gaia.Engine;
@@ -65,9 +66,9 @@ namespace nGratis.Cop.Gaia.Wpf
                         Height = this.TileSize.Height
                     };
 
-                for (var row = 0; row < this.TileMapViewport.NumRows; row++)
+                for (var row = 0U; row < this.TileMapViewport.NumRows; row++)
                 {
-                    for (var column = 0; column < this.TileMapViewport.NumColumns; column++)
+                    for (var column = 0U; column < this.TileMapViewport.NumColumns; column++)
                     {
                         var value = world[column + this.TileMapViewport.Column, row + this.TileMapViewport.Row].Altitude;
 

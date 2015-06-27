@@ -47,7 +47,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
         void RenderLayer(ICanvas canvas, TileMap tileMap);
 
-        void RenderTileSelection(ICanvas canvas, int row, int column);
+        void RenderTileSelection(ICanvas canvas, uint row, uint column);
 
         void MeasureViewport(Size availableSize);
 

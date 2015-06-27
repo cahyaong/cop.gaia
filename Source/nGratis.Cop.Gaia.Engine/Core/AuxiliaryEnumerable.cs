@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="WorldMap.cs" company="nGratis">
+// <copyright file="AuxiliaryEnumerable.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,23 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 1:05:48 PM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 27 June 2015 12:59:51 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Core
 {
-    public class WorldMap : TileMap<Region>
+    using System.Collections.Generic;
+
+    public static class AuxiliaryEnumerable
     {
-        public WorldMap(uint numColumns, uint numRows)
-            : base(numColumns, numRows)
+        public static IEnumerable<uint> Range(uint start, uint count)
         {
-            var index = 0U;
+            Guard.AgainstInvalidOperation(start + count >= uint.MaxValue);
 
-            for (var row = 0; row < this.NumRows; row++)
+            for (var index = 0U; index < count; index++)
             {
-                for (var column = 0; column < this.NumColumns; column++)
-                {
-                    this[index++] = new Region(row, column);
-                }
+                yield return start + index;
             }
-        }
-
-        public static class Limits
-        {
-            public const int Altitude = (1 << 14) - 1;
         }
     }
 }
