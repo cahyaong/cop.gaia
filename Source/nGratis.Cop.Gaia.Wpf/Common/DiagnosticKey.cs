@@ -54,7 +54,7 @@ namespace nGratis.Cop.Gaia.Wpf
                 var point = value.ToPoint();
                 var isInvalid = double.IsNaN(point.X) || double.IsNaN(point.Y);
 
-                return isInvalid ? "<NULL>" : "({0:N0}, {1:N0})".WithInvariantFormat(point.X, point.Y);
+                return isInvalid ? "<NULL>" : "({0:G0}, {1:G0})".WithInvariantFormat(point.X, point.Y);
             });
 
         private DiagnosticKey(string name = null, Func<object, string> formatValue = null)
