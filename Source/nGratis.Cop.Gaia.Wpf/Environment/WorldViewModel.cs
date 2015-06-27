@@ -50,7 +50,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
         private WorldMap worldMap;
 
-        private IWorldRenderer worldRenderer;
+        private IWorldMapRenderer worldMapRenderer;
 
         private DiagnosticBucket diagnosticBucket;
 
@@ -58,7 +58,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
         public WorldViewModel()
         {
-            this.WorldRenderer = new WorldRenderer(Colors.CornflowerBlue);
+            this.WorldMapRenderer = new WorldMapRenderer(Colors.CornflowerBlue);
             this.DiagnosticBucket = new DiagnosticBucket();
 
             this.GenerateWorldCommand = ReactiveCommand.CreateAsyncTask(
@@ -78,10 +78,10 @@ namespace nGratis.Cop.Gaia.Wpf
             private set { this.RaiseAndSetIfChanged(ref this.worldMap, value); }
         }
 
-        public IWorldRenderer WorldRenderer
+        public IWorldMapRenderer WorldMapRenderer
         {
-            get { return this.worldRenderer; }
-            private set { this.RaiseAndSetIfChanged(ref this.worldRenderer, value); }
+            get { return this.worldMapRenderer; }
+            private set { this.RaiseAndSetIfChanged(ref this.worldMapRenderer, value); }
         }
 
         public DiagnosticBucket DiagnosticBucket

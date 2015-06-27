@@ -44,7 +44,7 @@
         IsBusy="{Binding IsBusy, Mode=OneWay}"
         RenderOptions.EdgeMode="Aliased"
         TileMap="{Binding WorldMap, Mode=OneWay}"
-        TileMapRenderer="{Binding WorldRenderer, Mode=OneWay}" />
+        TileMapRenderer="{Binding WorldMapRenderer, Mode=OneWay}" />
       <core:AweProgressBar IsActive="{Binding IsBusy, Mode=OneWay}" Message="Generating world..." />
     </Grid>
     <ItemsControl Grid.Column="2" ItemsSource="{Binding DiagnosticBucket.Items, Mode=OneWay}">

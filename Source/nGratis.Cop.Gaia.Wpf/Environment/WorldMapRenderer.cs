@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="WorldRenderer.cs" company="nGratis">
+// <copyright file="WorldMapRenderer.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -34,14 +34,14 @@ namespace nGratis.Cop.Gaia.Wpf
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class WorldRenderer : TileMapRenderer, IWorldRenderer
+    internal class WorldMapRenderer : TileMapRenderer, IWorldMapRenderer
     {
-        public WorldRenderer(Color accentColor)
+        public WorldMapRenderer(Color accentColor)
             : base(new TileMapViewport(), new Size(10.0, 10.0), accentColor)
         {
         }
 
-        public WorldRenderer(ITileMapViewport tileMapViewport, Size tileSize, Color accentColor)
+        public WorldMapRenderer(ITileMapViewport tileMapViewport, Size tileSize, Color accentColor)
             : base(tileMapViewport, tileSize, accentColor)
         {
         }

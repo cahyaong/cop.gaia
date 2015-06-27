@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="IWorldRenderer.cs" company="nGratis">
+// <copyright file="IWorldMapRenderer.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -28,7 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Wpf
 {
-    public interface IWorldRenderer : ITileMapRenderer
+    public interface IWorldMapRenderer : ITileMapRenderer
     {
     }
 }
