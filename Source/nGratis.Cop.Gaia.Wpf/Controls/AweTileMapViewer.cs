@@ -30,11 +30,13 @@ namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
     using System.Diagnostics;
+    using System.Reactive.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
     using nGratis.Cop.Gaia.Engine;
+    using ReactiveUI;
 
     public class AweTileMapViewer : Canvas
     {
@@ -69,10 +71,9 @@ namespace nGratis.Cop.Gaia.Wpf
         public AweTileMapViewer()
         {
             this.Focusable = true;
+            this.FocusVisualStyle = null;
 
-            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseDown", this.OnMouseDown);
-            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseUp", this.OnMouseUp);
-            this.AddEventHandler<AweTileMapViewer, MouseEventArgs>("MouseMove", this.OnMouseMove);
+            this.InitializeEventHandlers();
         }
 
         public TileMap TileMap
@@ -97,6 +98,14 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             get { return (DiagnosticBucket)this.GetValue(DiagnosticBucketProperty); }
             set { this.SetValue(DiagnosticBucketProperty, value); }
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            this.Focusable = true;
+            this.FocusVisualStyle = null;
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -205,6 +214,49 @@ namespace nGratis.Cop.Gaia.Wpf
             viewer.ResetViewport();
         }
 
+        private void InitializeEventHandlers()
+        {
+            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseDown", this.OnMouseDown);
+            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseUp", this.OnMouseUp);
+            this.AddEventHandler<AweTileMapViewer, MouseEventArgs>("MouseMove", this.OnMouseMove);
+
+            Observable
+                .FromEventPattern<KeyEventArgs>(this, "KeyDown")
+                .Where(pattern => pattern.EventArgs.Key.IsPanning())
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(pattern => this.HandlePanningWithKeyboard(pattern.EventArgs.Key));
+        }
+
+        private void HandlePanningWithKeyboard(Key key)
+        {
+            var deltaRows = 0;
+            var deltaColumns = 0;
+
+            switch (key)
+            {
+                case Key.A:
+                    deltaColumns = -1;
+                    break;
+
+                case Key.D:
+                    deltaColumns = 1;
+                    break;
+
+                case Key.W:
+                    deltaRows = -1;
+                    break;
+
+                case Key.S:
+                    deltaRows = 1;
+                    break;
+            }
+
+            var tileMap = this.TileMap;
+
+            this.TileMapRenderer.PanCamera(4 * deltaRows, 4 * deltaColumns, tileMap.NumRows, tileMap.NumColumns);
+            this.InvalidateVisual();
+        }
+
         private void OnMouseUp(object sender, MouseButtonEventArgs args)
         {
             if (args.ChangedButton == MouseButton.Left && args.ClickCount == 1)
@@ -239,17 +291,12 @@ namespace nGratis.Cop.Gaia.Wpf
                     var tileMap = this.TileMap;
                     var renderer = this.TileMapRenderer;
 
-                    var deltaRows = (uint)(this.draggedPoint.Value.Y / renderer.TileSize.Height) - (uint)(currentPoint.Y / renderer.TileSize.Height);
-                    var deltaColumns = (uint)(this.draggedPoint.Value.X / renderer.TileSize.Width) - (uint)(currentPoint.X / renderer.TileSize.Width);
+                    var deltaRows = (int)((this.draggedPoint.Value.Y / renderer.TileSize.Height) - (currentPoint.Y / renderer.TileSize.Height));
+                    var deltaColumns = (int)((this.draggedPoint.Value.X / renderer.TileSize.Width) - (currentPoint.X / renderer.TileSize.Width));
 
-                    if (deltaRows > 0U || deltaColumns > 0U)
-                    {
-                        renderer.TileMapViewport.Pan(
-                            (renderer.TileMapViewport.Row + renderer.TileMapViewport.NumRows + deltaRows) > tileMap.NumRows ? 0U : deltaRows,
-                            (renderer.TileMapViewport.Column + renderer.TileMapViewport.NumColumns + deltaColumns) > tileMap.NumColumns ? 0U : deltaColumns);
+                    renderer.PanCamera(deltaRows, deltaColumns, tileMap.NumRows, tileMap.NumColumns);
 
-                        this.InvalidateVisual();
-                    }
+                    this.InvalidateVisual();
                 }
 
                 this.draggedPoint = currentPoint;

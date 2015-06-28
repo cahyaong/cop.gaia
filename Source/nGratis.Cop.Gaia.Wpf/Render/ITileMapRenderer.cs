@@ -52,5 +52,7 @@ namespace nGratis.Cop.Gaia.Wpf
         void MeasureViewport(Size availableSize);
 
         void ArrangeViewport(Size finalSize);
+
+        void PanCamera(int deltaRows, int deltaColumns, uint maxNumRows, uint maxNumColumns);
     }
 }

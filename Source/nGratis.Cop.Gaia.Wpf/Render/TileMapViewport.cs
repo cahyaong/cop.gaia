@@ -66,16 +66,23 @@ namespace nGratis.Cop.Gaia.Wpf
             numRows = Math.Min(numRows, this.MaxNumRows);
             numColumns = Math.Min(numColumns, this.MaxNumColumns);
 
-            this.Pan(this.NumRows - numRows, this.NumColumns - numColumns);
+            this.Pan((int)(this.NumRows - numRows), (int)(this.NumColumns - numColumns));
 
             this.NumRows = numRows;
             this.NumColumns = numColumns;
         }
 
-        public void Pan(uint deltaRows, uint deltaColumns)
+        public void Pan(int deltaRows, int deltaColumns)
         {
-            this.Row = (uint)Math.Max(0, (int)(this.Row + deltaRows));
-            this.Column = (uint)Math.Max(0, (int)(this.Column + deltaColumns));
+            if ((int)this.Row + deltaRows >= 0)
+            {
+                this.Row = (uint)(this.Row + deltaRows);
+            }
+
+            if ((int)this.Column + deltaColumns >= 0)
+            {
+                this.Column = (uint)(this.Column + deltaColumns);
+            }
         }
     }
 }

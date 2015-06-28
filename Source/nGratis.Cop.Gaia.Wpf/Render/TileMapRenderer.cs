@@ -139,5 +139,12 @@ namespace nGratis.Cop.Gaia.Wpf
             this.TileMapViewport.Resize((uint)(finalSize.Height / this.TileSize.Height), (uint)(finalSize.Width / this.TileSize.Width));
             this.ViewportSize = new Size(this.TileMapViewport.NumColumns * this.TileSize.Width, this.TileMapViewport.NumRows * this.TileSize.Height);
         }
+
+        public void PanCamera(int deltaRows, int deltaColumns, uint maxNumRows, uint maxNumColumns)
+        {
+            this.TileMapViewport.Pan(
+                (this.TileMapViewport.Row + this.TileMapViewport.NumRows + deltaRows) > maxNumRows ? 0 : deltaRows,
+                (this.TileMapViewport.Column + this.TileMapViewport.NumColumns + deltaColumns) > maxNumColumns ? 0 : deltaColumns);
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITileViewport.cs" company="nGratis">
+// <copyright file="InteractionExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,29 +23,18 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 1:11:35 PM UTC</creation_timestamp>
+// <creation_timestamp>Sunday, 28 June 2015 1:12:31 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Wpf
 {
-    public interface ITileMapViewport
+    using System.Windows.Input;
+
+    internal static class InteractionExtensions
     {
-        uint Row { get; }
-
-        uint Column { get; }
-
-        uint NumRows { get; }
-
-        uint NumColumns { get; }
-
-        uint MaxNumRows { get; }
-
-        uint MaxNumColumns { get; }
-
-        void Reset();
-
-        void Resize(uint numRows, uint numColumns);
-
-        void Pan(int deltaRows, int deltaColumns);
+        public static bool IsPanning(this Key key)
+        {
+            return key == Key.A || key == Key.D || key == Key.W || key == Key.S;
+        }
     }
 }

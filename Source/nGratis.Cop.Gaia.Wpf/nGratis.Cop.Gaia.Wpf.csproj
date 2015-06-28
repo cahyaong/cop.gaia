@@ -140,6 +140,7 @@
     <Compile Include="Common\DiagnosticBucket.cs" />
     <Compile Include="Common\DiagnosticItem.cs" />
     <Compile Include="Common\DiagnosticKey.cs" />
+    <Compile Include="Common\InteractionExtensions.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
     <Compile Include="Core\AweTile.cs" />
