@@ -47,7 +47,7 @@ namespace nGratis.Cop.Gaia.Engine
             this.Frequency = frequency;
             this.Lacunarity = lacunarity;
             this.Persistence = persistence;
-            this.NumOctaves = System.Math.Max(1, System.Math.Min(numOctaves, Constants.MaxNumOctaves));
+            this.NumOctaves = numOctaves.Clamp(1, Constants.MaxNumOctaves);
             this.Seed = seed;
             this.Quality = quality;
         }
