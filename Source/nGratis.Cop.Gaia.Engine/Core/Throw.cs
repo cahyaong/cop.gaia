@@ -39,21 +39,25 @@ namespace nGratis.Cop.Gaia.Engine.Core
             throw new NotSupportedException(message ?? Values.Empty);
         }
 
+        [ContractAnnotation(" => halt")]
         internal static void CopException(string message, Exception innerException)
         {
             throw new CopException(message ?? Values.Empty, innerException);
         }
 
+        [ContractAnnotation(" => halt")]
         internal static void ArgumentNullException(string parameter, string message)
         {
             throw new ArgumentNullException(parameter ?? Values.Unknown, message ?? Values.Empty);
         }
 
+        [ContractAnnotation(" => halt")]
         internal static void ArgumentException(string parameter, string message)
         {
             throw new ArgumentException(parameter ?? Values.Unknown, message ?? Values.Empty);
         }
 
+        [ContractAnnotation(" => halt")]
         internal static void InvalidOperationException(string message)
         {
             throw new InvalidOperationException(message ?? Values.Empty);
