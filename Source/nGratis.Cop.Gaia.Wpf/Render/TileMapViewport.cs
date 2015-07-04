@@ -35,12 +35,12 @@ namespace nGratis.Cop.Gaia.Wpf
     {
         public TileMapViewport()
         {
-            this.Column = 0;
-            this.Row = 0;
-            this.NumRows = 64;
-            this.NumColumns = 64;
-            this.MaxNumRows = 64;
-            this.MaxNumColumns = 64;
+            this.Column = 0U;
+            this.Row = 0U;
+            this.NumRows = 64U;
+            this.NumColumns = 64U;
+            this.MaxNumRows = 64U;
+            this.MaxNumColumns = 64U;
         }
 
         public uint Column { get; private set; }
@@ -57,16 +57,18 @@ namespace nGratis.Cop.Gaia.Wpf
 
         public void Reset()
         {
-            this.Row = 0;
-            this.Column = 0;
+            this.Row = 0U;
+            this.Column = 0U;
         }
 
         public void Resize(uint numRows, uint numColumns)
         {
-            numRows = Math.Min(numRows, this.MaxNumRows);
-            numColumns = Math.Min(numColumns, this.MaxNumColumns);
+            numRows = numRows.Clamp(0U, this.MaxNumRows);
+            numColumns = numColumns.Clamp(0U, this.MaxNumColumns);
 
-            this.Pan((int)(this.NumRows - numRows), (int)(this.NumColumns - numColumns));
+            this.Pan(
+                Math.Max((int)-this.Row, (int)(this.NumRows - numRows)),
+                Math.Max((int)-this.Column, (int)(this.NumColumns - numColumns)));
 
             this.NumRows = numRows;
             this.NumColumns = numColumns;

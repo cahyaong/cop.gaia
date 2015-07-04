@@ -36,5 +36,10 @@ namespace nGratis.Cop.Gaia.Engine
         {
             return Math.Min(Math.Max(value, min), max);
         }
+
+        public static uint Clamp(this uint value, uint min, uint max)
+        {
+            return Math.Min(Math.Max(value, min), max);
+        }
     }
 }
