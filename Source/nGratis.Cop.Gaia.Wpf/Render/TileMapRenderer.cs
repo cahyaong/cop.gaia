@@ -143,8 +143,8 @@ namespace nGratis.Cop.Gaia.Wpf
         public void PanCamera(int deltaRows, int deltaColumns, uint maxNumRows, uint maxNumColumns)
         {
             this.TileMapViewport.Pan(
-                (this.TileMapViewport.Row + this.TileMapViewport.NumRows + deltaRows) > maxNumRows ? 0 : deltaRows,
-                (this.TileMapViewport.Column + this.TileMapViewport.NumColumns + deltaColumns) > maxNumColumns ? 0 : deltaColumns);
+                deltaRows.Clamp((int)-this.TileMapViewport.Row, (int)(maxNumRows - this.TileMapViewport.Row - this.TileMapViewport.NumRows)),
+                deltaColumns.Clamp((int)-this.TileMapViewport.Column, (int)(maxNumColumns - this.TileMapViewport.Column - this.TileMapViewport.NumColumns)));
         }
     }
 }

@@ -74,15 +74,8 @@ namespace nGratis.Cop.Gaia.Wpf
 
         public void Pan(int deltaRows, int deltaColumns)
         {
-            if ((int)this.Row + deltaRows >= 0)
-            {
-                this.Row = (uint)(this.Row + deltaRows);
-            }
-
-            if ((int)this.Column + deltaColumns >= 0)
-            {
-                this.Column = (uint)(this.Column + deltaColumns);
-            }
+            this.Row = (uint)(this.Row + deltaRows);
+            this.Column = (uint)(this.Column + deltaColumns);
         }
     }
 }
