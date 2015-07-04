@@ -30,7 +30,7 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public enum Quality
     {
-        Unknown,
+        Unknown = 0,
         Low,
         Medium,
         High,

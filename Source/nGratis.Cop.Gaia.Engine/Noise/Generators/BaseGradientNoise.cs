@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="PerlinNoise.cs" company="nGratis">
+// <copyright file="BaseGradientNoise.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,27 +23,19 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Monday, 18 May 2015 1:27:10 PM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 4 July 2015 1:22:17 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Noise
 {
-    using System;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    public class PerlinNoise : INoise
+    public abstract class BaseGradientNoise : INoiseModule
     {
-        public PerlinNoise()
-            : this(42)
+        protected BaseGradientNoise(double frequency, double lacunarity, double persistence, int numOctaves, int seed, Quality quality)
         {
-        }
+            Guard.AgainstDefaultArgument(() => quality);
 
-        public PerlinNoise(int seed)
-            : this(0.05, 2.0, 0.5, 6, seed, Engine.Quality.Medium)
-        {
-        }
-
-        public PerlinNoise(double frequency, double lacunarity, double persistence, int numOctaves, int seed, Quality quality)
-        {
             this.Frequency = frequency;
             this.Lacunarity = lacunarity;
             this.Persistence = persistence;
@@ -64,37 +56,9 @@ namespace nGratis.Cop.Gaia.Engine
 
         public Quality Quality { get; private set; }
 
-        public double GetValue(double x, double y, double z)
-        {
-            var value = 0.0;
-            var currentPersistence = 1.0;
+        public abstract double GetValue(double x, double y, double z);
 
-            x *= this.Frequency;
-            y *= this.Frequency;
-            z *= this.Frequency;
-
-            for (var index = 0; index < this.NumOctaves; index++)
-            {
-                var nx = x.ToInt32();
-                var ny = y.ToInt32();
-                var nz = z.ToInt32();
-
-                var agitator = (this.Seed + index) & 0xFFFFFFFF;
-                var signal = this.CalculateGradientCoherentNoise(nx, ny, nz, agitator);
-
-                value += signal * currentPersistence;
-
-                x *= this.Lacunarity;
-                y *= this.Lacunarity;
-                z *= this.Lacunarity;
-
-                currentPersistence *= this.Persistence;
-            }
-
-            return value;
-        }
-
-        private double CalculateGradientCoherentNoise(double x, double y, double z, long agitator)
+        protected double GetCoherentValue(double x, double y, double z, long agitator)
         {
             var x0 = x > 0.0 ? (int)x : (int)x - 1;
             var x1 = x0 + 1;
@@ -134,29 +98,33 @@ namespace nGratis.Cop.Gaia.Engine
                         zs = (z - z0).ToQuinticSCurve();
                         break;
                     }
+
+                default:
+                    Throw.InvalidOperationException("Unsupported noise quality");
+                    break;
             }
 
-            var n0 = this.CalculateGradientNoise(x, y, z, x0, y0, z0, agitator);
-            var n1 = this.CalculateGradientNoise(x, y, z, x1, y0, z0, agitator);
+            var n0 = GetGradientValue(x, y, z, x0, y0, z0, agitator);
+            var n1 = GetGradientValue(x, y, z, x1, y0, z0, agitator);
             var ix0 = AuxiliaryMath.InterpolateLinear(n0, n1, xs);
 
-            n0 = this.CalculateGradientNoise(x, y, z, x0, y1, z0, agitator);
-            n1 = this.CalculateGradientNoise(x, y, z, x1, y1, z0, agitator);
+            n0 = GetGradientValue(x, y, z, x0, y1, z0, agitator);
+            n1 = GetGradientValue(x, y, z, x1, y1, z0, agitator);
             var ix1 = AuxiliaryMath.InterpolateLinear(n0, n1, xs);
             var iy0 = AuxiliaryMath.InterpolateLinear(ix0, ix1, ys);
 
-            n0 = this.CalculateGradientNoise(x, y, z, x0, y0, z1, agitator);
-            n1 = this.CalculateGradientNoise(x, y, z, x1, y0, z1, agitator);
+            n0 = GetGradientValue(x, y, z, x0, y0, z1, agitator);
+            n1 = GetGradientValue(x, y, z, x1, y0, z1, agitator);
             ix0 = AuxiliaryMath.InterpolateLinear(n0, n1, xs);
-            n0 = this.CalculateGradientNoise(x, y, z, x0, y1, z1, agitator);
-            n1 = this.CalculateGradientNoise(x, y, z, x1, y1, z1, agitator);
+            n0 = GetGradientValue(x, y, z, x0, y1, z1, agitator);
+            n1 = GetGradientValue(x, y, z, x1, y1, z1, agitator);
             ix1 = AuxiliaryMath.InterpolateLinear(n0, n1, xs);
             var iy1 = AuxiliaryMath.InterpolateLinear(ix0, ix1, ys);
 
             return AuxiliaryMath.InterpolateLinear(iy0, iy1, zs);
         }
 
-        private double CalculateGradientNoise(double fx, double fy, double fz, int ix, int iy, int iz, long agitator)
+        private static double GetGradientValue(double fx, double fy, double fz, int ix, int iy, int iz, long agitator)
         {
             var index = (
                 (Constants.Generator.X * ix) +
@@ -177,7 +145,7 @@ namespace nGratis.Cop.Gaia.Engine
             return ((xvg * xvp) + (yvg * yvp) + (zvg * zvp)) * 2.12;
         }
 
-        private static class Constants
+        internal static class Constants
         {
             public const int MaxNumOctaves = 30;
 

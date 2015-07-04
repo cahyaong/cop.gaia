@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="AltitudeLayerGenerator.cs" company="nGratis">
+// <copyright file="PerlinNoise.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,36 +23,56 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 4 July 2015 12:34:37 AM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 18 May 2015 1:27:10 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Noise
 {
-    using nGratis.Cop.Gaia.Engine.Core;
-    using nGratis.Cop.Gaia.Engine.Noise;
-
-    public class AltitudeLayerGenerator : BaseLayerGenerator
+    public class PerlinNoise : BaseGradientNoise
     {
-        private INoiseModule noiseModule;
-
-        public override LayerMode LayerMode
+        public PerlinNoise()
+            : this(42)
         {
-            get { return LayerMode.Altitude; }
         }
 
-        public override void UpdateSeed(string seed)
+        public PerlinNoise(int seed)
+            : this(0.05, 2.0, 0.5, 6, seed, Engine.Quality.Medium)
         {
-            Guard.AgainstNullArgument(() => seed);
-
-            base.UpdateSeed(seed);
-
-            this.noiseModule = new PerlinNoise(seed.ToStableSeed());
         }
 
-        protected override void GenerateLayer(Region region)
+        public PerlinNoise(double frequency, double lacunarity, double persistence, int numOctaves, int seed, Quality quality)
+            : base(frequency, lacunarity, persistence, numOctaves, seed, quality)
         {
-            var altitude = (int)(((this.noiseModule.GetValue(region.Column, region.Row, 0.0) + 1.0) / 2.0).Clamp(0.0, 1.0) * WorldMap.Limits.Altitude);
-            region.Altitude = altitude;
+        }
+
+        public override double GetValue(double x, double y, double z)
+        {
+            var value = 0.0;
+            var currentPersistence = 1.0;
+
+            x *= this.Frequency;
+            y *= this.Frequency;
+            z *= this.Frequency;
+
+            for (var index = 0; index < this.NumOctaves; index++)
+            {
+                var nx = x.ToInt32();
+                var ny = y.ToInt32();
+                var nz = z.ToInt32();
+
+                var agitator = (this.Seed + index) & 0xFFFFFFFF;
+                var signal = this.GetCoherentValue(nx, ny, nz, agitator);
+
+                value += signal * currentPersistence;
+
+                x *= this.Lacunarity;
+                y *= this.Lacunarity;
+                z *= this.Lacunarity;
+
+                currentPersistence *= this.Persistence;
+            }
+
+            return value;
         }
     }
 }

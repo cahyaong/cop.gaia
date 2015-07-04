@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="INoise.cs" company="nGratis">
+// <copyright file="INoiseModule.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -26,12 +26,10 @@
 // <creation_timestamp>Monday, 18 May 2015 2:08:05 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Noise
 {
-    public interface INoise
+    public interface INoiseModule
     {
-        Quality Quality { get; }
-
         double GetValue(double x, double y, double z);
     }
 }
