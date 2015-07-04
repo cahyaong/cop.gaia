@@ -165,21 +165,18 @@ namespace nGratis.Cop.Gaia.Wpf
             var stopwatch = Stopwatch.StartNew();
             var selectedCoordinate = new Point(double.NaN, double.NaN);
 
-            if (!isBusy)
+            if (!isBusy && tileMap != null)
             {
-                if (tileMap != null)
-                {
-                    renderer.RenderLayer(canvas, tileMap);
-                }
+                renderer.RenderLayer(canvas, tileMap);
 
                 var viewportBoundary = new Rect(
-                    new Point(0.0, 0.0),
-                    new Size(renderer.ViewportSize.Width, renderer.ViewportSize.Height));
+                new Point(0.0, 0.0),
+                new Size(renderer.ViewportSize.Width, renderer.ViewportSize.Height));
 
                 if (this.selectedPoint.HasValue && viewportBoundary.Contains(this.selectedPoint.Value))
                 {
-                    var row = Math.Min((uint)(this.selectedPoint.Value.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
-                    var column = Math.Min((uint)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
+                    var row = Math.Min((int)(this.selectedPoint.Value.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
+                    var column = Math.Min((int)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
 
                     renderer.RenderTileSelection(canvas, row, column);
                     selectedCoordinate.X = renderer.TileMapViewport.Column + column;

@@ -35,40 +35,40 @@ namespace nGratis.Cop.Gaia.Wpf
     {
         public TileMapViewport()
         {
-            this.Column = 0U;
-            this.Row = 0U;
-            this.NumRows = 64U;
-            this.NumColumns = 64U;
-            this.MaxNumRows = 64U;
-            this.MaxNumColumns = 64U;
+            this.Column = 0;
+            this.Row = 0;
+            this.NumRows = 64;
+            this.NumColumns = 64;
+            this.MaxNumRows = 64;
+            this.MaxNumColumns = 64;
         }
 
-        public uint Column { get; private set; }
+        public int Column { get; private set; }
 
-        public uint Row { get; private set; }
+        public int Row { get; private set; }
 
-        public uint NumRows { get; private set; }
+        public int NumRows { get; private set; }
 
-        public uint NumColumns { get; private set; }
+        public int NumColumns { get; private set; }
 
-        public uint MaxNumRows { get; private set; }
+        public int MaxNumRows { get; private set; }
 
-        public uint MaxNumColumns { get; private set; }
+        public int MaxNumColumns { get; private set; }
 
         public void Reset()
         {
-            this.Row = 0U;
-            this.Column = 0U;
+            this.Row = 0;
+            this.Column = 0;
         }
 
-        public void Resize(uint numRows, uint numColumns)
+        public void Resize(int numRows, int numColumns)
         {
-            numRows = numRows.Clamp(0U, this.MaxNumRows);
-            numColumns = numColumns.Clamp(0U, this.MaxNumColumns);
+            numRows = numRows.Clamp(0, this.MaxNumRows);
+            numColumns = numColumns.Clamp(0, this.MaxNumColumns);
 
             this.Pan(
-                Math.Max((int)-this.Row, (int)(this.NumRows - numRows)),
-                Math.Max((int)-this.Column, (int)(this.NumColumns - numColumns)));
+                Math.Max(-this.Row, this.NumRows - numRows),
+                Math.Max(-this.Column, this.NumColumns - numColumns));
 
             this.NumRows = numRows;
             this.NumColumns = numColumns;
@@ -76,8 +76,8 @@ namespace nGratis.Cop.Gaia.Wpf
 
         public void Pan(int deltaRows, int deltaColumns)
         {
-            this.Row = (uint)(this.Row + deltaRows);
-            this.Column = (uint)(this.Column + deltaColumns);
+            this.Row = Math.Max(0, this.Row + deltaRows);
+            this.Column = Math.Max(0, this.Column + deltaColumns);
         }
     }
 }

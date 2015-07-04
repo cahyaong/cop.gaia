@@ -38,7 +38,7 @@ namespace nGratis.Cop.Gaia.Wpf
     [Export(typeof(IWorldGenerator))]
     public class WorldGenerator : IWorldGenerator
     {
-        private const uint ChunkSize = 32 * 1024;
+        private const int ChunkSize = 32 * 1024;
 
         private readonly IList<ILayerGenerator> layerGenerators;
 
@@ -63,7 +63,7 @@ namespace nGratis.Cop.Gaia.Wpf
             var worldMap = new WorldMap(1024, 1024);
 
             var tasks = AuxiliaryEnumerable
-                .Step(0U, worldMap.NumRows * worldMap.NumColumns, ChunkSize)
+                .Step(0, worldMap.NumRows * worldMap.NumColumns, ChunkSize)
                 .Select(value => new
                     {
                         StartIndex = value,

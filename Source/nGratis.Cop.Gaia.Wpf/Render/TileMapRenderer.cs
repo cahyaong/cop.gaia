@@ -117,9 +117,11 @@ namespace nGratis.Cop.Gaia.Wpf
         {
         }
 
-        public virtual void RenderTileSelection(ICanvas canvas, uint row, uint column)
+        public virtual void RenderTileSelection(ICanvas canvas, int row, int column)
         {
             Guard.AgainstNullArgument(() => canvas);
+            Guard.AgainstInvalidArgument(row < 0, () => row);
+            Guard.AgainstInvalidArgument(column < 0, () => column);
 
             canvas.DrawRectangle(
                 this.cellSelectionPen,
@@ -136,15 +138,18 @@ namespace nGratis.Cop.Gaia.Wpf
 
         public void ArrangeViewport(Size finalSize)
         {
-            this.TileMapViewport.Resize((uint)(finalSize.Height / this.TileSize.Height), (uint)(finalSize.Width / this.TileSize.Width));
+            this.TileMapViewport.Resize((int)(finalSize.Height / this.TileSize.Height), (int)(finalSize.Width / this.TileSize.Width));
             this.ViewportSize = new Size(this.TileMapViewport.NumColumns * this.TileSize.Width, this.TileMapViewport.NumRows * this.TileSize.Height);
         }
 
-        public void PanCamera(int deltaRows, int deltaColumns, uint maxNumRows, uint maxNumColumns)
+        public void PanCamera(int deltaRows, int deltaColumns, int maxNumRows, int maxNumColumns)
         {
+            Guard.AgainstInvalidArgument(maxNumRows <= 0, () => maxNumRows);
+            Guard.AgainstInvalidArgument(maxNumColumns <= 0, () => maxNumColumns);
+
             this.TileMapViewport.Pan(
-                deltaRows.Clamp((int)-this.TileMapViewport.Row, (int)(maxNumRows - this.TileMapViewport.Row - this.TileMapViewport.NumRows)),
-                deltaColumns.Clamp((int)-this.TileMapViewport.Column, (int)(maxNumColumns - this.TileMapViewport.Column - this.TileMapViewport.NumColumns)));
+                deltaRows.Clamp(-this.TileMapViewport.Row, maxNumRows - this.TileMapViewport.Row - this.TileMapViewport.NumRows),
+                deltaColumns.Clamp(-this.TileMapViewport.Column, maxNumColumns - this.TileMapViewport.Column - this.TileMapViewport.NumColumns));
         }
     }
 }

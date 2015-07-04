@@ -45,9 +45,10 @@ namespace nGratis.Cop.Gaia.Engine
             this.Seed = seed;
         }
 
-        public void GenerateLayer(WorldMap worldMap, uint startIndex, uint endIndex)
+        public void GenerateLayer(WorldMap worldMap, int startIndex, int endIndex)
         {
             Guard.AgainstNullArgument(() => worldMap);
+            Guard.AgainstInvalidArgument(startIndex < 0, () => startIndex);
             Guard.AgainstInvalidArgument(startIndex >= endIndex, () => startIndex);
 
             for (var index = startIndex; index <= endIndex; index++)

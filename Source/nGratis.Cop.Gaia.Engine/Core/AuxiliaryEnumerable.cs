@@ -32,6 +32,19 @@ namespace nGratis.Cop.Gaia.Engine.Core
 
     public static class AuxiliaryEnumerable
     {
+        public static IEnumerable<int> Step(int start, int end, int size)
+        {
+            Guard.AgainstInvalidArgument(start < 0, () => start);
+            Guard.AgainstInvalidArgument(start >= end, () => start);
+            Guard.AgainstInvalidArgument(size <= 0, () => size);
+            Guard.AgainstInvalidOperation(end + size >= int.MaxValue);
+
+            for (var index = start; index < end; index += size)
+            {
+                yield return index;
+            }
+        }
+
         public static IEnumerable<uint> Range(uint start, uint count)
         {
             Guard.AgainstInvalidOperation(start + count >= uint.MaxValue);
@@ -45,6 +58,7 @@ namespace nGratis.Cop.Gaia.Engine.Core
         public static IEnumerable<uint> Step(uint start, uint end, uint size)
         {
             Guard.AgainstInvalidArgument(start >= end, () => start);
+            Guard.AgainstInvalidArgument(size == 0, () => size);
             Guard.AgainstInvalidOperation(end + size >= uint.MaxValue);
 
             for (var index = start; index < end; index += size)

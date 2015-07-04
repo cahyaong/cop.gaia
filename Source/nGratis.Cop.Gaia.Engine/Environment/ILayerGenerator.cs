@@ -34,6 +34,6 @@ namespace nGratis.Cop.Gaia.Engine
 
         void UpdateSeed(string seed);
 
-        void GenerateLayer(WorldMap worldMap, uint startIndex, uint endIndex);
+        void GenerateLayer(WorldMap worldMap, int startIndex, int endIndex);
     }
 }

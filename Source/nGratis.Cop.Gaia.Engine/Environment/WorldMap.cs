@@ -30,10 +30,10 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public class WorldMap : TileMap<Region>
     {
-        public WorldMap(uint numColumns, uint numRows)
+        public WorldMap(int numColumns, int numRows)
             : base(numColumns, numRows)
         {
-            var index = 0U;
+            var index = 0;
 
             for (var row = 0; row < this.NumRows; row++)
             {
