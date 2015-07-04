@@ -133,7 +133,7 @@ namespace nGratis.Cop.Gaia.Engine.Noise
                 (Constants.Generator.Seed * agitator)) & 0xFFFFFFFF;
 
             index ^= index >> Constants.Generator.Shift;
-            index &= 0xff;
+            index &= 0xFF;
 
             var xvg = Constants.RandomVectors[(index << 2)];
             var yvg = Constants.RandomVectors[(index << 2) + 1];
