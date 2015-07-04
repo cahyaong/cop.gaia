@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuxiliaryEnumerable.cs" company="nGratis">
+// <copyright file="BaseLayerGenerator.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,34 +23,39 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 27 June 2015 12:59:51 AM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 29 June 2015 12:31:48 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine.Core
+namespace nGratis.Cop.Gaia.Engine
 {
+    using System;
     using System.Collections.Generic;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    public static class AuxiliaryEnumerable
+    public abstract class BaseLayerGenerator : ILayerGenerator
     {
-        public static IEnumerable<uint> Range(uint start, uint count)
-        {
-            Guard.AgainstInvalidOperation(start + count >= uint.MaxValue);
+        public string Seed { get; private set; }
 
-            for (var index = 0U; index < count; index++)
+        public abstract LayerMode LayerMode { get; }
+
+        public virtual void UpdateSeed(string seed)
+        {
+            Guard.AgainstNullArgument(() => seed);
+
+            this.Seed = seed;
+        }
+
+        public void GenerateLayer(WorldMap worldMap, uint startIndex, uint endIndex)
+        {
+            Guard.AgainstNullArgument(() => worldMap);
+            Guard.AgainstInvalidArgument(startIndex >= endIndex, () => startIndex);
+
+            for (var index = startIndex; index <= endIndex; index++)
             {
-                yield return start + index;
+                this.GenerateLayer(worldMap[index]);
             }
         }
 
-        public static IEnumerable<uint> Step(uint start, uint end, uint size)
-        {
-            Guard.AgainstInvalidArgument(start >= end, () => start);
-            Guard.AgainstInvalidOperation(end + size >= uint.MaxValue);
-
-            for (var index = start; index < end; index += size)
-            {
-                yield return index;
-            }
-        }
+        protected abstract void GenerateLayer(Region region);
     }
 }

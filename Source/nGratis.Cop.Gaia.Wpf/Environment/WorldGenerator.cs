@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="DiagnosticBucket.cs" company="nGratis">
+// <copyright file="WorldLayerGenerator.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,53 +23,59 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 25 June 2015 1:12:26 PM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 29 June 2015 12:31:48 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
     using System.Linq;
-    using nGratis.Cop.Core.Contract;
-    using ReactiveUI;
+    using System.Threading.Tasks;
+    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    [Export(typeof(IDiagnosticBucket))]
-    public class DiagnosticBucket : ReactiveObject, IDiagnosticBucket
+    [Export(typeof(IWorldGenerator))]
+    public class WorldGenerator : IWorldGenerator
     {
-        private IEnumerable<DiagnosticItem> items;
+        private const uint ChunkSize = 32 * 1024;
+
+        private readonly IList<ILayerGenerator> layerGenerators;
 
         [ImportingConstructor]
-        public DiagnosticBucket()
+        public WorldGenerator()
         {
-            this.Items = new ObservableCollection<DiagnosticItem>();
+            this.layerGenerators = new List<ILayerGenerator>()
+                {
+                    new AltitudeLayerGenerator()
+                };
         }
 
-        public IEnumerable<DiagnosticItem> Items
+        public async Task<WorldMap> GenerateMapAsync(string seed)
         {
-            get { return this.items; }
-            private set { this.RaiseAndSetIfChanged(ref this.items, value); }
-        }
+            this.layerGenerators
+                .ForEach(generator => generator.UpdateSeed(seed));
 
-        public void AddOrUpdateItem(DiagnosticKey key, object value)
-        {
-            Guard.AgainstNullArgument(() => key);
-            Guard.AgainstInvalidArgument(key == DiagnosticKey.Unknown, () => key);
-            Guard.AgainstNullArgument(() => value);
+            var altitudeGenerator = this
+                .layerGenerators
+                .Single(generator => generator.LayerMode == LayerMode.Altitude);
 
-            var matchedItem = this
-                .Items
-                .SingleOrDefault(item => item.Key == key);
+            var worldMap = new WorldMap(1024, 1024);
 
-            if (matchedItem == null)
-            {
-                this.Items = this.Items.Append(new DiagnosticItem(key, value));
-            }
-            else
-            {
-                matchedItem.Value = value;
-            }
+            var tasks = AuxiliaryEnumerable
+                .Step(0U, worldMap.NumRows * worldMap.NumColumns, ChunkSize)
+                .Select(value => new
+                    {
+                        StartIndex = value,
+                        EndIndex = (value + ChunkSize) - 1
+                    })
+                .Select(chunk => Task
+                    .Factory
+                    .StartNew(() => altitudeGenerator.GenerateLayer(worldMap, chunk.StartIndex, chunk.EndIndex)));
+
+            await Task.WhenAll(tasks);
+
+            return worldMap;
         }
     }
 }

@@ -28,38 +28,35 @@
 
 namespace nGratis.Cop.Gaia.Wpf
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Diagnostics;
-    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Input;
-    using System.Windows.Media;
     using nGratis.Cop.Core.Wpf;
     using nGratis.Cop.Gaia.Engine;
-    using nGratis.Cop.Gaia.Engine.Core;
     using ReactiveUI;
 
     [Export]
     public class WorldViewModel : BaseFormPageViewModel
     {
-        private const int ChunkSize = 32;
-
         private bool isBusy;
 
         private WorldMap worldMap;
 
+        private IWorldGenerator worldGenerator;
+
         private IWorldMapRenderer worldMapRenderer;
 
-        private DiagnosticBucket diagnosticBucket;
+        private IDiagnosticBucket diagnosticBucket;
 
         private string seed;
 
-        public WorldViewModel()
+        [ImportingConstructor]
+        public WorldViewModel(IWorldGenerator worldGenerator, IWorldMapRenderer worldMapRenderer, IDiagnosticBucket diagnosticBucket)
         {
-            this.WorldMapRenderer = new WorldMapRenderer(Colors.CornflowerBlue);
-            this.DiagnosticBucket = new DiagnosticBucket();
+            this.WorldGenerator = worldGenerator;
+            this.WorldMapRenderer = worldMapRenderer;
+            this.DiagnosticBucket = diagnosticBucket;
 
             this.GenerateWorldCommand = ReactiveCommand.CreateAsyncTask(
                 this.WhenAnyValue(vm => vm.IsBusy, isBusy => !isBusy),
@@ -78,13 +75,19 @@ namespace nGratis.Cop.Gaia.Wpf
             private set { this.RaiseAndSetIfChanged(ref this.worldMap, value); }
         }
 
+        public IWorldGenerator WorldGenerator
+        {
+            get { return this.worldGenerator; }
+            private set { this.RaiseAndSetIfChanged(ref this.worldGenerator, value); }
+        }
+
         public IWorldMapRenderer WorldMapRenderer
         {
             get { return this.worldMapRenderer; }
             private set { this.RaiseAndSetIfChanged(ref this.worldMapRenderer, value); }
         }
 
-        public DiagnosticBucket DiagnosticBucket
+        public IDiagnosticBucket DiagnosticBucket
         {
             get { return this.diagnosticBucket; }
             private set { this.RaiseAndSetIfChanged(ref this.diagnosticBucket, value); }
@@ -106,30 +109,7 @@ namespace nGratis.Cop.Gaia.Wpf
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            this.WorldMap = new WorldMap(1024, 1024);
-
-            var noise = new PerlinNoise(this.Seed.ToStableSeed());
-
-            var tasks = AuxiliaryEnumerable
-                .Range(0, this.WorldMap.NumRows / ChunkSize)
-                .Select(index => new
-                    {
-                        StartRow = index * ChunkSize,
-                        EndRow = ((index + 1) * ChunkSize) - 1
-                    })
-                .Select(chunk => Task.Factory.StartNew(() =>
-                    {
-                        for (var row = chunk.StartRow; row <= chunk.EndRow; row++)
-                        {
-                            for (var column = 0U; column < this.WorldMap.NumColumns; column++)
-                            {
-                                var altitude = (int)(((noise.GetValue(column, row, 0.0) + 1.0) / 2.0).Clamp(0.0, 1.0) * WorldMap.Limits.Altitude);
-                                this.WorldMap[column, row].Altitude = altitude;
-                            }
-                        }
-                    }));
-
-            await Task.WhenAll(tasks);
+            this.WorldMap = await this.WorldGenerator.GenerateMapAsync(this.Seed ?? string.Empty);
 
             stopwatch.Stop();
             this.DiagnosticBucket.AddOrUpdateItem(DiagnosticKey.GenerationTime, stopwatch.ElapsedMilliseconds);

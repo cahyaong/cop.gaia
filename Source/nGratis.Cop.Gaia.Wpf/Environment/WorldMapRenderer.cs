@@ -29,15 +29,18 @@
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Windows;
     using System.Windows.Media;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class WorldMapRenderer : TileMapRenderer, IWorldMapRenderer
+    [Export(typeof(IWorldMapRenderer))]
+    public class WorldMapRenderer : TileMapRenderer, IWorldMapRenderer
     {
-        public WorldMapRenderer(Color accentColor)
-            : base(new TileMapViewport(), new Size(10.0, 10.0), accentColor)
+        [ImportingConstructor]
+        public WorldMapRenderer()
+            : base(new TileMapViewport(), new Size(10.0, 10.0), Colors.CornflowerBlue)
         {
         }
 

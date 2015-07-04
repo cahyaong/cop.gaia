@@ -56,7 +56,11 @@
     </Compile>
     <Compile Include="Core\StringExtensions.cs" />
     <Compile Include="Core\Throw.cs" />
+    <Compile Include="Environment\AltitudeLayerGenerator.cs" />
+    <Compile Include="Environment\ILayerGenerator.cs" />
     <Compile Include="Environment\Region.cs" />
+    <Compile Include="Environment\BaseLayerGenerator.cs" />
+    <Compile Include="Environment\LayerMode.cs" />
     <Compile Include="Math\DoubleExtensions.cs" />
     <Compile Include="Math\IntegerExtensions.cs" />
     <Compile Include="Noise\INoise.cs" />

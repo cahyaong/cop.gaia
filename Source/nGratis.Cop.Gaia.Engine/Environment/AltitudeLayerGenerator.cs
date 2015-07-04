@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuxiliaryEnumerable.cs" company="nGratis">
+// <copyright file="AltitudeLayerGenerator.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,34 +23,35 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 27 June 2015 12:59:51 AM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 4 July 2015 12:34:37 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine.Core
+namespace nGratis.Cop.Gaia.Engine
 {
-    using System.Collections.Generic;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    public static class AuxiliaryEnumerable
+    public class AltitudeLayerGenerator : BaseLayerGenerator
     {
-        public static IEnumerable<uint> Range(uint start, uint count)
-        {
-            Guard.AgainstInvalidOperation(start + count >= uint.MaxValue);
+        private INoise noise;
 
-            for (var index = 0U; index < count; index++)
-            {
-                yield return start + index;
-            }
+        public override LayerMode LayerMode
+        {
+            get { return LayerMode.Altitude; }
         }
 
-        public static IEnumerable<uint> Step(uint start, uint end, uint size)
+        public override void UpdateSeed(string seed)
         {
-            Guard.AgainstInvalidArgument(start >= end, () => start);
-            Guard.AgainstInvalidOperation(end + size >= uint.MaxValue);
+            Guard.AgainstNullArgument(() => seed);
 
-            for (var index = start; index < end; index += size)
-            {
-                yield return index;
-            }
+            base.UpdateSeed(seed);
+
+            this.noise = new PerlinNoise(seed.ToStableSeed());
+        }
+
+        protected override void GenerateLayer(Region region)
+        {
+            var altitude = (int)(((this.noise.GetValue(region.Column, region.Row, 0.0) + 1.0) / 2.0).Clamp(0.0, 1.0) * WorldMap.Limits.Altitude);
+            region.Altitude = altitude;
         }
     }
 }

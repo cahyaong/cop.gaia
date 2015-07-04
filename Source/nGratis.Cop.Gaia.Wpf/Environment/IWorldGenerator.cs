@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuxiliaryEnumerable.cs" company="nGratis">
+// <copyright file="ILayerGenerator.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,34 +23,16 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 27 June 2015 12:59:51 AM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 29 June 2015 12:32:24 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine.Core
+namespace nGratis.Cop.Gaia.Wpf
 {
-    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using nGratis.Cop.Gaia.Engine;
 
-    public static class AuxiliaryEnumerable
+    public interface IWorldGenerator
     {
-        public static IEnumerable<uint> Range(uint start, uint count)
-        {
-            Guard.AgainstInvalidOperation(start + count >= uint.MaxValue);
-
-            for (var index = 0U; index < count; index++)
-            {
-                yield return start + index;
-            }
-        }
-
-        public static IEnumerable<uint> Step(uint start, uint end, uint size)
-        {
-            Guard.AgainstInvalidArgument(start >= end, () => start);
-            Guard.AgainstInvalidOperation(end + size >= uint.MaxValue);
-
-            for (var index = start; index < end; index += size)
-            {
-                yield return index;
-            }
-        }
+        Task<WorldMap> GenerateMapAsync(string seed);
     }
 }

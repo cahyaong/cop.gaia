@@ -140,11 +140,14 @@
     <Compile Include="Common\DiagnosticBucket.cs" />
     <Compile Include="Common\DiagnosticItem.cs" />
     <Compile Include="Common\DiagnosticKey.cs" />
+    <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
     <Compile Include="Core\AweTile.cs" />
     <Compile Include="Core\ObjectExtensions.cs" />
+    <Compile Include="Environment\IWorldGenerator.cs" />
+    <Compile Include="Environment\WorldGenerator.cs" />
     <Compile Include="Render\GrayscaleTileShader.cs" />
     <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Render\ITileMapViewport.cs" />

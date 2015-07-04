@@ -34,7 +34,7 @@ namespace nGratis.Cop.Gaia.Wpf
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class TileMapRenderer : ITileMapRenderer
+    public class TileMapRenderer : ITileMapRenderer
     {
         private readonly Pen gridBorderPen;
 
