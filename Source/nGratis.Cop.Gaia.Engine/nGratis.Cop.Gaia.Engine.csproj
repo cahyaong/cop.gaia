@@ -68,6 +68,7 @@
     <Compile Include="Math\AuxiliaryMath.cs" />
     <Compile Include="Noise\Generators\PerlinNoise.cs" />
     <Compile Include="Math\Quality.cs" />
+    <Compile Include="Noise\Modifiers\BlendingModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Tile.cs" />
     <Compile Include="Data\TileMap.cs" />
