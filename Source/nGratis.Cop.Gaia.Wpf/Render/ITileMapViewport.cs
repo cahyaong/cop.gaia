@@ -38,9 +38,9 @@ namespace nGratis.Cop.Gaia.Wpf
 
         int NumColumns { get; }
 
-        int MaxNumRows { get; }
+        int MostRows { get; }
 
-        int MaxNumColumns { get; }
+        int MostColumns { get; }
 
         void Reset();
 

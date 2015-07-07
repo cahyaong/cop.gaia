@@ -132,8 +132,8 @@ namespace nGratis.Cop.Gaia.Wpf
         public void MeasureViewport(Size availableSize)
         {
             this.DesiredViewportSize = new Size(
-                (int)(availableSize.Width / this.TileSize.Width).Clamp(0, this.TileMapViewport.MaxNumRows) * this.TileSize.Width,
-                (int)(availableSize.Height / this.TileSize.Height).Clamp(0, this.TileMapViewport.MaxNumColumns) * this.TileSize.Height);
+                (int)(availableSize.Width / this.TileSize.Width).Clamp(0, this.TileMapViewport.MostRows) * this.TileSize.Width,
+                (int)(availableSize.Height / this.TileSize.Height).Clamp(0, this.TileMapViewport.MostColumns) * this.TileSize.Height);
         }
 
         public void ArrangeViewport(Size finalSize)
@@ -142,14 +142,14 @@ namespace nGratis.Cop.Gaia.Wpf
             this.ViewportSize = new Size(this.TileMapViewport.NumColumns * this.TileSize.Width, this.TileMapViewport.NumRows * this.TileSize.Height);
         }
 
-        public void PanCamera(int deltaRows, int deltaColumns, int maxNumRows, int maxNumColumns)
+        public void PanCamera(int deltaRows, int deltaColumns, int mostRows, int mostColumns)
         {
-            Guard.AgainstInvalidArgument(maxNumRows <= 0, () => maxNumRows);
-            Guard.AgainstInvalidArgument(maxNumColumns <= 0, () => maxNumColumns);
+            Guard.AgainstInvalidArgument(mostRows <= 0, () => mostRows);
+            Guard.AgainstInvalidArgument(mostColumns <= 0, () => mostColumns);
 
             this.TileMapViewport.Pan(
-                deltaRows.Clamp(-this.TileMapViewport.Row, maxNumRows - this.TileMapViewport.Row - this.TileMapViewport.NumRows),
-                deltaColumns.Clamp(-this.TileMapViewport.Column, maxNumColumns - this.TileMapViewport.Column - this.TileMapViewport.NumColumns));
+                deltaRows.Clamp(-this.TileMapViewport.Row, mostRows - this.TileMapViewport.Row - this.TileMapViewport.NumRows),
+                deltaColumns.Clamp(-this.TileMapViewport.Column, mostColumns - this.TileMapViewport.Column - this.TileMapViewport.NumColumns));
         }
     }
 }
