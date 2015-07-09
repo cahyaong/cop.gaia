@@ -52,6 +52,12 @@ namespace nGratis.Cop.Gaia.Wpf
             typeof(AweTileMapViewer),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public static readonly DependencyProperty SelectedTileProperty = DependencyProperty.Register(
+            "SelectedTile",
+            typeof(Tile),
+            typeof(AweTileMapViewer),
+            new PropertyMetadata(null));
+
         public static readonly DependencyProperty IsBusyProperty = DependencyProperty.Register(
             "IsBusy",
             typeof(bool),
@@ -86,6 +92,14 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             get { return (ITileMapRenderer)this.GetValue(TileMapRendererProperty); }
             set { this.SetValue(TileMapRendererProperty, value); }
+        }
+
+        // FIXME: Make selected tile setter private, and fix the binding using push-binding workaround.
+
+        public Tile SelectedTile
+        {
+            get { return (Tile)this.GetValue(SelectedTileProperty); }
+            set { this.SetValue(SelectedTileProperty, value); }
         }
 
         public bool IsBusy
@@ -164,6 +178,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
             var stopwatch = Stopwatch.StartNew();
             var selectedCoordinate = new Coordinate?();
+            var selectedTile = default(Tile);
 
             if (!isBusy && tileMap != null)
             {
@@ -178,13 +193,14 @@ namespace nGratis.Cop.Gaia.Wpf
                     var row = Math.Min((int)(this.selectedPoint.Value.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
                     var column = Math.Min((int)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
 
-                    renderer.RenderTileSelection(canvas, tileMap.GetTile(column, row));
-
                     selectedCoordinate = new Coordinate
                         {
                             Row = renderer.TileMapViewport.Row + row,
                             Column = renderer.TileMapViewport.Column + column
                         };
+
+                    selectedTile = tileMap.GetTile(selectedCoordinate.Value.Column, selectedCoordinate.Value.Row);
+                    renderer.RenderTileSelection(canvas, selectedTile);
                 }
             }
 
@@ -201,6 +217,8 @@ namespace nGratis.Cop.Gaia.Wpf
 
                 diagnosticBucket.AddOrUpdateItem(DiagnosticKey.SelectedCoordinate, selectedCoordinate);
             }
+
+            this.SelectedTile = selectedTile;
         }
 
         private static void OnTileMapChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)

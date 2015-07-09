@@ -42,6 +42,13 @@ namespace System
                 : Convert.ToDouble(instance, CultureInfo.InvariantCulture);
         }
 
+        public static int ToInt32(this object instance)
+        {
+            return instance == null
+                ? 0
+                : Convert.ToInt32(instance, CultureInfo.InvariantCulture);
+        }
+
         public static Point ToPoint(this object instance)
         {
             return instance == null

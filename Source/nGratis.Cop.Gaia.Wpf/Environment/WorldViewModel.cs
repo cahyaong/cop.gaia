@@ -47,6 +47,8 @@ namespace nGratis.Cop.Gaia.Wpf
 
         private IWorldMapRenderer worldMapRenderer;
 
+        private Region selectedRegion;
+
         private IDiagnosticBucket diagnosticBucket;
 
         private string seed;
@@ -87,6 +89,20 @@ namespace nGratis.Cop.Gaia.Wpf
             private set { this.RaiseAndSetIfChanged(ref this.worldMapRenderer, value); }
         }
 
+        public Region SelectedRegion
+        {
+            get
+            {
+                return this.selectedRegion;
+            }
+
+            set
+            {
+                this.RaiseAndSetIfChanged(ref this.selectedRegion, value);
+                this.OnSelectedRegionChanged();
+            }
+        }
+
         public IDiagnosticBucket DiagnosticBucket
         {
             get { return this.diagnosticBucket; }
@@ -115,6 +131,13 @@ namespace nGratis.Cop.Gaia.Wpf
             this.DiagnosticBucket.AddOrUpdateItem(DiagnosticKey.GenerationTime, stopwatch.ElapsedMilliseconds);
 
             this.IsBusy = false;
+        }
+
+        private void OnSelectedRegionChanged()
+        {
+            this.DiagnosticBucket.AddOrUpdateItem(
+                DiagnosticKey.Region.Elevation,
+                this.SelectedRegion != null ? this.SelectedRegion.Elevation : 0);
         }
     }
 }

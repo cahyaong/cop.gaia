@@ -140,6 +140,9 @@
     <Compile Include="Common\DiagnosticBucket.cs" />
     <Compile Include="Common\DiagnosticItem.cs" />
     <Compile Include="Common\DiagnosticKey.cs" />
+    <Compile Include="Common\DiagnosticKey.Region.cs">
+      <DependentUpon>DiagnosticKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />

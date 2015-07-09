@@ -122,10 +122,13 @@ namespace nGratis.Cop.Gaia.Wpf
             Guard.AgainstNullArgument(() => canvas);
             Guard.AgainstNullArgument(() => tile);
 
-            canvas.DrawRectangle(
-                this.cellSelectionPen,
-                this.cellSelectionBrush,
-                new Rect(tile.Column * this.TileSize.Width, tile.Row * this.TileSize.Height, this.TileSize.Width, this.TileSize.Height));
+            var rectangle = new Rect(
+                (tile.Column - this.TileMapViewport.Column) * this.TileSize.Width,
+                (tile.Row - this.TileMapViewport.Row) * this.TileSize.Height,
+                this.TileSize.Width,
+                this.TileSize.Height);
+
+            canvas.DrawRectangle(this.cellSelectionPen, this.cellSelectionBrush, rectangle);
         }
 
         public void MeasureViewport(Size availableSize)
