@@ -31,6 +31,6 @@ namespace nGratis.Cop.Gaia.Engine
     public enum LayerMode
     {
         Unknown,
-        Altitude
+        Elevation
     }
 }

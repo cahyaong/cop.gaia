@@ -35,6 +35,6 @@ namespace nGratis.Cop.Gaia.Engine
         {
         }
 
-        public int Altitude { get; set; }
+        public int Elevation { get; set; }
     }
 }

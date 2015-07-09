@@ -37,7 +37,7 @@ namespace nGratis.Cop.Gaia.Wpf
     [Export(typeof(IWorldMapRenderer))]
     public class WorldMapRenderer : TileMapRenderer, IWorldMapRenderer
     {
-        private readonly ITileShader altitudeShader;
+        private readonly ITileShader elevationShader;
 
         [ImportingConstructor]
         public WorldMapRenderer()
@@ -48,7 +48,7 @@ namespace nGratis.Cop.Gaia.Wpf
         public WorldMapRenderer(ITileMapViewport tileMapViewport, Size tileSize, Color accentColor)
             : base(tileMapViewport, tileSize, accentColor)
         {
-            this.altitudeShader = new GrayscaleTileShader(1 << 14);
+            this.elevationShader = new GrayscaleTileShader(1 << 14);
         }
 
         public override void RenderLayer(ICanvas canvas, TileMap tileMap)
@@ -74,12 +74,12 @@ namespace nGratis.Cop.Gaia.Wpf
                 {
                     for (var column = 0; column < this.TileMapViewport.NumColumns; column++)
                     {
-                        var value = world[column + this.TileMapViewport.Column, row + this.TileMapViewport.Row].Altitude;
+                        var value = world[column + this.TileMapViewport.Column, row + this.TileMapViewport.Row].Elevation;
 
                         rectangle.X = column * this.TileSize.Width;
                         rectangle.Y = row * this.TileSize.Height;
 
-                        canvas.DrawRectangle(null, this.altitudeShader.FindBrush(value), rectangle);
+                        canvas.DrawRectangle(null, this.elevationShader.FindBrush(value), rectangle);
                     }
                 }
             }

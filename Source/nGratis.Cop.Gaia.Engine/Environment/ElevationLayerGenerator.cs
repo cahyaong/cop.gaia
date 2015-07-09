@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="AltitudeLayerGenerator.cs" company="nGratis">
+// <copyright file="ElevationLayerGenerator.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -31,13 +31,13 @@ namespace nGratis.Cop.Gaia.Engine
     using nGratis.Cop.Gaia.Engine.Core;
     using nGratis.Cop.Gaia.Engine.Noise;
 
-    public class AltitudeLayerGenerator : BaseLayerGenerator
+    public class ElevationLayerGenerator : BaseLayerGenerator
     {
         private INoiseModule noiseModule;
 
         public override LayerMode LayerMode
         {
-            get { return LayerMode.Altitude; }
+            get { return LayerMode.Elevation; }
         }
 
         public override void UpdateSeed(string seed)
@@ -51,8 +51,10 @@ namespace nGratis.Cop.Gaia.Engine
 
         protected override void GenerateLayer(Region region)
         {
-            var altitude = (int)(((this.noiseModule.GetValue(region.Column, region.Row, 0.0) + 1.0) / 2.0).Clamp(0.0, 1.0) * WorldMap.Limits.Altitude);
-            region.Altitude = altitude;
+            // TODO: Use noise modifier instead of applying direct formula!
+
+            var elevation = ((this.noiseModule.GetValue(region.Column, region.Row, 0.0) + 1.0) / 2.0).Clamp(0.0, 1.0) * WorldMap.Limits.Elevation.EndValue;
+            region.Elevation = (int)elevation;
         }
     }
 }

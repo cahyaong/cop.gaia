@@ -46,7 +46,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         public static class Limits
         {
-            public const int Altitude = (1 << 14) - 1;
+            public static readonly Range<int> Elevation = new Range<int>(0, (1 << 14) - 1);
         }
     }
 }

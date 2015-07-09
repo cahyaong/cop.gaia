@@ -47,7 +47,7 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             this.layerGenerators = new List<ILayerGenerator>()
                 {
-                    new AltitudeLayerGenerator()
+                    new ElevationLayerGenerator()
                 };
         }
 
@@ -56,9 +56,9 @@ namespace nGratis.Cop.Gaia.Wpf
             this.layerGenerators
                 .ForEach(generator => generator.UpdateSeed(seed));
 
-            var altitudeGenerator = this
+            var elevationGenerator = this
                 .layerGenerators
-                .Single(generator => generator.LayerMode == LayerMode.Altitude);
+                .Single(generator => generator.LayerMode == LayerMode.Elevation);
 
             var worldMap = new WorldMap(1024, 1024);
 
@@ -71,7 +71,7 @@ namespace nGratis.Cop.Gaia.Wpf
                     })
                 .Select(chunk => Task
                     .Factory
-                    .StartNew(() => altitudeGenerator.GenerateLayer(worldMap, chunk.StartIndex, chunk.EndIndex)));
+                    .StartNew(() => elevationGenerator.GenerateLayer(worldMap, chunk.StartIndex, chunk.EndIndex)));
 
             await Task.WhenAll(tasks);
 
