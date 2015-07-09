@@ -44,8 +44,11 @@
     <Compile Include="..\nGratis.Cop.Gaia.Common\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Contract\IColor.cs" />
     <Compile Include="Core\Annotations.JetBrains.cs" />
     <Compile Include="Core\AuxiliaryEnumerable.cs" />
+    <Compile Include="Core\Color\HsvColor.cs" />
+    <Compile Include="Core\Color\RgbColor.cs" />
     <Compile Include="Core\CopException.cs" />
     <Compile Include="Core\ExpressionExtensions.cs" />
     <Compile Include="Core\Guard.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="Environment\LayerMode.cs" />
     <Compile Include="Math\DoubleExtensions.cs" />
     <Compile Include="Math\IntegerExtensions.cs" />
+    <Compile Include="Math\Range.cs" />
     <Compile Include="Noise\Generators\BaseGradientNoise.cs" />
     <Compile Include="Noise\INoiseModule.cs" />
     <Compile Include="Math\AuxiliaryMath.cs" />

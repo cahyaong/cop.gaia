@@ -31,8 +31,8 @@ namespace nGratis.Cop.Gaia.Wpf
     using System;
     using System.Windows;
     using System.Windows.Media;
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
-    using nGratis.Cop.Gaia.Engine.Core;
 
     public class TileMapRenderer : ITileMapRenderer
     {

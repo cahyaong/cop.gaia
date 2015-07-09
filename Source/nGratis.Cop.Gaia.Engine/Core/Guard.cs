@@ -33,7 +33,7 @@ namespace nGratis.Cop.Gaia.Engine.Core
     using System.Linq.Expressions;
     using JetBrains.Annotations;
 
-    public static class Guard
+    internal static class Guard
     {
         [DebuggerStepThrough]
         public static void AgainstNullArgument<T>([NotNull][InstantHandle] Expression<Func<T>> argumentExpression, Func<string> getReason = null)

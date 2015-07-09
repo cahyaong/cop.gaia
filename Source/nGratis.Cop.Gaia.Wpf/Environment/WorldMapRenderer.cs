@@ -28,25 +28,27 @@
 
 namespace nGratis.Cop.Gaia.Wpf
 {
-    using System;
     using System.ComponentModel.Composition;
     using System.Windows;
     using System.Windows.Media;
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
-    using nGratis.Cop.Gaia.Engine.Core;
 
     [Export(typeof(IWorldMapRenderer))]
     public class WorldMapRenderer : TileMapRenderer, IWorldMapRenderer
     {
+        private readonly ITileShader altitudeShader;
+
         [ImportingConstructor]
         public WorldMapRenderer()
-            : base(new TileMapViewport(), new Size(10.0, 10.0), Colors.CornflowerBlue)
+            : this(new TileMapViewport(), new Size(10.0, 10.0), Colors.CornflowerBlue)
         {
         }
 
         public WorldMapRenderer(ITileMapViewport tileMapViewport, Size tileSize, Color accentColor)
             : base(tileMapViewport, tileSize, accentColor)
         {
+            this.altitudeShader = new GrayscaleTileShader(1 << 14);
         }
 
         public override void RenderLayer(ICanvas canvas, TileMap tileMap)
@@ -54,7 +56,6 @@ namespace nGratis.Cop.Gaia.Wpf
             Guard.AgainstNullArgument(() => canvas);
             Guard.AgainstNullArgument(() => tileMap);
 
-            var tileShader = new GrayscaleTileShader(1 << 14);
             var world = tileMap as WorldMap;
 
             if (world == null)
@@ -78,7 +79,7 @@ namespace nGratis.Cop.Gaia.Wpf
                         rectangle.X = column * this.TileSize.Width;
                         rectangle.Y = row * this.TileSize.Height;
 
-                        canvas.DrawRectangle(null, new SolidColorBrush(tileShader.FindColor(value)), rectangle);
+                        canvas.DrawRectangle(null, this.altitudeShader.FindBrush(value), rectangle);
                     }
                 }
             }

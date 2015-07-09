@@ -30,7 +30,7 @@ namespace nGratis.Cop.Gaia.Wpf
 {
     using System.Windows;
     using System.Windows.Media;
-    using Engine.Core;
+    using nGratis.Cop.Core.Contract;
 
     internal class WpfDrawingCanvas : ICanvas
     {

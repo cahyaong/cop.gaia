@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="GrayscaleTileShader.cs" company="nGratis">
+// <copyright file="Range.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,51 +23,23 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 12:32:34 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 8 July 2015 11:05:30 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-using nGratis.Cop.Gaia.Engine.Core;
-
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Engine
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Media;
-    using nGratis.Cop.Core.Contract;
-    using nGratis.Cop.Gaia.Engine;
 
-    internal class GrayscaleTileShader : ITileShader
+    public class Range<TValue>
     {
-        private const int NumBuckets = 1 << 8;
-
-        private static readonly Brush DefaultColor = new SolidColorBrush(Colors.Black);
-
-        private static readonly IDictionary<int, SolidColorBrush> ColorLookup;
-
-        private readonly int bucketSize;
-
-        static GrayscaleTileShader()
+        public Range(TValue startValue, TValue endValue)
         {
-            ColorLookup = Enumerable
-                .Range(0, NumBuckets)
-                .Select(index => new { Index = index, Color = new RgbColor(index, index, index) })
-                .ToDictionary(annon => annon.Index, annon => annon.Color.ToSolidColorBrush());
+            this.StartValue = startValue;
+            this.EndValue = endValue;
         }
 
-        public GrayscaleTileShader(int maxValue)
-        {
-            Guard.AgainstDefaultArgument(() => maxValue);
-            Guard.AgainstInvalidArgument(maxValue % NumBuckets != 0, () => maxValue);
+        public TValue StartValue { get; private set; }
 
-            this.bucketSize = maxValue / NumBuckets;
-        }
-
-        public Brush FindBrush(int value)
-        {
-            var key = (value / this.bucketSize).Clamp(0, NumBuckets - 1);
-
-            return ColorLookup.ContainsKey(key) ? ColorLookup[key] : DefaultColor;
-        }
+        public TValue EndValue { get; private set; }
     }
 }

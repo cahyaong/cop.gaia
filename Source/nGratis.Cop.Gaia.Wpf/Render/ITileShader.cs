@@ -32,6 +32,6 @@ namespace nGratis.Cop.Gaia.Wpf
 
     public interface ITileShader
     {
-        Color FindColor(int value);
+        Brush FindBrush(int value);
     }
 }

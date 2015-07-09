@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="GrayscaleTileShader.cs" company="nGratis">
+// <copyright file="AltitudeRegionShader.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,10 +23,8 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 12:32:34 PM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 7 July 2015 1:18:32 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-using nGratis.Cop.Gaia.Engine.Core;
 
 namespace nGratis.Cop.Gaia.Wpf
 {
@@ -36,38 +34,45 @@ namespace nGratis.Cop.Gaia.Wpf
     using System.Windows.Media;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Contract;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class GrayscaleTileShader : ITileShader
+    internal class GradientTileShader : ITileShader
     {
-        private const int NumBuckets = 1 << 8;
+        private static readonly SolidColorBrush DefaultColor = new SolidColorBrush(Colors.Black);
 
-        private static readonly Brush DefaultColor = new SolidColorBrush(Colors.Black);
-
-        private static readonly IDictionary<int, SolidColorBrush> ColorLookup;
+        private readonly IDictionary<int, SolidColorBrush> colorLookup;
 
         private readonly int bucketSize;
 
-        static GrayscaleTileShader()
+        public GradientTileShader(Range<int> valueRange, Range<IColor> colorRange, int numBuckets)
         {
-            ColorLookup = Enumerable
-                .Range(0, NumBuckets)
-                .Select(index => new { Index = index, Color = new RgbColor(index, index, index) })
+            Guard.AgainstNullArgument(() => valueRange);
+            Guard.AgainstInvalidArgument(valueRange.StartValue < 0 || valueRange.EndValue < 0, () => valueRange);
+            Guard.AgainstNullArgument(() => colorRange);
+            Guard.AgainstInvalidArgument(numBuckets <= 0, () => numBuckets);
+
+            var startColor = (HsvColor)colorRange.StartValue;
+            var endColor = (HsvColor)colorRange.EndValue;
+            var hueStep = (endColor.Hue - startColor.Hue) / numBuckets;
+
+            this.colorLookup = Enumerable
+                .Range(0, numBuckets)
+                .Select(index => new
+                    {
+                        Index = index,
+                        Color = (RgbColor)new HsvColor(startColor.Hue + (index * hueStep), startColor.Saturation, startColor.Value)
+                    })
                 .ToDictionary(annon => annon.Index, annon => annon.Color.ToSolidColorBrush());
-        }
 
-        public GrayscaleTileShader(int maxValue)
-        {
-            Guard.AgainstDefaultArgument(() => maxValue);
-            Guard.AgainstInvalidArgument(maxValue % NumBuckets != 0, () => maxValue);
-
-            this.bucketSize = maxValue / NumBuckets;
+            this.bucketSize = (valueRange.EndValue - valueRange.StartValue) / numBuckets;
         }
 
         public Brush FindBrush(int value)
         {
-            var key = (value / this.bucketSize).Clamp(0, NumBuckets - 1);
+            var key = value / this.bucketSize;
 
-            return ColorLookup.ContainsKey(key) ? ColorLookup[key] : DefaultColor;
+            return this.colorLookup.ContainsKey(key) ? this.colorLookup[key] : DefaultColor;
         }
     }
 }

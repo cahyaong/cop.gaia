@@ -28,8 +28,20 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using System.Linq;
+
     public static class AuxiliaryMath
     {
+        public static double Max(params double[] values)
+        {
+            return values != null ? values.Max() : 0.0;
+        }
+
+        public static double Min(params double[] values)
+        {
+            return values != null ? values.Min() : 0.0;
+        }
+
         public static double InterpolateCubic(double a, double b, double c, double d, double position)
         {
             var p = (d - c) - (a - b);

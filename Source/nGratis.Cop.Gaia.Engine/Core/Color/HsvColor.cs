@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="Throw.cs" company="nGratis">
+// <copyright file="HsvColor.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,51 +23,60 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 1:11:11 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 8 July 2015 11:33:06 AM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine.Core
 {
     using System;
-    using JetBrains.Annotations;
+    using nGratis.Cop.Gaia.Engine.Contract;
 
-    internal static class Throw
+    public class HsvColor : IColor
     {
-        [ContractAnnotation(" => halt")]
-        public static void NotSupportedException(string message)
+        public HsvColor(double hue, double saturation, double value)
         {
-            throw new NotSupportedException(message ?? Values.Empty);
+            this.Hue = hue.Clamp(0.0, 360.0);
+            this.Saturation = saturation.Clamp(0.0, 1.0);
+            this.Value = value.Clamp(0.0, 1.0);
         }
 
-        [ContractAnnotation(" => halt")]
-        internal static void CopException(string message, Exception innerException)
-        {
-            throw new CopException(message ?? Values.Empty, innerException);
-        }
+        public double Saturation { get; private set; }
 
-        [ContractAnnotation(" => halt")]
-        internal static void ArgumentNullException(string parameter, string message)
-        {
-            throw new ArgumentNullException(parameter ?? Values.Unknown, message ?? Values.Empty);
-        }
+        public double Value { get; private set; }
 
-        [ContractAnnotation(" => halt")]
-        internal static void ArgumentException(string parameter, string message)
-        {
-            throw new ArgumentException(parameter ?? Values.Unknown, message ?? Values.Empty);
-        }
+        public double Hue { get; private set; }
 
-        [ContractAnnotation(" => halt")]
-        internal static void InvalidOperationException(string message)
+        public static explicit operator HsvColor(RgbColor rgbColor)
         {
-            throw new InvalidOperationException(message ?? Values.Empty);
-        }
+            Guard.AgainstNullArgument(() => rgbColor);
 
-        private static class Values
-        {
-            public const string Unknown = "<unknown>";
+            var red = rgbColor.Red / 255.0;
+            var green = rgbColor.Green / 255.0;
+            var blue = rgbColor.Blue / 255.0;
 
-            public const string Empty = "<empty>";
+            var min = AuxiliaryMath.Min(red, green, blue);
+            var max = AuxiliaryMath.Max(red, green, blue);
+            var chroma = max - min;
+
+            var hue = 0.0;
+
+            if (max.IsCloseTo(rgbColor.Red))
+            {
+                hue = (((rgbColor.Green - rgbColor.Blue) / chroma) % 6.0) * 60.0;
+            }
+            else if (max.IsCloseTo(rgbColor.Green))
+            {
+                hue = (((rgbColor.Blue - rgbColor.Red) / chroma) + 2.0) * 60.0;
+            }
+            else if (max.IsCloseTo(rgbColor.Blue))
+            {
+                hue = (((rgbColor.Red - rgbColor.Green) / chroma) + 4.0) * 60.0;
+            }
+
+            var saturation = max <= 0.0 ? 0.0 : chroma / max;
+            var value = max;
+
+            return new HsvColor(hue, saturation, value);
         }
     }
 }

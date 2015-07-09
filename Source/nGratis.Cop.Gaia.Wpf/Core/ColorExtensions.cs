@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="GrayscaleTileShader.cs" company="nGratis">
+// <copyright file="ColorExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,51 +23,42 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 12:32:34 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 9 July 2015 12:46:43 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-using nGratis.Cop.Gaia.Engine.Core;
 
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Media;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Contract;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class GrayscaleTileShader : ITileShader
+    public static class ColorExtensions
     {
-        private const int NumBuckets = 1 << 8;
-
-        private static readonly Brush DefaultColor = new SolidColorBrush(Colors.Black);
-
-        private static readonly IDictionary<int, SolidColorBrush> ColorLookup;
-
-        private readonly int bucketSize;
-
-        static GrayscaleTileShader()
+        public static SolidColorBrush ToSolidColorBrush(this IColor color, double opacity = 1.0)
         {
-            ColorLookup = Enumerable
-                .Range(0, NumBuckets)
-                .Select(index => new { Index = index, Color = new RgbColor(index, index, index) })
-                .ToDictionary(annon => annon.Index, annon => annon.Color.ToSolidColorBrush());
+            Guard.AgainstNullArgument(() => color);
+
+            var brush = new SolidColorBrush(color.ToMediaColor(opacity));
+            brush.Freeze();
+
+            return brush;
         }
 
-        public GrayscaleTileShader(int maxValue)
+        public static Color ToMediaColor(this IColor color, double opacity = 1.0)
         {
-            Guard.AgainstDefaultArgument(() => maxValue);
-            Guard.AgainstInvalidArgument(maxValue % NumBuckets != 0, () => maxValue);
+            Guard.AgainstNullArgument(() => color);
+            Guard.AgainstInvalidArgument(opacity < 0.0 || opacity > 1.0, () => opacity);
 
-            this.bucketSize = maxValue / NumBuckets;
-        }
+            var rgbColor = (RgbColor)color;
 
-        public Brush FindBrush(int value)
-        {
-            var key = (value / this.bucketSize).Clamp(0, NumBuckets - 1);
-
-            return ColorLookup.ContainsKey(key) ? ColorLookup[key] : DefaultColor;
+            return Color.FromArgb(
+                Convert.ToByte((int)(opacity.Clamp(0.0, 1.0) * 255)),
+                Convert.ToByte(rgbColor.Red),
+                Convert.ToByte(rgbColor.Green),
+                Convert.ToByte(rgbColor.Blue));
         }
     }
 }
