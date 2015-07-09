@@ -52,10 +52,15 @@ namespace nGratis.Cop.Gaia.Engine
             get { return this.tiles[index]; }
             protected set { this.tiles[index] = value; }
         }
+
+        public override Tile GetTile(int column, int row)
+        {
+            return this[column, row];
+        }
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "By design.")]
-    public class TileMap
+    public abstract class TileMap
     {
         protected TileMap(int numColumns, int numRows)
         {
@@ -69,5 +74,7 @@ namespace nGratis.Cop.Gaia.Engine
         public int NumColumns { get; private set; }
 
         public int NumRows { get; private set; }
+
+        public abstract Tile GetTile(int column, int row);
     }
 }

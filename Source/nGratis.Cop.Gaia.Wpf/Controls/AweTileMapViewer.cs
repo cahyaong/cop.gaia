@@ -178,7 +178,7 @@ namespace nGratis.Cop.Gaia.Wpf
                     var row = Math.Min((int)(this.selectedPoint.Value.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
                     var column = Math.Min((int)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
 
-                    renderer.RenderTileSelection(canvas, row, column);
+                    renderer.RenderTileSelection(canvas, tileMap.GetTile(column, row));
 
                     selectedCoordinate = new Coordinate
                         {

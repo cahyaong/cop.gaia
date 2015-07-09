@@ -117,16 +117,15 @@ namespace nGratis.Cop.Gaia.Wpf
         {
         }
 
-        public virtual void RenderTileSelection(ICanvas canvas, int row, int column)
+        public virtual void RenderTileSelection(ICanvas canvas, Tile tile)
         {
             Guard.AgainstNullArgument(() => canvas);
-            Guard.AgainstInvalidArgument(row < 0, () => row);
-            Guard.AgainstInvalidArgument(column < 0, () => column);
+            Guard.AgainstNullArgument(() => tile);
 
             canvas.DrawRectangle(
                 this.cellSelectionPen,
                 this.cellSelectionBrush,
-                new Rect(column * this.TileSize.Width, row * this.TileSize.Height, this.TileSize.Width, this.TileSize.Height));
+                new Rect(tile.Column * this.TileSize.Width, tile.Row * this.TileSize.Height, this.TileSize.Width, this.TileSize.Height));
         }
 
         public void MeasureViewport(Size availableSize)
