@@ -45,7 +45,6 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             Guard.AgainstNullArgument(() => key);
             Guard.AgainstInvalidArgument(key == DiagnosticKey.Unknown, () => key);
-            Guard.AgainstNullArgument(() => value);
 
             this.Key = key;
             this.Value = value;

@@ -30,6 +30,7 @@ namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
     using System.Globalization;
+    using nGratis.Cop.Gaia.Engine;
 
     public sealed class DiagnosticKey
     {
@@ -51,10 +52,11 @@ namespace nGratis.Cop.Gaia.Wpf
             "Selected coordinate",
             value =>
             {
-                var point = value.ToPoint();
-                var isInvalid = double.IsNaN(point.X) || double.IsNaN(point.Y);
+                var coordinate = (Coordinate?)value;
 
-                return isInvalid ? "<NULL>" : "({0:G0}, {1:G0})".WithInvariantFormat(point.X, point.Y);
+                return coordinate.HasValue
+                    ? "({0:G0}, {1:G0})".WithInvariantFormat(coordinate.Value.Column, coordinate.Value.Row)
+                    : "<NULL>";
             });
 
         private DiagnosticKey(string name = null, Func<object, string> formatValue = null)

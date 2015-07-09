@@ -163,7 +163,7 @@ namespace nGratis.Cop.Gaia.Wpf
                 new Rect(0.0, 0.0, renderer.ViewportSize.Width, renderer.ViewportSize.Height));
 
             var stopwatch = Stopwatch.StartNew();
-            var selectedCoordinate = new Point(double.NaN, double.NaN);
+            var selectedCoordinate = new Coordinate?();
 
             if (!isBusy && tileMap != null)
             {
@@ -179,8 +179,12 @@ namespace nGratis.Cop.Gaia.Wpf
                     var column = Math.Min((int)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
 
                     renderer.RenderTileSelection(canvas, row, column);
-                    selectedCoordinate.X = renderer.TileMapViewport.Column + column;
-                    selectedCoordinate.Y = renderer.TileMapViewport.Row + row;
+
+                    selectedCoordinate = new Coordinate
+                        {
+                            Row = renderer.TileMapViewport.Row + row,
+                            Column = renderer.TileMapViewport.Column + column
+                        };
                 }
             }
 

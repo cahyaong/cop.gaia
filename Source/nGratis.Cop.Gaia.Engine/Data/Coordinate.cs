@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="DiagnosticBucket.cs" company="nGratis">
+// <copyright file="Coordinate.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,52 +23,15 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 25 June 2015 1:12:26 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 9 July 2015 1:17:22 PM UTC</creation_timestamp>
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Engine
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel.Composition;
-    using System.Linq;
-    using nGratis.Cop.Core.Contract;
-    using ReactiveUI;
-
-    [Export(typeof(IDiagnosticBucket))]
-    public class DiagnosticBucket : ReactiveObject, IDiagnosticBucket
+    public struct Coordinate
     {
-        private IEnumerable<DiagnosticItem> items;
+        public int Row { get; set; }
 
-        [ImportingConstructor]
-        public DiagnosticBucket()
-        {
-            this.Items = new ObservableCollection<DiagnosticItem>();
-        }
-
-        public IEnumerable<DiagnosticItem> Items
-        {
-            get { return this.items; }
-            private set { this.RaiseAndSetIfChanged(ref this.items, value); }
-        }
-
-        public void AddOrUpdateItem(DiagnosticKey key, object value)
-        {
-            Guard.AgainstNullArgument(() => key);
-            Guard.AgainstInvalidArgument(key == DiagnosticKey.Unknown, () => key);
-
-            var matchedItem = this
-                .Items
-                .SingleOrDefault(item => item.Key == key);
-
-            if (matchedItem == null)
-            {
-                this.Items = this.Items.Append(new DiagnosticItem(key, value));
-            }
-            else
-            {
-                matchedItem.Value = value;
-            }
-        }
+        public int Column { get; set; }
     }
 }

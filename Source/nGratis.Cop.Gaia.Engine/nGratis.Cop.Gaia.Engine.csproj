@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="Core\StringExtensions.cs" />
     <Compile Include="Core\Throw.cs" />
+    <Compile Include="Data\Coordinate.cs" />
     <Compile Include="Environment\ElevationLayerGenerator.cs" />
     <Compile Include="Environment\ILayerGenerator.cs" />
     <Compile Include="Environment\Region.cs" />
