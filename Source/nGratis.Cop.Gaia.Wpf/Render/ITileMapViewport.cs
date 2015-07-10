@@ -28,6 +28,8 @@
 
 namespace nGratis.Cop.Gaia.Wpf
 {
+    using nGratis.Cop.Gaia.Engine;
+
     public interface ITileMapViewport
     {
         int Row { get; }
@@ -47,5 +49,7 @@ namespace nGratis.Cop.Gaia.Wpf
         void Resize(int numRows, int numColumns);
 
         void Pan(int deltaRows, int deltaColumns);
+
+        bool IsTileVisible(Tile tile);
     }
 }

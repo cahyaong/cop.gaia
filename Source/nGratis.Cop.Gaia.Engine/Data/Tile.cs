@@ -34,10 +34,13 @@ namespace nGratis.Cop.Gaia.Engine
         {
             this.Row = row;
             this.Column = column;
+            this.Coordinate = new Coordinate { Row = row, Column = column };
         }
 
         public int Row { get; private set; }
 
         public int Column { get; private set; }
+
+        public Coordinate Coordinate { get; private set; }
     }
 }

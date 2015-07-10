@@ -79,5 +79,17 @@ namespace nGratis.Cop.Gaia.Wpf
             this.Row = Math.Max(0, this.Row + deltaRows);
             this.Column = Math.Max(0, this.Column + deltaColumns);
         }
+
+        public bool IsTileVisible(Tile tile)
+        {
+            if (tile == null)
+            {
+                return false;
+            }
+
+            return
+                tile.Row.IsBetween(this.Row, this.Row + this.NumRows - 1) &&
+                tile.Column.IsBetween(this.Column, this.Column + this.NumColumns - 1);
+        }
     }
 }

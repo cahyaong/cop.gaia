@@ -70,8 +70,6 @@ namespace nGratis.Cop.Gaia.Wpf
             typeof(AweTileMapViewer),
             new PropertyMetadata(null));
 
-        private Point? selectedPoint;
-
         private Point? draggedPoint;
 
         public AweTileMapViewer()
@@ -93,8 +91,6 @@ namespace nGratis.Cop.Gaia.Wpf
             get { return (ITileMapRenderer)this.GetValue(TileMapRendererProperty); }
             set { this.SetValue(TileMapRendererProperty, value); }
         }
-
-        // FIXME: Make selected tile setter private, and fix the binding using push-binding workaround.
 
         public Tile SelectedTile
         {
@@ -164,11 +160,11 @@ namespace nGratis.Cop.Gaia.Wpf
                 return;
             }
 
+            var stopwatch = Stopwatch.StartNew();
+
             var tileMap = this.TileMap;
             var isBusy = this.IsBusy;
-            var diagnosticBucket = this.DiagnosticBucket;
 
-            var tileSize = renderer.TileSize;
             var canvas = new WpfDrawingCanvas(drawingContext);
 
             drawingContext.DrawRectangle(
@@ -176,30 +172,14 @@ namespace nGratis.Cop.Gaia.Wpf
                 null,
                 new Rect(0.0, 0.0, renderer.ViewportSize.Width, renderer.ViewportSize.Height));
 
-            var stopwatch = Stopwatch.StartNew();
-            var selectedCoordinate = new Coordinate?();
-            var selectedTile = default(Tile);
-
             if (!isBusy && tileMap != null)
             {
                 renderer.RenderLayer(canvas, tileMap);
 
-                var viewportBoundary = new Rect(
-                new Point(0.0, 0.0),
-                new Size(renderer.ViewportSize.Width, renderer.ViewportSize.Height));
+                var selectedTile = this.SelectedTile;
 
-                if (this.selectedPoint.HasValue && viewportBoundary.Contains(this.selectedPoint.Value))
+                if (selectedTile != null)
                 {
-                    var row = Math.Min((int)(this.selectedPoint.Value.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
-                    var column = Math.Min((int)(this.selectedPoint.Value.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
-
-                    selectedCoordinate = new Coordinate
-                        {
-                            Row = renderer.TileMapViewport.Row + row,
-                            Column = renderer.TileMapViewport.Column + column
-                        };
-
-                    selectedTile = tileMap.GetTile(selectedCoordinate.Value.Column, selectedCoordinate.Value.Row);
                     renderer.RenderTileSelection(canvas, selectedTile);
                 }
             }
@@ -207,18 +187,13 @@ namespace nGratis.Cop.Gaia.Wpf
             renderer.RenderGridBorder(canvas);
             stopwatch.Stop();
 
+            var diagnosticBucket = this.DiagnosticBucket;
+
             if (diagnosticBucket != null)
             {
-                if (stopwatch.ElapsedMilliseconds > 0)
-                {
-                    diagnosticBucket.AddOrUpdateItem(DiagnosticKey.RenderTime, stopwatch.ElapsedMilliseconds);
-                    diagnosticBucket.AddOrUpdateItem(DiagnosticKey.FramesPerSecond, 1000.0 / stopwatch.ElapsedMilliseconds);
-                }
-
-                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.SelectedCoordinate, selectedCoordinate);
+                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.RenderTime, stopwatch.ElapsedMilliseconds);
+                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.FramesPerSecond, 1000.0 / Math.Max(stopwatch.ElapsedMilliseconds, 1.0));
             }
-
-            this.SelectedTile = selectedTile;
         }
 
         private static void OnTileMapChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
@@ -243,10 +218,10 @@ namespace nGratis.Cop.Gaia.Wpf
                 .FromEventPattern<KeyEventArgs>(this, "KeyDown")
                 .Where(pattern => pattern.EventArgs.Key.IsPanning())
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(pattern => this.HandlePanningWithKeyboard(pattern.EventArgs.Key));
+                .Subscribe(pattern => this.PanDisplay(pattern.EventArgs.Key));
         }
 
-        private void HandlePanningWithKeyboard(Key key)
+        private void PanDisplay(Key key)
         {
             var deltaRows = 0;
             var deltaColumns = 0;
@@ -273,6 +248,87 @@ namespace nGratis.Cop.Gaia.Wpf
             var tileMap = this.TileMap;
 
             this.TileMapRenderer.PanCamera(4 * deltaRows, 4 * deltaColumns, tileMap.NumRows, tileMap.NumColumns);
+
+            this.AdjustSelectedTile();
+            this.InvalidateVisual();
+        }
+
+        private void PanDisplay(Point oldPoint, Point newPoint)
+        {
+            var tileMap = this.TileMap;
+            var renderer = this.TileMapRenderer;
+
+            var deltaRows = (int)((oldPoint.Y / renderer.TileSize.Height) - (newPoint.Y / renderer.TileSize.Height));
+            var deltaColumns = (int)((oldPoint.X / renderer.TileSize.Width) - (newPoint.X / renderer.TileSize.Width));
+
+            renderer.PanCamera(deltaRows, deltaColumns, tileMap.NumRows, tileMap.NumColumns);
+
+            this.AdjustSelectedTile();
+            this.InvalidateVisual();
+        }
+
+        private void PickTile(Point point)
+        {
+            var renderer = this.TileMapRenderer;
+
+            if (renderer == null)
+            {
+                return;
+            }
+
+            var tileSize = renderer.TileSize;
+            var tileMap = this.TileMap;
+
+            if (tileMap == null)
+            {
+                return;
+            }
+
+            var row = Math.Min((int)(point.Y / tileSize.Height), renderer.TileMapViewport.NumRows - 1);
+            var column = Math.Min((int)(point.X / tileSize.Width), renderer.TileMapViewport.NumColumns - 1);
+            var selectedTile = tileMap.GetTile(renderer.TileMapViewport.Column + column, renderer.TileMapViewport.Row + row);
+
+            this.SelectedTile = selectedTile;
+            this.AdjustSelectedTile();
+            this.InvalidateVisual();
+        }
+
+        private void AdjustSelectedTile()
+        {
+            var renderer = this.TileMapRenderer;
+
+            if (renderer == null)
+            {
+                return;
+            }
+
+            if (!renderer.TileMapViewport.IsTileVisible(this.SelectedTile))
+            {
+                this.SelectedTile = null;
+            }
+
+            var diagnosticBucket = this.DiagnosticBucket;
+
+            if (diagnosticBucket != null)
+            {
+                var selectedTile = this.SelectedTile;
+                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.SelectedCoordinate, selectedTile != null ? selectedTile.Coordinate : new Coordinate?());
+            }
+        }
+
+        private void ResetViewport()
+        {
+            this.draggedPoint = null;
+
+            var renderer = this.TileMapRenderer;
+
+            if (renderer != null)
+            {
+                renderer.TileMapViewport.Reset();
+            }
+
+            this.SelectedTile = null;
+            this.AdjustSelectedTile();
             this.InvalidateVisual();
         }
 
@@ -280,10 +336,8 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             if (args.ChangedButton == MouseButton.Left && args.ClickCount == 1)
             {
-                this.selectedPoint = args.GetPosition(this);
+                this.PickTile(args.GetPosition(this));
                 args.Handled = true;
-
-                this.InvalidateVisual();
             }
         }
 
@@ -296,29 +350,34 @@ namespace nGratis.Cop.Gaia.Wpf
         {
             if (args.LeftButton == MouseButtonState.Pressed)
             {
-                this.selectedPoint = args.GetPosition(this);
+                this.PickTile(args.GetPosition(this));
                 args.Handled = true;
-
-                this.InvalidateVisual();
             }
             else if (args.RightButton == MouseButtonState.Pressed)
             {
-                var currentPoint = args.GetPosition(this);
+                var selectedPoint = args.GetPosition(this);
 
                 if (this.draggedPoint.HasValue)
                 {
-                    var tileMap = this.TileMap;
+                    this.PanDisplay(this.draggedPoint.Value, selectedPoint);
+
                     var renderer = this.TileMapRenderer;
+                    var tileSize = renderer.TileSize;
 
-                    var deltaRows = (int)((this.draggedPoint.Value.Y / renderer.TileSize.Height) - (currentPoint.Y / renderer.TileSize.Height));
-                    var deltaColumns = (int)((this.draggedPoint.Value.X / renderer.TileSize.Width) - (currentPoint.X / renderer.TileSize.Width));
+                    var isPositionUpdated =
+                        Math.Abs(selectedPoint.X - this.draggedPoint.Value.X) >= tileSize.Width ||
+                        Math.Abs(selectedPoint.Y - this.draggedPoint.Value.Y) >= tileSize.Height;
 
-                    renderer.PanCamera(deltaRows, deltaColumns, tileMap.NumRows, tileMap.NumColumns);
-
-                    this.InvalidateVisual();
+                    if (isPositionUpdated)
+                    {
+                        this.draggedPoint = selectedPoint;
+                    }
+                }
+                else
+                {
+                    this.draggedPoint = selectedPoint;
                 }
 
-                this.draggedPoint = currentPoint;
                 args.Handled = true;
             }
             else if (args.RightButton == MouseButtonState.Released)
@@ -326,21 +385,6 @@ namespace nGratis.Cop.Gaia.Wpf
                 this.draggedPoint = null;
                 args.Handled = true;
             }
-        }
-
-        private void ResetViewport()
-        {
-            this.selectedPoint = null;
-            this.draggedPoint = null;
-
-            var renderer = this.TileMapRenderer;
-
-            if (renderer != null)
-            {
-                renderer.TileMapViewport.Reset();
-            }
-
-            this.InvalidateVisual();
         }
     }
 }

@@ -30,6 +30,11 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public struct Coordinate
     {
+        public static Coordinate Origin
+        {
+            get { return new Coordinate { Row = 0, Column = 0 }; }
+        }
+
         public int Row { get; set; }
 
         public int Column { get; set; }
