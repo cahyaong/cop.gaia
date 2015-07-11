@@ -34,7 +34,6 @@
         Command="{Binding GenerateWorldCommand, Mode=OneWay}"
         Content="Generate" />
     </StackPanel>
-    <!--  FIXME: Use push-binding workaround when binding the selected tile.  -->
     <Grid
       Grid.Column="1"
       Margin="20,0"
@@ -44,9 +43,12 @@
         DiagnosticBucket="{Binding DiagnosticBucket, Mode=OneWay}"
         IsBusy="{Binding IsBusy, Mode=OneWay}"
         RenderOptions.EdgeMode="Aliased"
-        SelectedTile="{Binding SelectedRegion, Mode=TwoWay}"
         TileMap="{Binding WorldMap, Mode=OneWay}"
-        TileMapRenderer="{Binding WorldMapRenderer, Mode=OneWay}" />
+        TileMapRenderer="{Binding WorldMapRenderer, Mode=OneWay}">
+        <local:ReadOnlyBindingCollection.Items>
+          <local:ReadOnlyBinding SourcePath="SelectedRegion" TargetPath="SelectedTile" />
+        </local:ReadOnlyBindingCollection.Items>
+      </local:AweTileMapViewer>
       <core:AweProgressBar IsActive="{Binding IsBusy, Mode=OneWay}" Message="Generating world..." />
     </Grid>
     <ItemsControl Grid.Column="2" ItemsSource="{Binding DiagnosticBucket.Items, Mode=OneWay}">

@@ -95,7 +95,7 @@ namespace nGratis.Cop.Gaia.Wpf
         public Tile SelectedTile
         {
             get { return (Tile)this.GetValue(SelectedTileProperty); }
-            set { this.SetValue(SelectedTileProperty, value); }
+            private set { this.SetValue(SelectedTileProperty, value); }
         }
 
         public bool IsBusy

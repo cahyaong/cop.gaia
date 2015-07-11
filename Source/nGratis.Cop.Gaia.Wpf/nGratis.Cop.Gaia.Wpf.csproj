@@ -150,6 +150,8 @@
     <Compile Include="Core\AweTile.cs" />
     <Compile Include="Core\ColorExtensions.cs" />
     <Compile Include="Core\ObjectExtensions.cs" />
+    <Compile Include="Core\ReadOnlyBinding.cs" />
+    <Compile Include="Core\ReadOnlyBindingCollection.cs" />
     <Compile Include="Render\GradientTileShader.cs" />
     <Compile Include="Environment\IWorldGenerator.cs" />
     <Compile Include="Environment\WorldGenerator.cs" />
