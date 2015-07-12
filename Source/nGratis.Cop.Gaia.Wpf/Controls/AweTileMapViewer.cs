@@ -142,6 +142,7 @@ namespace nGratis.Cop.Gaia.Wpf
             }
 
             renderer.ArrangeViewport(finalSize);
+            this.AdjustSelectedTile();
 
             // Add extra one tile length to avoid jitter when resizing.
             return new Size(
