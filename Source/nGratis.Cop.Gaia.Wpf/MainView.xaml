@@ -22,5 +22,10 @@
         <mui:Link DisplayName="World" Source="/nGratis.Cop.Gaia.Wpf;component/Environment/WorldView.xaml" />
       </mui:LinkGroup.Links>
     </mui:LinkGroup>
+    <mui:LinkGroup DisplayName="Agent">
+      <mui:LinkGroup.Links>
+        <mui:Link DisplayName="Gatherer" Source="/nGratis.Cop.Gaia.Wpf;component/Agent/GathererView.xaml" />
+      </mui:LinkGroup.Links>
+    </mui:LinkGroup>
   </mui:ModernWindow.MenuLinkGroups>
 </mui:ModernWindow>
