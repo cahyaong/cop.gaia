@@ -17,6 +17,7 @@
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <DontImportPostSharp>True</DontImportPostSharp>
+    <NuGetPackageImportStamp>be0088b6</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,6 +54,10 @@
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.4.0.459, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.4.0.459\lib\net40\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nGratis.Cop.Core">
       <HintPath>..\packages\nGratis.Cop.Core.0.1.171\lib\net45\nGratis.Cop.Core.dll</HintPath>
       <Private>True</Private>
@@ -81,6 +86,14 @@
     <Reference Include="ReactiveUI, Version=6.2.1.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\reactiveui-core.6.2.1.1\lib\Net45\ReactiveUI.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\nGratis.Cop.Gaia.External\SharpDX\2.5.1.0\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\nGratis.Cop.Gaia.External\SharpDX\2.5.1.0\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="Splat, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.1.5.1\lib\Net45\Splat.dll</HintPath>
@@ -149,13 +162,21 @@
     </Compile>
     <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
+    <Compile Include="Common\IRenderManager.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
     <Compile Include="Core\AweTile.cs" />
     <Compile Include="Core\ColorExtensions.cs" />
+    <Compile Include="Core\EventHandlerExtensions.cs" />
     <Compile Include="Core\ObjectExtensions.cs" />
     <Compile Include="Core\ReadOnlyBinding.cs" />
     <Compile Include="Core\ReadOnlyBindingCollection.cs" />
+    <Compile Include="Sdk\Common\CubePrimitive.cs" />
+    <Compile Include="Controls\AweDirectxSurface.cs" />
+    <Compile Include="Sdk\Common\GeometricPrimitive.cs" />
+    <Compile Include="Core\GraphicsDeviceManager.cs" />
+    <Compile Include="Sdk\Common\SdkRenderManager.cs" />
+    <Compile Include="Sdk\Common\VertexPositionNormal.cs" />
     <Compile Include="Render\GradientTileShader.cs" />
     <Compile Include="Environment\IWorldGenerator.cs" />
     <Compile Include="Environment\WorldGenerator.cs" />
@@ -173,6 +194,10 @@
       <DependentUpon>WorldView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Environment\WorldViewModel.cs" />
+    <Compile Include="Sdk\DirectxView.xaml.cs">
+      <DependentUpon>DirectxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Sdk\DirectxViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBootstrapper.cs" />
@@ -188,11 +213,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Agent\GathererView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Sdk\DirectxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,7 +254,6 @@
       <Name>nGratis.Cop.Gaia.Engine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Properties\App.ico" />
   </ItemGroup>
