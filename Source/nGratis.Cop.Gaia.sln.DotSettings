@@ -6,7 +6,7 @@
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/Shortcut/@EntryValue">header</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/Description/@EntryValue">Insert file header with copyright notice.</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/Text/@EntryValue">// ------------------------------------------------------------------------------------------------------------------------------------------------------------&#xD;
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/Text/@EntryValue">// --------------------------------------------------------------------------------------------------------------------&#xD;
 // &lt;copyright file="$FILENAME$" company="nGratis"&gt;&#xD;
 //  The MIT License (MIT)&#xD;
 //&#xD;
@@ -32,7 +32,7 @@
 // &lt;/copyright&gt;&#xD;
 // &lt;author&gt;Cahya Ong - cahya.ong@gmail.com&lt;/author&gt;&#xD;
 // &lt;creation_timestamp&gt;$CREATION_TIMESTAMP$ UTC&lt;/creation_timestamp&gt;&#xD;
-// ------------------------------------------------------------------------------------------------------------------------------------------------------------</s:String>
+// --------------------------------------------------------------------------------------------------------------------</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/Reformat/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E8C6AC0F05C3DE4DAA498E113C7427B7/Categories/=Imported_002027_002F05_002F2015/@EntryIndexedValue">Imported 27/05/2015</s:String>

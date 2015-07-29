@@ -162,7 +162,7 @@
     </Compile>
     <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
-    <Compile Include="Common\IRenderManager.cs" />
+    <Compile Include="Game\IRenderManager.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
     <Compile Include="Core\AweTile.cs" />
@@ -257,6 +257,7 @@
   <ItemGroup>
     <Resource Include="Properties\App.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
