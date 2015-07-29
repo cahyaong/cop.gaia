@@ -193,7 +193,6 @@ namespace nGratis.Cop.Gaia.Wpf
             if (diagnosticBucket != null)
             {
                 diagnosticBucket.AddOrUpdateItem(DiagnosticKey.RenderTime, stopwatch.ElapsedMilliseconds);
-                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.FramesPerSecond, 1000.0 / Math.Max(stopwatch.ElapsedMilliseconds, 1.0));
             }
         }
 
