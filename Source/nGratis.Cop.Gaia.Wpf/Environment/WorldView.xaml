@@ -4,7 +4,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:core="http://schemas.ngratis.com/2014/core"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:local="clr-namespace:nGratis.Cop.Gaia.Wpf"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   d:DataContext="{d:DesignInstance local:WorldViewModel}"
@@ -89,9 +88,4 @@
       </ItemsControl.ItemTemplate>
     </ItemsControl>
   </Grid>
-  <i:Interaction.Triggers>
-    <i:EventTrigger EventName="Loaded">
-      <i:InvokeCommandAction Command="{Binding GenerateWorldCommand, Mode=OneWay}" />
-    </i:EventTrigger>
-  </i:Interaction.Triggers>
 </UserControl>
