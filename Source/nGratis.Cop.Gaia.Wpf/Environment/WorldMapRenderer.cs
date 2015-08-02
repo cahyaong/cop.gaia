@@ -30,9 +30,9 @@ namespace nGratis.Cop.Gaia.Wpf
 {
     using System.ComponentModel.Composition;
     using System.Windows;
-    using System.Windows.Media;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Core;
 
     [Export(typeof(IWorldMapRenderer))]
     public class WorldMapRenderer : TileMapRenderer, IWorldMapRenderer
@@ -41,34 +41,30 @@ namespace nGratis.Cop.Gaia.Wpf
 
         [ImportingConstructor]
         public WorldMapRenderer()
-            : this(new TileMapViewport(), new Size(10.0, 10.0), Colors.CornflowerBlue)
+            : this(new TileMapViewport(), new Size(10.0, 10.0), System.Windows.Media.Colors.CornflowerBlue.ToCopColor())
         {
         }
 
-        public WorldMapRenderer(ITileMapViewport tileMapViewport, Size tileSize, Color accentColor)
+        public WorldMapRenderer(ITileMapViewport tileMapViewport, Size tileSize, IColor accentColor)
             : base(tileMapViewport, tileSize, accentColor)
         {
             this.elevationShader = new GrayscaleTileShader(1 << 14);
         }
 
-        public override void RenderLayer(ICanvas canvas, TileMap tileMap)
+        public override void RenderLayer(IDrawingCanvas drawingCanvas, TileMap tileMap)
         {
-            Guard.AgainstNullArgument(() => canvas);
+            Guard.AgainstNullArgument(() => drawingCanvas);
             Guard.AgainstNullArgument(() => tileMap);
 
             var world = tileMap as WorldMap;
 
             if (world == null)
             {
-                base.RenderLayer(canvas, tileMap);
+                base.RenderLayer(drawingCanvas, tileMap);
             }
             else
             {
-                var rectangle = new Rect
-                    {
-                        Width = this.TileSize.Width,
-                        Height = this.TileSize.Height
-                    };
+                var rectangle = new Rectangle(this.TileSize.Width, this.TileSize.Height);
 
                 for (var row = 0; row < this.TileMapViewport.NumRows; row++)
                 {
@@ -79,7 +75,9 @@ namespace nGratis.Cop.Gaia.Wpf
                         rectangle.X = column * this.TileSize.Width;
                         rectangle.Y = row * this.TileSize.Height;
 
-                        canvas.DrawRectangle(null, this.elevationShader.FindBrush(value), rectangle);
+                        var brush = new Brush(this.elevationShader.FindColor(value));
+
+                        drawingCanvas.DrawRectangle(null, brush, rectangle);
                     }
                 }
             }

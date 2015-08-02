@@ -70,7 +70,7 @@ namespace nGratis.Cop.Gaia.Wpf
             typeof(AweTileMapViewer),
             new PropertyMetadata(null));
 
-        private Point? draggedPoint;
+        private System.Windows.Point? draggedPoint;
 
         public AweTileMapViewer()
         {
@@ -223,6 +223,20 @@ namespace nGratis.Cop.Gaia.Wpf
 
         private void PanDisplay(Key key)
         {
+            var renderer = this.TileMapRenderer;
+
+            if (renderer == null)
+            {
+                return;
+            }
+
+            var tileMap = this.TileMap;
+
+            if (tileMap == null)
+            {
+                return;
+            }
+
             var deltaRows = 0;
             var deltaColumns = 0;
 
@@ -245,18 +259,27 @@ namespace nGratis.Cop.Gaia.Wpf
                     break;
             }
 
-            var tileMap = this.TileMap;
-
-            this.TileMapRenderer.PanCamera(4 * deltaRows, 4 * deltaColumns, tileMap.NumRows, tileMap.NumColumns);
+            renderer.PanCamera(4 * deltaRows, 4 * deltaColumns, tileMap.NumRows, tileMap.NumColumns);
 
             this.AdjustSelectedTile();
             this.InvalidateVisual();
         }
 
-        private void PanDisplay(Point oldPoint, Point newPoint)
+        private void PanDisplay(System.Windows.Point oldPoint, System.Windows.Point newPoint)
         {
-            var tileMap = this.TileMap;
             var renderer = this.TileMapRenderer;
+
+            if (renderer == null)
+            {
+                return;
+            }
+
+            var tileMap = this.TileMap;
+
+            if (tileMap == null)
+            {
+                return;
+            }
 
             var deltaRows = (int)((oldPoint.Y / renderer.TileSize.Height) - (newPoint.Y / renderer.TileSize.Height));
             var deltaColumns = (int)((oldPoint.X / renderer.TileSize.Width) - (newPoint.X / renderer.TileSize.Width));
@@ -267,7 +290,7 @@ namespace nGratis.Cop.Gaia.Wpf
             this.InvalidateVisual();
         }
 
-        private void PickTile(Point point)
+        private void PickTile(System.Windows.Point point)
         {
             var renderer = this.TileMapRenderer;
 

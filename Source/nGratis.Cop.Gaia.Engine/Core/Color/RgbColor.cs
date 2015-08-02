@@ -29,11 +29,13 @@
 namespace nGratis.Cop.Gaia.Engine.Core
 {
     using System;
-    using nGratis.Cop.Gaia.Engine.Contract;
 
-    public class RgbColor : IColor
+    public struct RgbColor : IColor
     {
+        public static readonly RgbColor Default = new RgbColor(0, 0, 0);
+
         public RgbColor(double red, double green, double blue)
+            : this()
         {
             this.Red = (int)(red.Clamp(0.0, 1.0) * 255.0);
             this.Green = (int)(green.Clamp(0.0, 1.0) * 255.0);
@@ -41,6 +43,7 @@ namespace nGratis.Cop.Gaia.Engine.Core
         }
 
         public RgbColor(int red, int green, int blue)
+            : this()
         {
             this.Red = red.Clamp(0, 255);
             this.Green = green.Clamp(0, 255);
@@ -55,8 +58,6 @@ namespace nGratis.Cop.Gaia.Engine.Core
 
         public static explicit operator RgbColor(HsvColor hsvColor)
         {
-            Guard.AgainstNullArgument(() => hsvColor);
-
             var sextant = (int)Math.Floor(hsvColor.Hue / 60.0) % 6;
             var epsilon = (hsvColor.Hue / 60.0) - Math.Floor(hsvColor.Hue / 60.0);
 
@@ -98,6 +99,14 @@ namespace nGratis.Cop.Gaia.Engine.Core
             }
 
             return rgbColor;
+        }
+
+        public string ToUniqueKey()
+        {
+            return "RGB[RED={0:000};GRE={1:000};BLU={2:000}]".WithInvariantFormat(
+                this.Red,
+                this.Green,
+                this.Blue);
         }
     }
 }

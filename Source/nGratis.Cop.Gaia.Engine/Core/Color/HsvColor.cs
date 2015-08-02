@@ -29,11 +29,11 @@
 namespace nGratis.Cop.Gaia.Engine.Core
 {
     using System;
-    using nGratis.Cop.Gaia.Engine.Contract;
 
-    public class HsvColor : IColor
+    public struct HsvColor : IColor
     {
         public HsvColor(double hue, double saturation, double value)
+            : this()
         {
             this.Hue = hue.Clamp(0.0, 360.0);
             this.Saturation = saturation.Clamp(0.0, 1.0);
@@ -48,8 +48,6 @@ namespace nGratis.Cop.Gaia.Engine.Core
 
         public static explicit operator HsvColor(RgbColor rgbColor)
         {
-            Guard.AgainstNullArgument(() => rgbColor);
-
             var red = rgbColor.Red / 255.0;
             var green = rgbColor.Green / 255.0;
             var blue = rgbColor.Blue / 255.0;
@@ -77,6 +75,14 @@ namespace nGratis.Cop.Gaia.Engine.Core
             var value = max;
 
             return new HsvColor(hue, saturation, value);
+        }
+
+        public string ToUniqueKey()
+        {
+            return "HSV[HUE={0:0.000};VAL={1:0.000};SAT={2:0.000}]".WithInvariantFormat(
+                this.Hue,
+                this.Saturation,
+                this.Value);
         }
     }
 }

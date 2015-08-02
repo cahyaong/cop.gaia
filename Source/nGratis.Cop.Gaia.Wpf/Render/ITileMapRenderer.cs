@@ -41,13 +41,13 @@ namespace nGratis.Cop.Gaia.Wpf
 
         Size DesiredViewportSize { get; }
 
-        void RenderGridBorder(ICanvas canvas);
+        void RenderGridBorder(IDrawingCanvas drawingCanvas);
 
-        void RenderGridLines(ICanvas canvas);
+        void RenderGridLines(IDrawingCanvas drawingCanvas);
 
-        void RenderLayer(ICanvas canvas, TileMap tileMap);
+        void RenderLayer(IDrawingCanvas drawingCanvas, TileMap tileMap);
 
-        void RenderTileSelection(ICanvas canvas, Tile tile);
+        void RenderTileSelection(IDrawingCanvas drawingCanvas, Tile tile);
 
         void MeasureViewport(Size availableSize);
 

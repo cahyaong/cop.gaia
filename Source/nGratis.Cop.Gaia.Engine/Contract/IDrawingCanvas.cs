@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRenderManager.cs" company="nGratis">
+// <copyright file="IDrawingCanvas.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,17 +23,19 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 29 July 2015 12:33:01 PM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 30 May 2015 8:29:35 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Engine
 {
-    using Microsoft.Xna.Framework.Graphics;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    public interface IRenderManager
+    public interface IDrawingCanvas
     {
-        void Draw();
+        void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle);
 
-        void SetRenderTarget(RenderTarget2D renderTarget);
+        void DrawLine(Pen pen, Point startPoint, Point endPoint);
+
+        TContext GetDrawingContext<TContext>() where TContext : class;
     }
 }

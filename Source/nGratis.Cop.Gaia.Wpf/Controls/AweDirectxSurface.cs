@@ -35,6 +35,8 @@ namespace nGratis.Cop.Gaia.Wpf
     using System.Windows.Media;
     using Microsoft.Xna.Framework.Graphics;
     using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Wpf.Framework;
     using SharpDX.Direct3D9;
 
     public class AweDirectxSurface : ContentControl, IDisposable
@@ -52,6 +54,8 @@ namespace nGratis.Cop.Gaia.Wpf
         private GraphicsDeviceManager graphicsDeviceManager;
 
         private RenderTarget2D renderTarget;
+
+        private IDrawingCanvas drawingCanvas;
 
         private bool shouldRedraw;
 
@@ -80,9 +84,9 @@ namespace nGratis.Cop.Gaia.Wpf
 
             set
             {
-                this.RenderManager.SetRenderTarget(null);
+                this.RenderManager.SetDrawingCanvas(null);
 
-                value.SetRenderTarget(this.renderTarget);
+                value.SetDrawingCanvas(this.drawingCanvas);
                 this.SetValue(RenderManagerProperty, value);
 
                 this.InvalidateVisual();
@@ -217,11 +221,13 @@ namespace nGratis.Cop.Gaia.Wpf
                 this.directxImage.Unlock();
             }
 
+            this.drawingCanvas = new DirectxDrawingCanvas(this.graphicsDeviceManager.GraphicsDevice);
+
             var renderManager = this.RenderManager;
 
             if (renderManager != null)
             {
-                renderManager.SetRenderTarget(this.renderTarget);
+                renderManager.SetDrawingCanvas(this.drawingCanvas);
             }
         }
 
@@ -231,7 +237,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
             if (renderManager != null)
             {
-                renderManager.SetRenderTarget(null);
+                renderManager.SetDrawingCanvas(null);
             }
 
             if (this.renderTarget != null)
@@ -282,7 +288,7 @@ namespace nGratis.Cop.Gaia.Wpf
                 Math.Max(1, actualWidth),
                 Math.Max(1, actualHeight));
 
-            this.RenderManager.Draw();
+            this.RenderManager.Render();
 
             this.graphicsDeviceManager.GraphicsDevice.Flush();
 

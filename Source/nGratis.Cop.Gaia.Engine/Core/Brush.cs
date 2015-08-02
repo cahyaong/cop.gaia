@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITileShader.cs" company="nGratis">
+// <copyright file="Brush.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,15 +23,30 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 12:27:30 PM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 1 August 2015 12:15:54 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Engine.Core
 {
-    using nGratis.Cop.Gaia.Engine;
+    using System;
 
-    public interface ITileShader
+    public class Brush
     {
-        IColor FindColor(int value);
+        public Brush(IColor color, double opacity = 1.0)
+        {
+            this.Color = color ?? RgbColor.Default;
+            this.Opacity = opacity.Clamp(0.0, 1.0);
+        }
+
+        public IColor Color { get; private set; }
+
+        public double Opacity { get; private set; }
+
+        public string ToUniqueKey()
+        {
+            return "BRU[{0};OPA={1:0.000}]".WithInvariantFormat(
+                this.Color.ToUniqueKey(),
+                this.Opacity);
+        }
     }
 }

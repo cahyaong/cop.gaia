@@ -162,7 +162,10 @@
     </Compile>
     <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
-    <Compile Include="Game\IRenderManager.cs" />
+    <Compile Include="Core\MathExtensions.cs" />
+    <Compile Include="Framework\GameManager.cs" />
+    <Compile Include="Framework\IGameManager.cs" />
+    <Compile Include="Framework\IRenderManager.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
     <Compile Include="Core\AweTile.cs" />
@@ -171,6 +174,7 @@
     <Compile Include="Core\ObjectExtensions.cs" />
     <Compile Include="Core\ReadOnlyBinding.cs" />
     <Compile Include="Core\ReadOnlyBindingCollection.cs" />
+    <Compile Include="Render\DirectxDrawingCanvas.cs" />
     <Compile Include="Sdk\Common\CubePrimitive.cs" />
     <Compile Include="Controls\AweDirectxSurface.cs" />
     <Compile Include="Sdk\Common\GeometricPrimitive.cs" />
@@ -181,7 +185,6 @@
     <Compile Include="Environment\IWorldGenerator.cs" />
     <Compile Include="Environment\WorldGenerator.cs" />
     <Compile Include="Render\GrayscaleTileShader.cs" />
-    <Compile Include="Render\ICanvas.cs" />
     <Compile Include="Render\ITileMapViewport.cs" />
     <Compile Include="Render\ITileMapRenderer.cs" />
     <Compile Include="Render\ITileShader.cs" />

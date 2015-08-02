@@ -31,8 +31,9 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Wpf.Framework;
 
     internal class SdkRenderManager : IRenderManager
     {
@@ -45,7 +46,7 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
             this.cube = new CubePrimitive();
         }
 
-        public void Draw()
+        public void Render()
         {
             if (this.graphicsDevice == null)
             {
@@ -54,27 +55,20 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
 
             this.graphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
 
-            var worldMatrix = Matrix.CreateFromYawPitchRoll(0.5F, 0.5F, 0) * Matrix.CreateTranslation(new Vector3());
-            var viewMatrix = Matrix.CreateLookAt(new Vector3(0, 0, 2.5F), Vector3.Zero, Vector3.Up);
-            var projectionMatrix = Matrix.CreatePerspectiveFieldOfView(1, this.graphicsDevice.Viewport.AspectRatio, 1, 10);
-
-            this.cube.Draw(worldMatrix, viewMatrix, projectionMatrix, Color.CornflowerBlue);
+            this.cube.Render();
         }
 
-        public void SetRenderTarget(RenderTarget2D renderTarget)
+        public void SetDrawingCanvas(IDrawingCanvas drawingCanvas)
         {
-            if (renderTarget == null)
+            if (drawingCanvas == null)
             {
                 this.graphicsDevice = null;
                 return;
             }
 
-            this.graphicsDevice = renderTarget.GraphicsDevice;
+            this.graphicsDevice = drawingCanvas.GetDrawingContext<GraphicsDevice>();
 
-            if (this.graphicsDevice != null)
-            {
-                this.cube.Initialize(this.graphicsDevice);
-            }
+            this.cube.Initialize(drawingCanvas);
         }
     }
 }

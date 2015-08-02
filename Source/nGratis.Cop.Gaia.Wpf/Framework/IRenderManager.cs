@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITileShader.cs" company="nGratis">
+// <copyright file="IRenderManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,15 +23,17 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 12:27:30 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 29 July 2015 12:33:01 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Wpf.Framework
 {
     using nGratis.Cop.Gaia.Engine;
 
-    public interface ITileShader
+    public interface IRenderManager
     {
-        IColor FindColor(int value);
+        void Render();
+
+        void SetDrawingCanvas(IDrawingCanvas drawingCanvas);
     }
 }

@@ -28,29 +28,43 @@
 
 namespace nGratis.Cop.Gaia.Wpf
 {
-    using System.Windows;
-    using System.Windows.Media;
+    using System.Collections.Generic;
     using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class WpfDrawingCanvas : ICanvas
+    internal class WpfDrawingCanvas : IDrawingCanvas
     {
-        private readonly DrawingContext drawingContext;
+        private readonly System.Windows.Media.DrawingContext drawingContext;
 
-        public WpfDrawingCanvas(DrawingContext drawingContext)
+        public WpfDrawingCanvas(System.Windows.Media.DrawingContext drawingContext)
         {
             Guard.AgainstNullArgument(() => drawingContext);
 
             this.drawingContext = drawingContext;
         }
 
-        public void DrawRectangle(Pen pen, Brush brush, Rect rectangle)
+        public void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle)
         {
-            this.drawingContext.DrawRectangle(brush, pen, rectangle);
+            this.drawingContext.DrawRectangle(
+                brush.ToMediaBrush(),
+                pen.ToMediaPen(),
+                rectangle.ToWindowsRectangle());
         }
 
         public void DrawLine(Pen pen, Point startPoint, Point endPoint)
         {
-            this.drawingContext.DrawLine(pen, startPoint, endPoint);
+            this.drawingContext.DrawLine(
+                pen.ToMediaPen(),
+                startPoint.ToWindowsPoint(),
+                endPoint.ToWindowsPoint());
+        }
+
+        public TContext GetDrawingContext<TContext>() where TContext : class
+        {
+            Guard.AgainstInvalidOperation(typeof(TContext) != typeof(System.Windows.Media.DrawingContext));
+
+            return this.drawingContext as TContext;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITileShader.cs" company="nGratis">
+// <copyright file="IGameManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,15 +23,17 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 12:27:30 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 30 July 2015 10:36:15 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Wpf.Framework
 {
-    using nGratis.Cop.Gaia.Engine;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-    public interface ITileShader
+    public interface IGameManager
     {
-        IColor FindColor(int value);
+        void Run();
     }
 }

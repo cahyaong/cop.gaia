@@ -34,8 +34,9 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine;
 
-    public abstract class GeometricPrimitive : IDisposable
+    public abstract class GeometricPrimitive : IRenderPrimitive, IDisposable
     {
         private readonly IList<VertexPositionNormal> vertices = new List<VertexPositionNormal>();
 
@@ -45,7 +46,7 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
 
         private IndexBuffer indexBuffer;
 
-        private BasicEffect defaultEffect;
+        private BasicEffect effect;
 
         private bool isDisposed;
 
@@ -54,9 +55,11 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
             this.Dispose(false);
         }
 
-        public void Initialize(GraphicsDevice graphicsDevice)
+        public void Initialize(IDrawingCanvas drawingCanvas)
         {
-            Guard.AgainstNullArgument(() => graphicsDevice);
+            Guard.AgainstNullArgument(() => drawingCanvas);
+
+            var graphicsDevice = drawingCanvas.GetDrawingContext<GraphicsDevice>();
 
             this.vertexBuffer = new VertexBuffer(
                 graphicsDevice,
@@ -74,21 +77,28 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
 
             this.indexBuffer.SetData(this.indices.ToArray());
 
-            this.defaultEffect = new BasicEffect(graphicsDevice);
-            this.defaultEffect.EnableDefaultLighting();
+            this.effect = new BasicEffect(graphicsDevice);
+            this.effect.EnableDefaultLighting();
         }
 
-        public void Draw(Effect effect)
+        public void Render()
         {
-            Guard.AgainstNullArgument(() => effect);
+            this.effect.World = Matrix.CreateFromYawPitchRoll(0.5F, 0.5F, 0) * Matrix.CreateTranslation(new Vector3());
+            this.effect.View = Matrix.CreateLookAt(new Vector3(0, 0, 2.5F), Vector3.Zero, Vector3.Up);
+            this.effect.DiffuseColor = Color.CornflowerBlue.ToVector3();
+            this.effect.Alpha = 1.0F;
 
-            var graphicsDevice = effect.GraphicsDevice;
+            var graphicsDevice = this.effect.GraphicsDevice;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
+            graphicsDevice.BlendState = BlendState.Opaque;
             graphicsDevice.SetVertexBuffer(this.vertexBuffer);
             graphicsDevice.Indices = this.indexBuffer;
 
+            this.effect.Projection = Matrix.CreatePerspectiveFieldOfView(1, graphicsDevice.Viewport.AspectRatio, 1, 10);
+
             var numTriangles = this.indices.Count / 3;
 
-            foreach (var pass in effect.CurrentTechnique.Passes)
+            foreach (var pass in this.effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
@@ -100,21 +110,6 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
                     0,
                     numTriangles);
             }
-        }
-
-        public void Draw(Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix, Color diffuseColor)
-        {
-            this.defaultEffect.World = worldMatrix;
-            this.defaultEffect.View = viewMatrix;
-            this.defaultEffect.Projection = projectionMatrix;
-            this.defaultEffect.DiffuseColor = diffuseColor.ToVector3();
-            this.defaultEffect.Alpha = diffuseColor.A / 255.0F;
-
-            var graphicsDevice = this.defaultEffect.GraphicsDevice;
-            graphicsDevice.DepthStencilState = DepthStencilState.Default;
-            graphicsDevice.BlendState = diffuseColor.A < 255.0F ? BlendState.AlphaBlend : BlendState.Opaque;
-
-            this.Draw(this.defaultEffect);
         }
 
         public void Dispose()
@@ -156,10 +151,10 @@ namespace nGratis.Cop.Gaia.Wpf.Sdk
                     this.indexBuffer = null;
                 }
 
-                if (this.defaultEffect != null)
+                if (this.effect != null)
                 {
-                    this.defaultEffect.Dispose();
-                    this.defaultEffect = null;
+                    this.effect.Dispose();
+                    this.effect = null;
                 }
             }
 

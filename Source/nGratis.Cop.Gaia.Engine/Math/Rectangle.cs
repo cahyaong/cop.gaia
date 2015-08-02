@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICanvas.cs" company="nGratis">
+// <copyright file="Rectangle.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,18 +23,38 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 30 May 2015 8:29:35 AM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 30 July 2015 1:04:19 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Engine
 {
-    using System.Windows;
-    using System.Windows.Media;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    public interface ICanvas
+    public struct Rectangle
     {
-        void DrawRectangle(Pen pen, Brush brush, Rect rectangle);
+        public Rectangle(double width, double height)
+            : this(0.0, 0.0, width, height)
+        {
+        }
 
-        void DrawLine(Pen pen, Point startPoint, Point endPoint);
+        public Rectangle(double x, double y, double width, double height)
+            : this()
+        {
+            Guard.AgainstInvalidArgument(width < 0.0, () => width);
+            Guard.AgainstInvalidArgument(height < 0.0, () => height);
+
+            this.X = x;
+            this.Y = y;
+            this.Width = width;
+            this.Height = height;
+        }
+
+        public double X { get; set; }
+
+        public double Y { get; set; }
+
+        public double Width { get; private set; }
+
+        public double Height { get; private set; }
     }
 }

@@ -29,28 +29,89 @@
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
+    using System.Collections.Generic;
     using System.Windows.Media;
-    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
-    using nGratis.Cop.Gaia.Engine.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
 
     public static class ColorExtensions
     {
-        public static SolidColorBrush ToSolidColorBrush(this IColor color, double opacity = 1.0)
-        {
-            Guard.AgainstNullArgument(() => color);
+        // TODO: May need to handle concurrency when dealing with brush or pen lookup; for now assuming UI thread is
+        // the only one using them!
 
-            var brush = new SolidColorBrush(color.ToMediaColor(opacity));
-            brush.Freeze();
+        private static readonly IDictionary<string, System.Windows.Media.Brush> BrushLookup;
+
+        private static readonly IDictionary<string, System.Windows.Media.Pen> PenLookup;
+
+        static ColorExtensions()
+        {
+            BrushLookup = new Dictionary<string, System.Windows.Media.Brush>();
+            PenLookup = new Dictionary<string, System.Windows.Media.Pen>();
+        }
+
+        public static System.Windows.Media.Brush ToMediaBrush(this IColor color, double opacity)
+        {
+            if (color == null)
+            {
+                return null;
+            }
+
+            var uniqueKey = "{0};OPA={1:0.000}".WithInvariantFormat(color.ToUniqueKey(), opacity);
+
+            var brush = default(System.Windows.Media.Brush);
+
+            if (!BrushLookup.TryGetValue(uniqueKey, out brush))
+            {
+                brush = new SolidColorBrush(color.ToMediaColor(opacity));
+                brush.Freeze();
+
+                BrushLookup.Add(uniqueKey, brush);
+            }
 
             return brush;
         }
 
+        public static System.Windows.Media.Brush ToMediaBrush(this nGratis.Cop.Gaia.Engine.Core.Brush brush)
+        {
+            return brush != null ? brush.Color.ToMediaBrush(brush.Opacity) : null;
+        }
+
+        public static System.Windows.Media.Pen ToMediaPen(this IColor color, double opacity, double thickness)
+        {
+            if (color == null)
+            {
+                return null;
+            }
+
+            var uniqueKey = "{0};OPA={1:0.000};THI={2:0.000}".WithInvariantFormat(
+                color.ToUniqueKey(),
+                opacity,
+                thickness);
+
+            var pen = default(System.Windows.Media.Pen);
+
+            if (!PenLookup.TryGetValue(uniqueKey, out pen))
+            {
+                pen = new System.Windows.Media.Pen(color.ToMediaBrush(opacity), thickness);
+                pen.Freeze();
+
+                PenLookup.Add(uniqueKey, pen);
+            }
+
+            return pen;
+        }
+
+        public static System.Windows.Media.Pen ToMediaPen(this nGratis.Cop.Gaia.Engine.Core.Pen pen)
+        {
+            return pen != null ? pen.Color.ToMediaPen(pen.Opacity, pen.Thickness) : null;
+        }
+
         public static Color ToMediaColor(this IColor color, double opacity = 1.0)
         {
-            Guard.AgainstNullArgument(() => color);
-            Guard.AgainstInvalidArgument(opacity < 0.0 || opacity > 1.0, () => opacity);
+            if (color == null)
+            {
+                return Colors.Transparent;
+            }
 
             var rgbColor = (RgbColor)color;
 
@@ -59,6 +120,11 @@ namespace nGratis.Cop.Gaia.Wpf
                 Convert.ToByte(rgbColor.Red),
                 Convert.ToByte(rgbColor.Green),
                 Convert.ToByte(rgbColor.Blue));
+        }
+
+        public static IColor ToCopColor(this System.Windows.Media.Color color)
+        {
+            return new RgbColor(color.R, color.G, color.B);
         }
     }
 }

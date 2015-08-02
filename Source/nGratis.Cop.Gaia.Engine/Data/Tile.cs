@@ -30,16 +30,25 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public class Tile
     {
+        public Tile(Coordinate coordinate)
+        {
+            this.Coordinate = coordinate;
+        }
+
         public Tile(int row, int column)
         {
-            this.Row = row;
-            this.Column = column;
             this.Coordinate = new Coordinate { Row = row, Column = column };
         }
 
-        public int Row { get; private set; }
+        public int Row
+        {
+            get { return this.Coordinate.Row; }
+        }
 
-        public int Column { get; private set; }
+        public int Column
+        {
+            get { return this.Coordinate.Column; }
+        }
 
         public Coordinate Coordinate { get; private set; }
     }

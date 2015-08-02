@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITileShader.cs" company="nGratis">
+// <copyright file="MathExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,15 +23,23 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 2 June 2015 12:27:30 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 30 July 2015 1:07:50 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Wpf
 {
     using nGratis.Cop.Gaia.Engine;
 
-    public interface ITileShader
+    public static class MathExtensions
     {
-        IColor FindColor(int value);
+        public static System.Windows.Point ToWindowsPoint(this Point point)
+        {
+            return new System.Windows.Point(point.X, point.Y);
+        }
+
+        public static System.Windows.Rect ToWindowsRectangle(this Rectangle rectangle)
+        {
+            return new System.Windows.Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+        }
     }
 }

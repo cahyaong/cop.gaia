@@ -31,17 +31,13 @@ namespace nGratis.Cop.Gaia.Wpf
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows.Media;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
-    using nGratis.Cop.Gaia.Engine.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
 
     internal class GradientTileShader : ITileShader
     {
-        private static readonly SolidColorBrush DefaultColor = new SolidColorBrush(Colors.Black);
-
-        private readonly IDictionary<int, SolidColorBrush> colorLookup;
+        private readonly IDictionary<int, IColor> colorLookup;
 
         private readonly int bucketSize;
 
@@ -63,16 +59,16 @@ namespace nGratis.Cop.Gaia.Wpf
                         Index = index,
                         Color = (RgbColor)new HsvColor(startColor.Hue + (index * hueStep), startColor.Saturation, startColor.Value)
                     })
-                .ToDictionary(annon => annon.Index, annon => annon.Color.ToSolidColorBrush());
+                .ToDictionary(annon => annon.Index, annon => (IColor)annon.Color);
 
             this.bucketSize = (valueRange.EndValue - valueRange.StartValue) / numBuckets;
         }
 
-        public Brush FindBrush(int value)
+        public IColor FindColor(int value)
         {
             var key = value / this.bucketSize;
 
-            return this.colorLookup.ContainsKey(key) ? this.colorLookup[key] : DefaultColor;
+            return this.colorLookup.ContainsKey(key) ? this.colorLookup[key] : RgbColor.Default;
         }
     }
 }

@@ -26,11 +26,10 @@
 // <creation_timestamp>Monday, 27 July 2015 2:09:25 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace nGratis.Cop.Gaia.Wpf.Sdk
 {
     using System.ComponentModel.Composition;
+    using nGratis.Cop.Gaia.Wpf.Framework;
     using ReactiveUI;
 
     [Export]

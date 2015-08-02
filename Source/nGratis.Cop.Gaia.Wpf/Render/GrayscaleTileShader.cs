@@ -26,24 +26,20 @@
 // <creation_timestamp>Tuesday, 2 June 2015 12:32:34 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-using nGratis.Cop.Gaia.Engine.Core;
-
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows.Media;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Core;
 
     internal class GrayscaleTileShader : ITileShader
     {
         private const int NumBuckets = 1 << 8;
 
-        private static readonly Brush DefaultColor = new SolidColorBrush(Colors.Black);
-
-        private static readonly IDictionary<int, SolidColorBrush> ColorLookup;
+        private static readonly IDictionary<int, IColor> ColorLookup;
 
         private readonly int bucketSize;
 
@@ -52,7 +48,7 @@ namespace nGratis.Cop.Gaia.Wpf
             ColorLookup = Enumerable
                 .Range(0, NumBuckets)
                 .Select(index => new { Index = index, Color = new RgbColor(index, index, index) })
-                .ToDictionary(annon => annon.Index, annon => annon.Color.ToSolidColorBrush());
+                .ToDictionary(annon => annon.Index, annon => (IColor)annon.Color);
         }
 
         public GrayscaleTileShader(int maxValue)
@@ -63,11 +59,11 @@ namespace nGratis.Cop.Gaia.Wpf
             this.bucketSize = maxValue / NumBuckets;
         }
 
-        public Brush FindBrush(int value)
+        public IColor FindColor(int value)
         {
             var key = (value / this.bucketSize).Clamp(0, NumBuckets - 1);
 
-            return ColorLookup.ContainsKey(key) ? ColorLookup[key] : DefaultColor;
+            return ColorLookup.ContainsKey(key) ? ColorLookup[key] : RgbColor.Default;
         }
     }
 }
