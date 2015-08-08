@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="Clock.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,28 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 4 August 2015 1:29:31 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System;
+    using nGratis.Cop.Gaia.Engine.Core;
+
+    public struct Clock
     {
-        public Vector(float x, float y, float z = 0.0F)
+        public Clock(TimeSpan totalPeriod, TimeSpan elapsedPeriod)
             : this()
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            Guard.AgainstInvalidArgument(totalPeriod < TimeSpan.Zero, () => totalPeriod);
+            Guard.AgainstInvalidArgument(elapsedPeriod < TimeSpan.Zero, () => elapsedPeriod);
+
+            this.TotalPeriod = totalPeriod;
+            this.ElapsedPeriod = elapsedPeriod;
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
+        public TimeSpan TotalPeriod { get; set; }
 
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Z { get; set; }
+        public TimeSpan ElapsedPeriod { get; set; }
     }
 }

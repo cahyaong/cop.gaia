@@ -146,10 +146,6 @@
     <Compile Include="..\nGratis.Cop.Gaia.Common\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Agent\GathererView.xaml.cs">
-      <DependentUpon>GathererView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Agent\GathererViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -163,6 +159,7 @@
     <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
     <Compile Include="Core\MathExtensions.cs" />
+    <Compile Include="Framework\FrameworkExtensions.cs" />
     <Compile Include="Framework\GameManager.cs" />
     <Compile Include="Framework\IGameManager.cs" />
     <Compile Include="Framework\IRenderManager.cs" />
@@ -222,10 +219,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Agent\GathererView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Sdk\DirectxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

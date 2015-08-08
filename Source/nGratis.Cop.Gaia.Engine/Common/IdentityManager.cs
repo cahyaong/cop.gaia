@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="IdentityManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,30 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 6 August 2015 1:29:43 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System.Collections.Generic;
+
+    internal class IdentityManager : IIdentityManager
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        private readonly IDictionary<EntityKind, uint> nextIdLookup = new Dictionary<EntityKind, uint>()
+            {
+                { EntityKind.Generic, 0x00000001 },
+                { EntityKind.Static, 0x10000000 },
+                { EntityKind.Dynamic, 0x40000000 },
+            };
+
+        public uint RootId
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            get { return 0; }
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
+        public uint FindNextId(EntityKind entityKind)
         {
+            return this.nextIdLookup[entityKind]++;
         }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Z { get; set; }
     }
 }

@@ -29,7 +29,6 @@
 namespace nGratis.Cop.Gaia.Wpf
 {
     using System;
-    using System.Windows;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
@@ -44,7 +43,7 @@ namespace nGratis.Cop.Gaia.Wpf
 
         private readonly Brush cellSelectionBrush;
 
-        public TileMapRenderer(ITileMapViewport tileMapViewport, Size tileSize, IColor accentColor)
+        public TileMapRenderer(ITileMapViewport tileMapViewport, System.Windows.Size tileSize, IColor accentColor)
         {
             Guard.AgainstNullArgument(() => tileMapViewport);
             Guard.AgainstInvalidArgument(tileSize.Width <= 0 || tileSize.Height <= 0, () => tileSize);
@@ -58,18 +57,18 @@ namespace nGratis.Cop.Gaia.Wpf
             this.TileSize = tileSize;
             this.TileMapViewport = tileMapViewport;
 
-            this.ViewportSize = Size.Empty;
+            this.ViewportSize = System.Windows.Size.Empty;
 
-            this.DesiredViewportSize = new Size(
+            this.DesiredViewportSize = new System.Windows.Size(
                 this.TileMapViewport.NumColumns * this.TileSize.Width,
                 this.TileMapViewport.NumRows * this.TileSize.Height);
         }
 
-        public Size TileSize { get; private set; }
+        public System.Windows.Size TileSize { get; private set; }
 
-        public Size DesiredViewportSize { get; private set; }
+        public System.Windows.Size DesiredViewportSize { get; private set; }
 
-        public Size ViewportSize { get; private set; }
+        public System.Windows.Size ViewportSize { get; private set; }
 
         public ITileMapViewport TileMapViewport { get; private set; }
 
@@ -92,25 +91,25 @@ namespace nGratis.Cop.Gaia.Wpf
                 return;
             }
 
-            var startPoint = new nGratis.Cop.Gaia.Engine.Point();
-            var endPoint = new nGratis.Cop.Gaia.Engine.Point();
+            var startPoint = new Point();
+            var endPoint = new Point();
 
             for (var row = 1; row < this.TileMapViewport.NumRows; row++)
             {
-                startPoint.X = 0.0;
-                startPoint.Y = row * this.TileSize.Height;
-                endPoint.X = this.ViewportSize.Width;
-                endPoint.Y = row * this.TileSize.Height;
+                startPoint.X = 0.0F;
+                startPoint.Y = (float)(row * this.TileSize.Height);
+                endPoint.X = (float)this.ViewportSize.Width;
+                endPoint.Y = (float)(row * this.TileSize.Height);
 
                 drawingCanvas.DrawLine(this.gridLinePen, startPoint, endPoint);
             }
 
             for (var column = 1; column < this.TileMapViewport.NumColumns; column++)
             {
-                startPoint.X = column * this.TileSize.Width;
-                startPoint.Y = 0.0;
-                endPoint.X = column * this.TileSize.Width;
-                endPoint.Y = this.ViewportSize.Height;
+                startPoint.X = (float)(column * this.TileSize.Width);
+                startPoint.Y = 0.0F;
+                endPoint.X = (float)(column * this.TileSize.Width);
+                endPoint.Y = (float)this.ViewportSize.Height;
 
                 drawingCanvas.DrawLine(this.gridLinePen, startPoint, endPoint);
             }
@@ -134,17 +133,22 @@ namespace nGratis.Cop.Gaia.Wpf
             drawingCanvas.DrawRectangle(this.cellSelectionPen, this.cellSelectionBrush, rectangle);
         }
 
-        public void MeasureViewport(Size availableSize)
+        public void MeasureViewport(System.Windows.Size availableSize)
         {
-            this.DesiredViewportSize = new Size(
+            this.DesiredViewportSize = new System.Windows.Size(
                 (int)(availableSize.Width / this.TileSize.Width).Clamp(0, this.TileMapViewport.MostRows) * this.TileSize.Width,
                 (int)(availableSize.Height / this.TileSize.Height).Clamp(0, this.TileMapViewport.MostColumns) * this.TileSize.Height);
         }
 
-        public void ArrangeViewport(Size finalSize)
+        public void ArrangeViewport(System.Windows.Size finalSize)
         {
-            this.TileMapViewport.Resize((int)(finalSize.Height / this.TileSize.Height), (int)(finalSize.Width / this.TileSize.Width));
-            this.ViewportSize = new Size(this.TileMapViewport.NumColumns * this.TileSize.Width, this.TileMapViewport.NumRows * this.TileSize.Height);
+            this.TileMapViewport.Resize(
+                (int)(finalSize.Height / this.TileSize.Height),
+                (int)(finalSize.Width / this.TileSize.Width));
+
+            this.ViewportSize = new System.Windows.Size(
+                this.TileMapViewport.NumColumns * this.TileSize.Width,
+                this.TileMapViewport.NumRows * this.TileSize.Height);
         }
 
         public void PanCamera(int deltaRows, int deltaColumns, int mostRows, int mostColumns)

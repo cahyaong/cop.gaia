@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="ISystemManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,23 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 5 August 2015 1:15:19 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    public interface ISystemManager
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
-        {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-        }
+        void AddSystem<TSystem>(TSystem system) where TSystem : ISystem;
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
+        void RemoveSystem<TSystem>() where TSystem : ISystem;
 
-        public float X { get; set; }
+        void AddEntity(IEntity entity);
 
-        public float Y { get; set; }
+        void RemoveEntity(IEntity entity);
 
-        public float Z { get; set; }
+        void Update(Clock clock);
+
+        void Render(Clock clock);
     }
 }

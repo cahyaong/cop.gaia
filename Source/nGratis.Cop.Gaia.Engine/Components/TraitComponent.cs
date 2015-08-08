@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GathererViewModel.cs" company="nGratis">
+// <copyright file="TraitComponent.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,16 +23,24 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Sunday, 12 July 2015 1:45:56 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 5 August 2015 12:54:09 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Engine
 {
-    using System.ComponentModel.Composition;
-    using ReactiveUI;
-
-    [Export]
-    public class GathererViewModel : ReactiveObject
+    public class TraitComponent : BaseComponent
     {
+        public string Race { get; set; }
+
+        public string Class { get; set; }
+
+        public override IComponent Clone()
+        {
+            return new TraitComponent()
+                {
+                    Race = this.Race,
+                    Class = this.Class
+                };
+        }
     }
 }

@@ -30,23 +30,69 @@ namespace nGratis.Cop.Gaia.Wpf.Framework
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
+    using System.Reactive.Linq;
     using Microsoft.Xna.Framework;
+    using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine;
 
+    [Export(typeof(IGameManager))]
     internal class GameManager : Game, IGameManager
     {
+        private readonly IEntityManager entityManager;
+
+        private readonly ISystemManager systemManager;
+
         public GameManager()
+            : this(new EntityManager(), new SystemManager())
         {
+        }
+
+        public GameManager(IEntityManager entityManager, ISystemManager systemManager)
+        {
+            Guard.AgainstNullArgument(() => entityManager);
+            Guard.AgainstNullArgument(() => systemManager);
+
+            this.entityManager = entityManager;
+            this.systemManager = systemManager;
+
+            this.InitializeEntityManager();
+            this.InitializeSystemManager();
         }
 
         protected override void Update(GameTime gameTime)
         {
+            this.systemManager.Update(gameTime.ToCopClock());
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            this.systemManager.Render(gameTime.ToCopClock());
             base.Draw(gameTime);
+        }
+
+        private void InitializeEntityManager()
+        {
+            this.entityManager.RegisterComponentType<TraitComponent>();
+            this.entityManager.RegisterComponentType<BasicStatisticComponent>();
+            this.entityManager.RegisterComponentType<DerivedStatisticComponent>();
+            this.entityManager.RegisterComponentType<PlacementComponent>();
+
+            Observable
+                .FromEventPattern<EntityChangedEventArgs>(this.entityManager, "EntityCreated")
+                .Subscribe(pattern => this.systemManager.AddEntity(pattern.EventArgs.Entity));
+
+            Observable
+                .FromEventPattern<EntityChangedEventArgs>(this.entityManager, "EntityDestroyed")
+                .Subscribe(pattern => this.systemManager.RemoveEntity(pattern.EventArgs.Entity));
+        }
+
+        private void InitializeSystemManager()
+        {
+            this.systemManager.AddSystem(new CombatSystem());
+            this.systemManager.AddSystem(new RenderSystem());
         }
     }
 }

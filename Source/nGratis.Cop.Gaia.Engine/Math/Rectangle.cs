@@ -32,12 +32,12 @@ namespace nGratis.Cop.Gaia.Engine
 
     public struct Rectangle
     {
-        public Rectangle(double width, double height)
-            : this(0.0, 0.0, width, height)
+        public Rectangle(float width, float height)
+            : this(0.0F, 0.0F, width, height)
         {
         }
 
-        public Rectangle(double x, double y, double width, double height)
+        public Rectangle(float x, float y, float width, float height)
             : this()
         {
             Guard.AgainstInvalidArgument(width < 0.0, () => width);
@@ -49,12 +49,22 @@ namespace nGratis.Cop.Gaia.Engine
             this.Height = height;
         }
 
-        public double X { get; set; }
+        public Rectangle(double width, double height)
+            : this(0.0F, 0.0F, (float)width, (float)height)
+        {
+        }
 
-        public double Y { get; set; }
+        public Rectangle(double x, double y, double width, double height)
+            : this((float)x, (float)y, (float)width, (float)height)
+        {
+        }
 
-        public double Width { get; private set; }
+        public float X { get; set; }
 
-        public double Height { get; private set; }
+        public float Y { get; set; }
+
+        public float Width { get; private set; }
+
+        public float Height { get; private set; }
     }
 }

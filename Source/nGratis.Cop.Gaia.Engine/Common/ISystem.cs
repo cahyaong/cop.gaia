@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GathererView.xaml.cs" company="nGratis">
+// <copyright file="ISystem.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,16 +23,17 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Sunday, 12 July 2015 1:47:34 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 5 August 2015 12:57:31 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Wpf
+namespace nGratis.Cop.Gaia.Engine
 {
-    public partial class GathererView
+    public interface ISystem
     {
-        public GathererView()
-        {
-            this.InitializeComponent();
-        }
+        bool IsEnabled { get; set; }
+
+        void AddEntity(IEntity entity);
+
+        void RemoveEnity(IEntity entity);
     }
 }

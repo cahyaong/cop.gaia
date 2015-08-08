@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="IEntityManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,25 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 4 August 2015 1:27:26 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System;
+
+    public interface IEntityManager
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
-        {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-        }
+        event EventHandler<EntityChangedEventArgs> EntityCreated;
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
+        event EventHandler<EntityChangedEventArgs> EntityDestroyed;
 
-        public float X { get; set; }
+        void RegisterComponentType<TComponent>() where TComponent : IComponent;
 
-        public float Y { get; set; }
+        void UnregisterComponentType<TComponent>() where TComponent : IComponent;
 
-        public float Z { get; set; }
+        IEntity CreteEntity(string templateName, EntityKind entityKind);
+
+        void DestroyEntity(IEntity entity);
     }
 }

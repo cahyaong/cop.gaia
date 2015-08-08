@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="Template.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,32 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 4 August 2015 12:37:17 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System.Collections.Generic;
+    using System.Linq;
+    using nGratis.Cop.Gaia.Engine.Core;
+
+    internal class Template : ITemplate
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        private readonly IEnumerable<IComponent> components;
+
+        public Template(string name, params IComponent[] components)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            Guard.AgainstNullOrWhitespaceArgument(() => name);
+
+            this.Name = name;
+            this.components = components;
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
+        public string Name { get; private set; }
+
+        public IEntity CreateEntity(uint id)
         {
+            return new Entity(id, this.components.Select(component => component.Clone()));
         }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Z { get; set; }
     }
 }

@@ -44,6 +44,29 @@
     <Compile Include="..\nGratis.Cop.Gaia.Common\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\Clock.cs" />
+    <Compile Include="Common\BaseComponent.cs" />
+    <Compile Include="Common\Entity.cs" />
+    <Compile Include="Common\EntityManager.cs" />
+    <Compile Include="Common\BaseSystem.cs" />
+    <Compile Include="Common\EntityChangedEventArgs.cs" />
+    <Compile Include="Common\IComponent.cs" />
+    <Compile Include="Common\IdentityManager.cs" />
+    <Compile Include="Common\IEntity.cs" />
+    <Compile Include="Common\IIdentityManager.cs" />
+    <Compile Include="Common\ISystem.cs" />
+    <Compile Include="Common\ISystemManager.cs" />
+    <Compile Include="Common\ITemplate.cs" />
+    <Compile Include="Common\SystemManager.cs" />
+    <Compile Include="Common\Template.cs" />
+    <Compile Include="Common\TemplateManager.cs" />
+    <Compile Include="Common\IEntityManager.cs" />
+    <Compile Include="Common\ITemplateManager.cs" />
+    <Compile Include="Common\TemplateManagerExtensions.cs" />
+    <Compile Include="Components\DerivedStatisticComponent.cs" />
+    <Compile Include="Components\PlacementComponent.cs" />
+    <Compile Include="Components\BasicStatisticComponent.cs" />
+    <Compile Include="Components\TraitComponent.cs" />
     <Compile Include="Contract\IDrawingCanvas.cs" />
     <Compile Include="Contract\IColor.cs" />
     <Compile Include="Contract\IRenderPrimitive.cs" />
@@ -86,6 +109,9 @@
     <Compile Include="Data\TileMap.cs" />
     <Compile Include="Environment\WorldMap.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="Systems\CombatSystem.cs" />
+    <Compile Include="Systems\RenderSystem.cs" />
+    <Compile Include="Systems\SystemConstant.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -96,6 +122,7 @@
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

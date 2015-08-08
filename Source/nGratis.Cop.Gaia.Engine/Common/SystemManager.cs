@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="SystemManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,53 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 5 August 2015 1:15:38 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using nGratis.Cop.Gaia.Engine.Core;
+
+    public class SystemManager : ISystemManager
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        private readonly IDictionary<Type, ISystem> systemLookup = new Dictionary<Type, ISystem>();
+
+        public void AddSystem<TSystem>(TSystem system) where TSystem : ISystem
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            Guard.AgainstDefaultArgument(() => system);
+            Guard.AgainstInvalidOperation(this.systemLookup.ContainsKey(typeof(TSystem)));
+
+            this.systemLookup.Add(typeof(TSystem), system);
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
+        public void RemoveSystem<TSystem>() where TSystem : ISystem
         {
+            Guard.AgainstInvalidOperation(!this.systemLookup.ContainsKey(typeof(TSystem)));
+
+            this.systemLookup.Remove(typeof(TSystem));
         }
 
-        public float X { get; set; }
+        public void AddEntity(IEntity entity)
+        {
+            throw new NotImplementedException();
+        }
 
-        public float Y { get; set; }
+        public void RemoveEntity(IEntity entity)
+        {
+            throw new NotImplementedException();
+        }
 
-        public float Z { get; set; }
+        public void Update(Clock clock)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Render(Clock clock)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

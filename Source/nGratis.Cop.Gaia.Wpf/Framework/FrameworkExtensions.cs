@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="FrameworkExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,22 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 5 August 2015 1:40:37 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Wpf.Framework
 {
-    public struct Vector
+    using Microsoft.Xna.Framework;
+    using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine;
+
+    internal static class FrameworkExtensions
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        public static Clock ToCopClock(this GameTime gameTime)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            Guard.AgainstNullArgument(() => gameTime);
+
+            return new Clock(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
         }
-
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Z { get; set; }
     }
 }

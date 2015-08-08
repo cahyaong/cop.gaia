@@ -72,8 +72,8 @@ namespace nGratis.Cop.Gaia.Wpf
                     {
                         var value = world[column + this.TileMapViewport.Column, row + this.TileMapViewport.Row].Elevation;
 
-                        rectangle.X = column * this.TileSize.Width;
-                        rectangle.Y = row * this.TileSize.Height;
+                        rectangle.X = (float)(column * this.TileSize.Width);
+                        rectangle.Y = (float)(row * this.TileSize.Height);
 
                         var brush = new Brush(this.elevationShader.FindColor(value));
 

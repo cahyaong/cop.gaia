@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="RenderSystem.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,16 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 4 August 2015 12:02:42 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    public class RenderSystem : BaseSystem
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        protected override int UpdatingOrder
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            get { return SystemConstant.UpdatingOrders.Render; }
         }
-
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Z { get; set; }
     }
 }

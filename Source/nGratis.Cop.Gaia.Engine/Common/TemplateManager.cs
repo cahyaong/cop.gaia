@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="TemplateManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,42 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 4 August 2015 12:56:30 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System.Collections.Generic;
+    using nGratis.Cop.Gaia.Engine.Core;
+
+    public class TemplateManager : ITemplateManager
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        private readonly IDictionary<string, ITemplate> templates = new Dictionary<string, ITemplate>();
+
+        public ITemplate FindTemplate(string name)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            Guard.AgainstNullOrWhitespaceArgument(() => name);
+
+            var template = default(ITemplate);
+
+            Guard.AgainstInvalidOperation(!this.templates.TryGetValue(name, out template));
+
+            return template;
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
+        public void AddTemplate(ITemplate template)
         {
+            Guard.AgainstNullArgument(() => template);
+
+            this.templates.Add(template.Name, template);
         }
 
-        public float X { get; set; }
+        public void RemoveTemplate(string name)
+        {
+            Guard.AgainstNullArgument(() => name);
+            Guard.AgainstInvalidOperation(!this.templates.ContainsKey(name));
 
-        public float Y { get; set; }
-
-        public float Z { get; set; }
+            this.templates.Remove(name);
+        }
     }
 }

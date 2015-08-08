@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="EntityChangedEventArgs.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,23 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 5 August 2015 2:09:29 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System;
+    using nGratis.Cop.Gaia.Engine.Core;
+
+    public class EntityChangedEventArgs : EventArgs
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        public EntityChangedEventArgs(IEntity entity)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            Guard.AgainstNullArgument(() => entity);
+
+            this.Entity = entity;
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Z { get; set; }
+        public IEntity Entity { get; private set; }
     }
 }

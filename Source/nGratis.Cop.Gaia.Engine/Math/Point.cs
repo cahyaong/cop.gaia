@@ -30,7 +30,7 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public struct Point
     {
-        public Point(double x, double y, double z = 0.0)
+        public Point(float x, float y, float z = 0.0F)
             : this()
         {
             this.X = x;
@@ -38,10 +38,15 @@ namespace nGratis.Cop.Gaia.Engine
             this.Z = z;
         }
 
-        public double X { get; set; }
+        public Point(double x, double y, double z = 0.0)
+            : this((float)x, (float)y, (float)z)
+        {
+        }
 
-        public double Y { get; set; }
+        public float X { get; set; }
 
-        public double Z { get; set; }
+        public float Y { get; set; }
+
+        public float Z { get; set; }
     }
 }

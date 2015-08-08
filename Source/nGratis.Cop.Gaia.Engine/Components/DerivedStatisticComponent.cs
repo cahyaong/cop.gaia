@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="DerivedStatisticComponent.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,41 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 4 August 2015 11:48:24 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System.Collections.Generic;
+
+    using System.Linq;
+
+    public class DerivedStatisticComponent : BaseComponent
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
+        public DerivedStatisticComponent()
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            this.Data = new Dictionary<Kind, int>();
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
+        public enum Kind
         {
+            None = 0,
+            HitPoint,
+            MeleeDamage
         }
 
-        public float X { get; set; }
+        protected IDictionary<Kind, int> Data { get; private set; }
 
-        public float Y { get; set; }
+        public override IComponent Clone()
+        {
+            var clone = new DerivedStatisticComponent();
 
-        public float Z { get; set; }
+            foreach (var kvp in this.Data)
+            {
+                clone.Data.Add(kvp.Key, kvp.Value);
+            }
+
+            return clone;
+        }
     }
 }

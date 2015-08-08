@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="Entity.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,30 +23,32 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 1 August 2015 1:49:11 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Vector
+    using System.Collections.Generic;
+    using System.Linq;
+
+    public class Entity : IEntity
     {
-        public Vector(float x, float y, float z = 0.0F)
-            : this()
-        {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
-        }
-
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
+        public Entity(uint id, IEnumerable<IComponent> components)
+            : this(id, 0, components)
         {
         }
 
-        public float X { get; set; }
+        public Entity(uint id, uint ownerId, IEnumerable<IComponent> components)
+        {
+            this.Id = id;
+            this.OwnerId = ownerId;
+            this.Components = components ?? Enumerable.Empty<IComponent>();
+        }
 
-        public float Y { get; set; }
+        public uint Id { get; private set; }
 
-        public float Z { get; set; }
+        public uint OwnerId { get; set; }
+
+        public IEnumerable<IComponent> Components { get; private set; }
     }
 }
