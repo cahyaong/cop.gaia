@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.nGratis.Cop.Gaia.Unity.CSharp", "UnityVS.nGratis.Cop.Gaia.Unity.CSharp.csproj", "{C0C3066E-2779-B2CE-E3A6-B54C5BD6DBD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.nGratis.Cop.Gaia.Client.Unity.CSharp", "UnityVS.nGratis.Cop.Gaia.Client.Unity.CSharp.csproj", "{5B861678-DD6F-939C-AC7D-EC54BF0C7A7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Engine", "..\nGratis.Cop.Gaia.Engine\nGratis.Cop.Gaia.Engine.csproj", "{EEC20B06-F644-41D2-B30F-9CA43CBD1376}"
 EndProject
@@ -13,10 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C0C3066E-2779-B2CE-E3A6-B54C5BD6DBD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0C3066E-2779-B2CE-E3A6-B54C5BD6DBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0C3066E-2779-B2CE-E3A6-B54C5BD6DBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0C3066E-2779-B2CE-E3A6-B54C5BD6DBD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B861678-DD6F-939C-AC7D-EC54BF0C7A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B861678-DD6F-939C-AC7D-EC54BF0C7A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B861678-DD6F-939C-AC7D-EC54BF0C7A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B861678-DD6F-939C-AC7D-EC54BF0C7A7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Release|Any CPU.ActiveCfg = Release|Any CPU
