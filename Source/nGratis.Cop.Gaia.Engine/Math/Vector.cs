@@ -38,15 +38,20 @@ namespace nGratis.Cop.Gaia.Engine
             this.Z = z;
         }
 
-        public Vector(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
-
         public float X { get; set; }
 
         public float Y { get; set; }
 
         public float Z { get; set; }
+
+        public static Vector operator *(Vector vector, float factor)
+        {
+            return new Vector(vector.X * factor, vector.Y * factor, vector.Z * factor);
+        }
+
+        public static Vector operator /(Vector vector, float factor)
+        {
+            return new Vector(vector.X / factor, vector.Y / factor, vector.Z / factor);
+        }
     }
 }

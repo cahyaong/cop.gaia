@@ -64,7 +64,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             }
             else
             {
-                var rectangle = new Rectangle(this.TileSize.Width, this.TileSize.Height);
+                var rectangle = new Rectangle((float)this.TileSize.Width, (float)this.TileSize.Height);
 
                 for (var row = 0; row < this.TileMapViewport.NumRows; row++)
                 {
@@ -77,7 +77,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
                         var brush = new Brush(this.elevationShader.FindColor(value));
 
-                        drawingCanvas.DrawRectangle(null, brush, rectangle);
+                        drawingCanvas.DrawRectangle(Pen.Null, brush, rectangle);
                     }
                 }
             }

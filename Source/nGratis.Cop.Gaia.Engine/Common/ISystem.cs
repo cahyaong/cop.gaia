@@ -35,5 +35,9 @@ namespace nGratis.Cop.Gaia.Engine
         void AddEntity(IEntity entity);
 
         void RemoveEnity(IEntity entity);
+
+        void Update(Clock clock);
+
+        void Render(Clock clock);
     }
 }

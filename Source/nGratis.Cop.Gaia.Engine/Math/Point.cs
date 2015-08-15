@@ -38,15 +38,20 @@ namespace nGratis.Cop.Gaia.Engine
             this.Z = z;
         }
 
-        public Point(double x, double y, double z = 0.0)
-            : this((float)x, (float)y, (float)z)
-        {
-        }
-
         public float X { get; set; }
 
         public float Y { get; set; }
 
         public float Z { get; set; }
+
+        public static Vector operator +(Point left, Point right)
+        {
+            return new Vector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+        }
+
+        public static Vector operator -(Point left, Point right)
+        {
+            return new Vector(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+        }
     }
 }

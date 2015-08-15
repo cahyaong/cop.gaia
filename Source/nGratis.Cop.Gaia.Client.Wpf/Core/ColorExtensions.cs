@@ -73,7 +73,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
         public static System.Windows.Media.Brush ToMediaBrush(this nGratis.Cop.Gaia.Engine.Core.Brush brush)
         {
-            return brush != null ? brush.Color.ToMediaBrush(brush.Opacity) : null;
+            return brush.Color.ToMediaBrush(brush.Opacity);
         }
 
         public static System.Windows.Media.Pen ToMediaPen(this IColor color, double opacity, double thickness)
@@ -103,7 +103,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
         public static System.Windows.Media.Pen ToMediaPen(this nGratis.Cop.Gaia.Engine.Core.Pen pen)
         {
-            return pen != null ? pen.Color.ToMediaPen(pen.Opacity, pen.Thickness) : null;
+            return pen.Color.ToMediaPen(pen.Opacity, pen.Thickness);
         }
 
         public static Color ToMediaColor(this IColor color, double opacity = 1.0)

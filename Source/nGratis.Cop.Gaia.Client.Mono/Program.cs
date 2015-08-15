@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Rectangle.cs" company="nGratis">
+// <copyright file="Program.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,38 +23,22 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 1:04:19 PM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 10 August 2015 9:30:08 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Client.Mono
 {
-    using nGratis.Cop.Gaia.Engine.Core;
+    using System;
 
-    public struct Rectangle
+    public static class Program
     {
-        public Rectangle(float width, float height)
-            : this(0.0F, 0.0F, width, height)
+        [STAThread]
+        private static void Main()
         {
+            using (var gameManager = new GameManager())
+            {
+                gameManager.Run();
+            }
         }
-
-        public Rectangle(float x, float y, float width, float height)
-            : this()
-        {
-            Guard.AgainstInvalidArgument(width < 0.0, () => width);
-            Guard.AgainstInvalidArgument(height < 0.0, () => height);
-
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
-        }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Width { get; private set; }
-
-        public float Height { get; private set; }
     }
 }

@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <SkipPostSharp>True</SkipPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +38,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <SkipPostSharp>True</SkipPostSharp>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
@@ -58,20 +60,20 @@
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.4.0.459\lib\net40\MonoGame.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nGratis.Cop.Core">
-      <HintPath>..\packages\nGratis.Cop.Core.0.1.171\lib\net45\nGratis.Cop.Core.dll</HintPath>
+    <Reference Include="nGratis.Cop.Core, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\nGratis.Cop.Core.0.1.226\lib\net45\nGratis.Cop.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nGratis.Cop.Core.Contract, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\nGratis.Cop.Core.0.1.171\lib\net45\nGratis.Cop.Core.Contract.dll</HintPath>
+      <HintPath>..\packages\nGratis.Cop.Core.0.1.226\lib\net45\nGratis.Cop.Core.Contract.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nGratis.Cop.Core.Theme, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\nGratis.Cop.Core.Wpf.0.1.171\lib\net45\nGratis.Cop.Core.Theme.dll</HintPath>
+      <HintPath>..\packages\nGratis.Cop.Core.Wpf.0.1.226\lib\net45\nGratis.Cop.Core.Theme.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nGratis.Cop.Core.Wpf, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\nGratis.Cop.Core.Wpf.0.1.171\lib\net45\nGratis.Cop.Core.Wpf.dll</HintPath>
+      <HintPath>..\packages\nGratis.Cop.Core.Wpf.0.1.226\lib\net45\nGratis.Cop.Core.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=3.2.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -159,9 +161,6 @@
     <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
     <Compile Include="Core\MathExtensions.cs" />
-    <Compile Include="Framework\FrameworkExtensions.cs" />
-    <Compile Include="Framework\GameManager.cs" />
-    <Compile Include="Framework\IGameManager.cs" />
     <Compile Include="Framework\IRenderManager.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />

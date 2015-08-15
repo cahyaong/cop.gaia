@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IGameManager.cs" company="nGratis">
+// <copyright file="XnaExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,17 +23,39 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 10:36:15 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 11 August 2015 1:02:00 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Client.Wpf.Framework
+namespace nGratis.Cop.Gaia.Client.Mono
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Microsoft.Xna.Framework;
+    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    public interface IGameManager
+    internal static class XnaExtensions
     {
-        void Run();
+        public static Vector2 ToXnaVector2(this Vector vector)
+        {
+            return new Vector2(vector.X, vector.Y);
+        }
+
+        public static Vector2 ToXnaVector2(this nGratis.Cop.Gaia.Engine.Point point)
+        {
+            return new Vector2(point.X, point.Y);
+        }
+
+        public static Color ToXnaColor(this IColor color)
+        {
+            Guard.AgainstNullArgument(() => color);
+
+            var rgbColor = (RgbColor)color;
+
+            return new Color()
+                {
+                    R = (byte)rgbColor.Red,
+                    G = (byte)rgbColor.Green,
+                    B = (byte)rgbColor.Blue
+                };
+        }
     }
 }

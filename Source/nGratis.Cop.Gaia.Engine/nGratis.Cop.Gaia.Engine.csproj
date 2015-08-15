@@ -53,6 +53,7 @@
     <Compile Include="Common\IComponent.cs" />
     <Compile Include="Common\IdentityManager.cs" />
     <Compile Include="Common\IEntity.cs" />
+    <Compile Include="Common\IGameManager.cs" />
     <Compile Include="Common\IIdentityManager.cs" />
     <Compile Include="Common\ISystem.cs" />
     <Compile Include="Common\ISystemManager.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Environment\BaseLayerGenerator.cs" />
     <Compile Include="Environment\LayerMode.cs" />
     <Compile Include="Math\DoubleExtensions.cs" />
+    <Compile Include="Math\FloatExtensions.cs" />
     <Compile Include="Math\IntegerExtensions.cs" />
     <Compile Include="Math\Point.cs" />
     <Compile Include="Math\Range.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Environment\WorldMap.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Systems\CombatSystem.cs" />
+    <Compile Include="Systems\DiagnosticSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Systems\SystemConstant.cs" />
   </ItemGroup>
@@ -120,6 +123,7 @@
     <EmbeddedResource Include="Core\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

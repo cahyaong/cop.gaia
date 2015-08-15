@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Rectangle.cs" company="nGratis">
+// <copyright file="fontManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,38 +23,40 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 1:04:19 PM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 15 August 2015 12:28:48 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Client.Mono
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    public struct Rectangle
+    internal class FontManager : IFontManager
     {
-        public Rectangle(float width, float height)
-            : this(0.0F, 0.0F, width, height)
+        private readonly IDictionary<string, SpriteFont> spriteFontLookup = new Dictionary<string, SpriteFont>();
+
+        private readonly ContentManager contentManager;
+
+        public FontManager(ContentManager contentManager)
         {
+            Guard.AgainstNullArgument(() => contentManager);
+
+            this.contentManager = contentManager;
         }
 
-        public Rectangle(float x, float y, float width, float height)
-            : this()
+        public SpriteFont GetSpriteFont(string font)
         {
-            Guard.AgainstInvalidArgument(width < 0.0, () => width);
-            Guard.AgainstInvalidArgument(height < 0.0, () => height);
+            var spriteFont = default(SpriteFont);
 
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
+            if (!this.spriteFontLookup.TryGetValue(font, out spriteFont))
+            {
+                spriteFont = this.contentManager.Load<SpriteFont>(font);
+                this.spriteFontLookup.Add(font, spriteFont);
+            }
+
+            return spriteFont;
         }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Width { get; private set; }
-
-        public float Height { get; private set; }
     }
 }

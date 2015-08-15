@@ -62,12 +62,10 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void RegisterComponentType<TComponent>() where TComponent : IComponent
         {
-            throw new System.NotImplementedException();
         }
 
         public void UnregisterComponentType<TComponent>() where TComponent : IComponent
         {
-            throw new System.NotImplementedException();
         }
 
         public IEntity CreteEntity(string templateName, EntityKind entityKind)

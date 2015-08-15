@@ -30,17 +30,20 @@ namespace nGratis.Cop.Gaia.Engine.Core
 {
     using System;
 
-    public class Brush
+    public struct Brush
     {
-        public Brush(IColor color, double opacity = 1.0)
+        public static Brush Null = new Brush(RgbColor.Default, 0.0F);
+
+        public Brush(IColor color, float opacity = 1.0F)
+            : this()
         {
             this.Color = color ?? RgbColor.Default;
-            this.Opacity = opacity.Clamp(0.0, 1.0);
+            this.Opacity = opacity.Clamp(0.0F, 1.0F);
         }
 
         public IColor Color { get; private set; }
 
-        public double Opacity { get; private set; }
+        public float Opacity { get; private set; }
 
         public string ToUniqueKey()
         {

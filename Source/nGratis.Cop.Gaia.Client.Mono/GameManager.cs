@@ -26,23 +26,28 @@
 // <creation_timestamp>Thursday, 30 July 2015 10:36:23 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Client.Wpf.Framework
+namespace nGratis.Cop.Gaia.Client.Mono
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Linq;
     using System.Reactive.Linq;
     using Microsoft.Xna.Framework;
-    using nGratis.Cop.Core.Contract;
+    using Microsoft.Xna.Framework.Input;
+    using nGratis.Cop.Gaia.Client.Mono.Core;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Common;
+    using nGratis.Cop.Gaia.Engine.Core;
 
-    [Export(typeof(IGameManager))]
     internal class GameManager : Game, IGameManager
     {
+        private readonly IColor backgroundColor = new RgbColor(37, 37, 38);
+
         private readonly IEntityManager entityManager;
 
         private readonly ISystemManager systemManager;
+
+        private IDrawingCanvas drawingCanvas;
+
+        private IFontManager fontManager;
 
         public GameManager()
             : this(new EntityManager(), new SystemManager())
@@ -57,19 +62,48 @@ namespace nGratis.Cop.Gaia.Client.Wpf.Framework
             this.entityManager = entityManager;
             this.systemManager = systemManager;
 
+            var graphicsDeviceManager = new GraphicsDeviceManager(this)
+                {
+                    PreferredBackBufferWidth = 1280,
+                    PreferredBackBufferHeight = 720
+                };
+
+            graphicsDeviceManager.ApplyChanges();
+
+            this.Content.RootDirectory = "Content";
+            this.IsMouseVisible = true;
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+
+            this.fontManager = new FontManager(this.Content);
+            this.drawingCanvas = new MonoDrawingCanvas(this.GraphicsDevice, this.fontManager);
+
             this.InitializeEntityManager();
             this.InitializeSystemManager();
         }
 
         protected override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                this.Exit();
+            }
+
             this.systemManager.Update(gameTime.ToCopClock());
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            this.drawingCanvas.BeginBatch();
+            this.drawingCanvas.Clear(this.backgroundColor);
             this.systemManager.Render(gameTime.ToCopClock());
+            this.drawingCanvas.EndBatch();
+
             base.Draw(gameTime);
         }
 
@@ -92,7 +126,11 @@ namespace nGratis.Cop.Gaia.Client.Wpf.Framework
         private void InitializeSystemManager()
         {
             this.systemManager.AddSystem(new CombatSystem());
-            this.systemManager.AddSystem(new RenderSystem());
+            this.systemManager.AddSystem(new RenderSystem(this.drawingCanvas));
+
+#if DEBUG
+            this.systemManager.AddSystem(new DiagnosticSystem(this.drawingCanvas));
+#endif
         }
     }
 }

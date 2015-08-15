@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Rectangle.cs" company="nGratis">
+// <copyright file="FrameworkExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,38 +23,22 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 1:04:19 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 5 August 2015 1:40:37 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Client.Mono.Core
 {
+    using Microsoft.Xna.Framework;
+    using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    public struct Rectangle
+    internal static class FrameworkExtensions
     {
-        public Rectangle(float width, float height)
-            : this(0.0F, 0.0F, width, height)
+        public static Clock ToCopClock(this GameTime gameTime)
         {
+            Guard.AgainstNullArgument(() => gameTime);
+
+            return new Clock(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
         }
-
-        public Rectangle(float x, float y, float width, float height)
-            : this()
-        {
-            Guard.AgainstInvalidArgument(width < 0.0, () => width);
-            Guard.AgainstInvalidArgument(height < 0.0, () => height);
-
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
-        }
-
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Width { get; private set; }
-
-        public float Height { get; private set; }
     }
 }

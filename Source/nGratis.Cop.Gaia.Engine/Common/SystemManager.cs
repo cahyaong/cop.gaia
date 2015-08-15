@@ -30,7 +30,6 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using nGratis.Cop.Gaia.Engine.Core;
 
     public class SystemManager : ISystemManager
@@ -64,12 +63,18 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void Update(Clock clock)
         {
-            throw new System.NotImplementedException();
+            foreach (var system in this.systemLookup.Values)
+            {
+                system.Update(clock);
+            }
         }
 
         public void Render(Clock clock)
         {
-            throw new System.NotImplementedException();
+            foreach (var system in this.systemLookup.Values)
+            {
+                system.Render(clock);
+            }
         }
     }
 }

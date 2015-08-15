@@ -28,13 +28,14 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    internal static class SystemConstant
+    public static class SystemConstant
     {
         public static class UpdatingOrders
         {
             public const int Any = 0;
             public const int Combat = 100;
             public const int Render = 200;
+            public const int Diagnostic = 900;
         }
 
         public static class RenderingOrders

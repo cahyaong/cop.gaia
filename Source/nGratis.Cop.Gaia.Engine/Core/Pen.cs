@@ -30,20 +30,23 @@ namespace nGratis.Cop.Gaia.Engine.Core
 {
     using System;
 
-    public class Pen
+    public struct Pen
     {
-        public Pen(IColor color, double opacity, double thickness)
+        public static Pen Null = new Pen(RgbColor.Default, 0.0F, 0.0F);
+
+        public Pen(IColor color, float opacity, float thickness)
+            : this()
         {
             this.Color = color ?? RgbColor.Default;
-            this.Opacity = opacity.Clamp(0.0, 1.0);
-            this.Thickness = Math.Max(thickness, 0.0);
+            this.Opacity = opacity.Clamp(0.0F, 1.0F);
+            this.Thickness = Math.Max(thickness, 0.0F);
         }
 
         public IColor Color { get; private set; }
 
-        public double Opacity { get; private set; }
+        public float Opacity { get; private set; }
 
-        public double Thickness { get; private set; }
+        public float Thickness { get; private set; }
 
         public string ToUniqueKey()
         {

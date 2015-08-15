@@ -34,6 +34,8 @@ namespace nGratis.Cop.Gaia.Engine.Core
     {
         public static readonly RgbColor Default = new RgbColor(0, 0, 0);
 
+        public static readonly RgbColor CornflowerBlue = new RgbColor(100, 149, 237);
+
         public RgbColor(double red, double green, double blue)
             : this()
         {

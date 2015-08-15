@@ -28,10 +28,10 @@
 
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
-    using System.Collections.Generic;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
-    using nGratis.Cop.Gaia.Engine.Core;
+    using Brush = nGratis.Cop.Gaia.Engine.Core.Brush;
+    using Pen = nGratis.Cop.Gaia.Engine.Core.Pen;
 
     internal class WpfDrawingCanvas : IDrawingCanvas
     {
@@ -42,6 +42,20 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Guard.AgainstNullArgument(() => drawingContext);
 
             this.drawingContext = drawingContext;
+        }
+
+        public void BeginBatch()
+        {
+            Throw.NotSupportedException("Batching is not available in WPF.");
+        }
+
+        public void EndBatch()
+        {
+            Throw.NotSupportedException("Batching is not available in WPF.");
+        }
+
+        public void Clear(IColor color)
+        {
         }
 
         public void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle)
@@ -58,6 +72,11 @@ namespace nGratis.Cop.Gaia.Client.Wpf
                 pen.ToMediaPen(),
                 startPoint.ToWindowsPoint(),
                 endPoint.ToWindowsPoint());
+        }
+
+        public void DrawText(Pen pen, Point position, string text, string font)
+        {
+            Throw.NotSupportedException("Drawing text is not available in WPF.");
         }
 
         public TContext GetDrawingContext<TContext>() where TContext : class

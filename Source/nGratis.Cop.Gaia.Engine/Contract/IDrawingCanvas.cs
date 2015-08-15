@@ -32,9 +32,17 @@ namespace nGratis.Cop.Gaia.Engine
 
     public interface IDrawingCanvas
     {
+        void BeginBatch();
+
+        void EndBatch();
+
+        void Clear(IColor color);
+
         void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle);
 
         void DrawLine(Pen pen, Point startPoint, Point endPoint);
+
+        void DrawText(Pen pen, Point position, string text, string font);
 
         TContext GetDrawingContext<TContext>() where TContext : class;
     }

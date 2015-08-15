@@ -30,6 +30,11 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public abstract class BaseSystem : ISystem
     {
+        protected BaseSystem()
+        {
+            this.IsEnabled = true;
+        }
+
         public bool IsEnabled { get; set; }
 
         protected abstract int UpdatingOrder { get; }
@@ -42,6 +47,30 @@ namespace nGratis.Cop.Gaia.Engine
         public void RemoveEnity(IEntity entity)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void Update(Clock clock)
+        {
+            if (this.IsEnabled)
+            {
+                this.UpdateCore(clock);
+            }
+        }
+
+        public void Render(Clock clock)
+        {
+            if (this.IsEnabled)
+            {
+                this.RenderCore(clock);
+            }
+        }
+
+        protected virtual void UpdateCore(Clock clock)
+        {
+        }
+
+        protected virtual void RenderCore(Clock clock)
+        {
         }
     }
 }

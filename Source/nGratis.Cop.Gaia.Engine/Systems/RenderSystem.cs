@@ -28,8 +28,19 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using nGratis.Cop.Gaia.Engine.Core;
+
     public class RenderSystem : BaseSystem
     {
+        private readonly IDrawingCanvas drawingCanvas;
+
+        public RenderSystem(IDrawingCanvas drawingCanvas)
+        {
+            Guard.AgainstNullArgument(() => drawingCanvas);
+
+            this.drawingCanvas = drawingCanvas;
+        }
+
         protected override int UpdatingOrder
         {
             get { return SystemConstant.UpdatingOrders.Render; }

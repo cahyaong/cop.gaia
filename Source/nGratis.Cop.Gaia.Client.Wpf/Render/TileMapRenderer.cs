@@ -28,7 +28,6 @@
 
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
-    using System;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
@@ -49,10 +48,10 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Guard.AgainstInvalidArgument(tileSize.Width <= 0 || tileSize.Height <= 0, () => tileSize);
             Guard.AgainstNullArgument(() => accentColor);
 
-            this.gridBorderPen = new Pen(accentColor, 1.0, 1.0);
-            this.gridLinePen = new Pen(accentColor, 1.0, 0.1);
-            this.cellSelectionPen = new Pen(accentColor, 1.0, 1.0);
-            this.cellSelectionBrush = new Brush(accentColor, 0.25);
+            this.gridBorderPen = new Pen(accentColor, 1.0F, 1.0F);
+            this.gridLinePen = new Pen(accentColor, 1.0F, 0.1F);
+            this.cellSelectionPen = new Pen(accentColor, 1.0F, 1.0F);
+            this.cellSelectionBrush = new Brush(accentColor, 0.25F);
 
             this.TileSize = tileSize;
             this.TileMapViewport = tileMapViewport;
@@ -78,8 +77,8 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
             drawingCanvas.DrawRectangle(
                 this.gridBorderPen,
-                null,
-                new Rectangle(this.ViewportSize.Width, this.ViewportSize.Height));
+                Brush.Null,
+                new Rectangle((float)this.ViewportSize.Width, (float)this.ViewportSize.Height));
         }
 
         public virtual void RenderGridLines(IDrawingCanvas drawingCanvas)
@@ -125,10 +124,10 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Guard.AgainstNullArgument(() => tile);
 
             var rectangle = new Rectangle(
-                (tile.Column - this.TileMapViewport.Column) * this.TileSize.Width,
-                (tile.Row - this.TileMapViewport.Row) * this.TileSize.Height,
-                this.TileSize.Width,
-                this.TileSize.Height);
+                (float)((tile.Column - this.TileMapViewport.Column) * this.TileSize.Width),
+                (float)((tile.Row - this.TileMapViewport.Row) * this.TileSize.Height),
+                (float)this.TileSize.Width,
+                (float)this.TileSize.Height);
 
             drawingCanvas.DrawRectangle(this.cellSelectionPen, this.cellSelectionBrush, rectangle);
         }

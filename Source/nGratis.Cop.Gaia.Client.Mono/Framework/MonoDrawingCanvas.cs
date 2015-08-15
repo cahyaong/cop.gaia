@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DirectxDrawingCanvas.cs" company="nGratis">
+// <copyright file="MonoDrawingCanvas.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,67 +23,93 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 1:42:43 PM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 11 August 2015 12:40:24 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Client.Wpf
+namespace nGratis.Cop.Gaia.Client.Mono
 {
+    using System;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
-    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
     using Point = nGratis.Cop.Gaia.Engine.Point;
     using Rectangle = nGratis.Cop.Gaia.Engine.Rectangle;
 
-    internal class DirectxDrawingCanvas : IDrawingCanvas
+    internal class MonoDrawingCanvas : IDrawingCanvas
     {
         private readonly GraphicsDevice graphicsDevice;
 
-        public DirectxDrawingCanvas(GraphicsDevice graphicsDevice)
+        private readonly IFontManager fontManager;
+
+        private readonly SpriteBatch spriteBatch;
+
+        private readonly Texture2D pixelTexture;
+
+        public MonoDrawingCanvas(GraphicsDevice graphicsDevice, IFontManager fontManager)
         {
             Guard.AgainstNullArgument(() => graphicsDevice);
+            Guard.AgainstNullArgument(() => fontManager);
 
             this.graphicsDevice = graphicsDevice;
+            this.fontManager = fontManager;
+
+            this.spriteBatch = new SpriteBatch(graphicsDevice);
+            this.pixelTexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            this.pixelTexture.SetData(new[] { Color.Gray });
         }
 
         public void BeginBatch()
         {
-            Throw.NotSupportedException("Batching is not available in DirectX.");
+            this.spriteBatch.Begin();
         }
 
         public void EndBatch()
         {
-            Throw.NotSupportedException("Batching is not available in DirectX.");
+            this.spriteBatch.End();
         }
 
         public void Clear(IColor color)
         {
-            var rgbColor = (RgbColor)color;
-
-            this.graphicsDevice.Clear(new Color(rgbColor.Red, rgbColor.Green, rgbColor.Blue));
+            this.graphicsDevice.Clear(color.ToXnaColor());
         }
 
         public void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle)
         {
-            Throw.NotSupportedException("Drawing rectangle is not available in DirectX.");
+            Throw.NotSupportedException("Drawing rectangle is not supported in Mono.");
         }
 
         public void DrawLine(Pen pen, Point startPoint, Point endPoint)
         {
-            Throw.NotSupportedException("Drawing line is not available in DirectX.");
+            var distance = Vector2.Distance(startPoint.ToXnaVector2(), endPoint.ToXnaVector2());
+            var angle = (float)Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
+
+            this.spriteBatch.Draw(
+                this.pixelTexture,
+                startPoint.ToXnaVector2(),
+                null,
+                pen.Color.ToXnaColor(),
+                angle,
+                Vector2.Zero,
+                new Vector2(distance, (float)pen.Thickness),
+                SpriteEffects.None,
+                0);
         }
 
         public void DrawText(Pen pen, Point position, string text, string font)
         {
-            Throw.NotSupportedException("Drawing text is not available in DirectX.");
+            this.spriteBatch.DrawString(
+                this.fontManager.GetSpriteFont(font),
+                text,
+                position.ToXnaVector2(),
+                pen.Color.ToXnaColor());
         }
 
         public TContext GetDrawingContext<TContext>() where TContext : class
         {
-            Guard.AgainstInvalidOperation(typeof(TContext) != typeof(GraphicsDevice));
+            Throw.NotSupportedException("Getting drawing context is not supported in Mono.");
 
-            return this.graphicsDevice as TContext;
+            return default(TContext);
         }
     }
 }

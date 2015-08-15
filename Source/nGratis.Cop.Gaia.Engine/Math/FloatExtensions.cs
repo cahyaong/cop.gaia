@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FrameworkExtensions.cs" company="nGratis">
+// <copyright file="FloatExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,22 +23,18 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 5 August 2015 1:40:37 PM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 15 August 2015 1:13:50 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Client.Wpf.Framework
+namespace nGratis.Cop.Gaia.Engine
 {
-    using Microsoft.Xna.Framework;
-    using nGratis.Cop.Core.Contract;
-    using nGratis.Cop.Gaia.Engine;
+    using System;
 
-    internal static class FrameworkExtensions
+    public static class FloatExtensions
     {
-        public static Clock ToCopClock(this GameTime gameTime)
+        public static float Clamp(this float value, float min, float max)
         {
-            Guard.AgainstNullArgument(() => gameTime);
-
-            return new Clock(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
+            return Math.Min(Math.Max(value, min), max);
         }
     }
 }
