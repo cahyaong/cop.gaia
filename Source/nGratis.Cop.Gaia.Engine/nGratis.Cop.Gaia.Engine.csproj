@@ -46,6 +46,9 @@
     </Compile>
     <Compile Include="Common\Clock.cs" />
     <Compile Include="Common\BaseComponent.cs" />
+    <Compile Include="Common\ComponentAttribute.cs" />
+    <Compile Include="Common\ComponentKind.cs" />
+    <Compile Include="Common\ComponentKindExtensions.cs" />
     <Compile Include="Common\Entity.cs" />
     <Compile Include="Common\EntityManager.cs" />
     <Compile Include="Common\BaseSystem.cs" />
@@ -64,9 +67,9 @@
     <Compile Include="Common\IEntityManager.cs" />
     <Compile Include="Common\ITemplateManager.cs" />
     <Compile Include="Common\TemplateManagerExtensions.cs" />
-    <Compile Include="Components\DerivedStatisticComponent.cs" />
+    <Compile Include="Components\ConstitutionComponent.cs" />
     <Compile Include="Components\PlacementComponent.cs" />
-    <Compile Include="Components\BasicStatisticComponent.cs" />
+    <Compile Include="Components\StatisticComponent.cs" />
     <Compile Include="Components\TraitComponent.cs" />
     <Compile Include="Contract\IDrawingCanvas.cs" />
     <Compile Include="Contract\IColor.cs" />
@@ -85,6 +88,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Core\Pen.cs" />
+    <Compile Include="Core\RapidGuard.cs" />
     <Compile Include="Core\StringExtensions.cs" />
     <Compile Include="Core\Throw.cs" />
     <Compile Include="Data\Coordinate.cs" />

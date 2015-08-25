@@ -30,30 +30,30 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using nGratis.Cop.Gaia.Engine.Core;
 
     public class EntityManager : IEntityManager
     {
         private readonly IIdentityManager identityManager;
 
-        private readonly ITemplateManager templateManager;
+        private readonly IDictionary<uint, IEntity> entityLookup;
 
-        private readonly IDictionary<uint, IEntity> entityLookup = new Dictionary<uint, IEntity>();
+        private readonly IDictionary<ComponentKind, IDictionary<uint, IComponent>> componentLookup;
 
         public EntityManager()
-            : this(new IdentityManager(), new TemplateManager())
+            : this(new IdentityManager())
         {
         }
 
-        public EntityManager(IIdentityManager identityManager, ITemplateManager templateManager)
+        public EntityManager(IIdentityManager identityManager)
         {
-            Guard.AgainstNullArgument(() => identityManager);
-            Guard.AgainstNullArgument(() => templateManager);
+            RapidGuard.AgainstNullArgument(identityManager);
+
+            this.entityLookup = new Dictionary<uint, IEntity>();
+            this.componentLookup = new Dictionary<ComponentKind, IDictionary<uint, IComponent>>();
 
             this.identityManager = identityManager;
-
-            this.templateManager = templateManager;
-            this.templateManager.InitializeCreatureTemplates();
         }
 
         public event EventHandler<EntityChangedEventArgs> EntityCreated;
@@ -62,18 +62,36 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void RegisterComponentType<TComponent>() where TComponent : IComponent
         {
+            var type = typeof(TComponent);
+            this.componentLookup.Add(type.ToComponentKind(), new Dictionary<uint, IComponent>());
         }
 
         public void UnregisterComponentType<TComponent>() where TComponent : IComponent
         {
+            var type = typeof(TComponent);
+            this.componentLookup.Remove(type.ToComponentKind());
         }
 
-        public IEntity CreteEntity(string templateName, EntityKind entityKind)
+        public IEntity CreateEntity(ITemplate template)
         {
-            var entity = this
-                .templateManager
-                .FindTemplate(templateName)
-                .CreateEntity(this.identityManager.FindNextId(entityKind));
+            RapidGuard.AgainstNullArgument(template);
+
+            var entity = new Entity(
+                this.identityManager.FindNextId(EntityKind.Dynamic),
+                this.identityManager.RootId,
+                template.Id);
+
+            this.entityLookup.Add(entity.Id, entity);
+
+            template
+                .Components
+                .Select(component => new
+                    {
+                        Kind = component.GetType().ToComponentKind(),
+                        Component = component.Clone()
+                    })
+                .ToList()
+                .ForEach(annon => this.componentLookup[annon.Kind].Add(entity.Id, annon.Component));
 
             if (this.EntityCreated != null)
             {
@@ -85,12 +103,19 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void DestroyEntity(IEntity entity)
         {
-            Guard.AgainstNullArgument(() => entity);
+            RapidGuard.AgainstNullArgument(entity);
 
             if (this.EntityDestroyed != null)
             {
                 this.EntityDestroyed(this, new EntityChangedEventArgs(entity));
             }
+        }
+
+        public TComponent FindComponent<TComponent>(IEntity entity) where TComponent : IComponent
+        {
+            RapidGuard.AgainstNullArgument(entity);
+
+            return (TComponent)this.componentLookup[typeof(TComponent).ToComponentKind()][entity.Id];
         }
     }
 }

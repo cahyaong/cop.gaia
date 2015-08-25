@@ -36,7 +36,7 @@ namespace nGratis.Cop.Gaia.Client.Mono.Core
     {
         public static Clock ToCopClock(this GameTime gameTime)
         {
-            Guard.AgainstNullArgument(() => gameTime);
+            RapidGuard.AgainstNullArgument(gameTime);
 
             return new Clock(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
         }

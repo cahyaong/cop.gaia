@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CombatSystem.cs" company="nGratis">
+// <copyright file="StatisticComponent.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,21 +23,37 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 11:52:14 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 4 August 2015 11:25:56 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public class CombatSystem : BaseSystem
+    [Component(ComponentKind.Statistic)]
+    public class StatisticComponent : BaseComponent
     {
-        public CombatSystem(IEntityManager entityManager, ITemplateManager templateManager)
-            : base(entityManager, templateManager, new ComponentKinds(ComponentKind.Constitution, ComponentKind.Placement))
-        {
-        }
+        public int Strength { get; set; }
 
-        protected override int UpdatingOrder
+        public int Dexterity { get; set; }
+
+        public int Constitution { get; set; }
+
+        public int Intelligence { get; set; }
+
+        public int Wisdom { get; set; }
+
+        public int Charisma { get; set; }
+
+        public override IComponent Clone()
         {
-            get { return SystemConstant.UpdatingOrders.Combat; }
+            return new StatisticComponent()
+                {
+                    Strength = this.Strength,
+                    Dexterity = this.Dexterity,
+                    Constitution = this.Constitution,
+                    Intelligence = this.Intelligence,
+                    Wisdom = this.Wisdom,
+                    Charisma = this.Charisma
+                };
         }
     }
 }

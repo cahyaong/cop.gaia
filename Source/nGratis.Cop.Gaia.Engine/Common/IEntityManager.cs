@@ -40,8 +40,10 @@ namespace nGratis.Cop.Gaia.Engine
 
         void UnregisterComponentType<TComponent>() where TComponent : IComponent;
 
-        IEntity CreteEntity(string templateName, EntityKind entityKind);
+        IEntity CreateEntity(ITemplate template);
 
         void DestroyEntity(IEntity entity);
+
+        TComponent FindComponent<TComponent>(IEntity entity) where TComponent : IComponent;
     }
 }

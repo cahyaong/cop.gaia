@@ -46,7 +46,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         public static Color ToXnaColor(this IColor color)
         {
-            Guard.AgainstNullArgument(() => color);
+            RapidGuard.AgainstNullArgument(color);
 
             var rgbColor = (RgbColor)color;
 

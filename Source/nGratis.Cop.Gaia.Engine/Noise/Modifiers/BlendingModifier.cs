@@ -40,9 +40,9 @@ namespace nGratis.Cop.Gaia.Engine.Noise
 
         public BlendingModifier(INoiseModule firstModule, INoiseModule secondModule, INoiseModule weightingModule)
         {
-            Guard.AgainstNullArgument(() => firstModule);
-            Guard.AgainstNullArgument(() => secondModule);
-            Guard.AgainstNullArgument(() => weightingModule);
+            RapidGuard.AgainstNullArgument(firstModule);
+            RapidGuard.AgainstNullArgument(secondModule);
+            RapidGuard.AgainstNullArgument(weightingModule);
 
             this.firstModule = firstModule;
             this.secondModule = secondModule;

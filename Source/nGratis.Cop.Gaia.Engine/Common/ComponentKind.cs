@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Template.cs" company="nGratis">
+// <copyright file="ComponentKind.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,49 +23,64 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 12:37:17 PM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 18 August 2015 12:34:26 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using System.Collections.Generic;
+    using System.Collections;
+    using System.Linq;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class Template : ITemplate
+    public enum ComponentKind
     {
-        public Template(uint id, string name, params IComponent[] components)
-        {
-            Guard.AgainstNullOrEmptyArgument(() => name);
-            RapidGuard.AgainstNullArgument(components);
+        None = 0,
+        Statistic = 1,
+        Constitution = 3,
+        Trait = 7,
+        Placement = 8
+    }
 
-            this.Id = id;
-            this.Name = name;
-            this.ComponentKinds = components.ToComponentKinds();
-            this.Components = components;
+    public sealed class ComponentKinds
+    {
+        public static readonly ComponentKinds None = new ComponentKinds();
+
+        public static readonly ComponentKinds Any = new ComponentKinds();
+
+        private readonly BitArray bits;
+
+        public ComponentKinds(params ComponentKind[] kinds)
+        {
+            Guard.AgainstInvalidArgument(kinds.Any(kind => kind == ComponentKind.None), () => kinds);
+
+            this.bits = new BitArray(128);
+
+            kinds
+                .Distinct()
+                .ToList()
+                .ForEach(kind => this.bits.Set((int)kind, true));
         }
 
-        public uint Id
+        public bool HasFlag(ComponentKind kind)
         {
-            get;
-            private set;
+            Guard.AgainstInvalidArgument(kind == ComponentKind.None, () => kind);
+
+            return this.bits.Get((int)kind);
         }
 
-        public string Name
+        public bool HasFlags(ComponentKinds kinds)
         {
-            get;
-            private set;
-        }
+            if (kinds == ComponentKinds.Any)
+            {
+                return true;
+            }
 
-        public ComponentKinds ComponentKinds
-        {
-            get;
-            private set;
-        }
-
-        public IEnumerable<IComponent> Components
-        {
-            get;
-            private set;
+            return kinds
+                .bits
+                .OfType<bool>()
+                .Select((bit, index) => new { Index = index, Bit = bit })
+                .Where(annon => annon.Bit)
+                .All(annon => this.bits.Get(annon.Index));
         }
     }
 }

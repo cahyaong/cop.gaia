@@ -46,17 +46,22 @@ namespace nGratis.Cop.Gaia.Engine
 
         private TimeSpan elapsedPeriod;
 
-        private int counter;
+        private uint numFrames;
 
-        private int fps;
+        private uint fps;
 
         private float memory;
 
         private float cpu;
 
-        public DiagnosticSystem(IDrawingCanvas drawingCanvas)
+        private int numEntities;
+
+        private int deltaEntities;
+
+        public DiagnosticSystem(IDrawingCanvas drawingCanvas, IEntityManager entityManager, ITemplateManager templateManager)
+            : base(entityManager, templateManager, ComponentKinds.Any)
         {
-            Guard.AgainstNullArgument(() => drawingCanvas);
+            RapidGuard.AgainstNullArgument(drawingCanvas);
 
             var processName = Process.GetCurrentProcess().ProcessName;
 
@@ -75,19 +80,28 @@ namespace nGratis.Cop.Gaia.Engine
         {
             this.elapsedPeriod += clock.ElapsedPeriod;
 
-            if (this.elapsedPeriod.TotalSeconds > 1.0)
+            if (this.elapsedPeriod.TotalSeconds < 1.0)
             {
-                this.elapsedPeriod -= TimeSpan.FromSeconds(1.0);
-                this.fps = this.counter;
-                this.memory = (float)Process.GetCurrentProcess().WorkingSet64 / (1 << 20);
-                this.cpu = (this.globalCpuCounter.NextValue() / 100.0F) * this.instanceCpuCounter.NextValue();
-                this.counter = 0;
+                return;
             }
+
+            this.elapsedPeriod -= TimeSpan.FromSeconds(1.0);
+
+            this.fps = this.numFrames;
+            this.numFrames = 0;
+
+            this.memory = (float)Process.GetCurrentProcess().WorkingSet64 / (1 << 20);
+            this.cpu = (this.globalCpuCounter.NextValue() / 100.0F) * this.instanceCpuCounter.NextValue();
+
+            this.numEntities += this.deltaEntities;
+            this.deltaEntities = 0;
+
+            this.numEntities = this.RelatedEntities.Count;
         }
 
         protected override void RenderCore(Clock clock)
         {
-            this.counter++;
+            this.numFrames++;
 
             var position = new Point(20.0F, 20.0F);
             this.drawingCanvas.DrawText(this.pen, position, "-fps: {0}".WithInvariantFormat(this.fps), Font);
@@ -97,6 +111,9 @@ namespace nGratis.Cop.Gaia.Engine
 
             position.Y += 20.0F;
             this.drawingCanvas.DrawText(this.pen, position, "-cpu: {0:0}%".WithInvariantFormat(this.cpu), Font);
+
+            position.Y += 20.0F;
+            this.drawingCanvas.DrawText(this.pen, position, "-num.entities: {0:N0}".WithInvariantFormat(this.numEntities), Font);
         }
     }
 }

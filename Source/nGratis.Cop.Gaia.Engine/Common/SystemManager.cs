@@ -30,51 +30,58 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using nGratis.Cop.Gaia.Engine.Core;
 
     public class SystemManager : ISystemManager
     {
         private readonly IDictionary<Type, ISystem> systemLookup = new Dictionary<Type, ISystem>();
 
-        public void AddSystem<TSystem>(TSystem system) where TSystem : ISystem
+        public void AddSystem<TSystem>(TSystem system) where TSystem : class, ISystem
         {
-            Guard.AgainstDefaultArgument(() => system);
-            Guard.AgainstInvalidOperation(this.systemLookup.ContainsKey(typeof(TSystem)));
-
+            RapidGuard.AgainstNullArgument(system);
             this.systemLookup.Add(typeof(TSystem), system);
         }
 
-        public void RemoveSystem<TSystem>() where TSystem : ISystem
+        public void RemoveSystem<TSystem>() where TSystem : class, ISystem
         {
-            Guard.AgainstInvalidOperation(!this.systemLookup.ContainsKey(typeof(TSystem)));
-
             this.systemLookup.Remove(typeof(TSystem));
         }
 
         public void AddEntity(IEntity entity)
         {
-            throw new NotImplementedException();
+            this
+                .systemLookup
+                .Values
+                .ToList()
+                .ForEach(system => system.AddEntity(entity));
         }
 
         public void RemoveEntity(IEntity entity)
         {
-            throw new NotImplementedException();
+            this
+                .systemLookup
+                .Values
+                .ToList()
+                .ForEach(system => system.RemoveEnity(entity));
         }
 
         public void Update(Clock clock)
         {
-            foreach (var system in this.systemLookup.Values)
-            {
-                system.Update(clock);
-            }
+            this
+                .systemLookup
+                .Values
+                .ToList()
+                .ForEach(system => system.Update(clock));
         }
 
         public void Render(Clock clock)
         {
-            foreach (var system in this.systemLookup.Values)
-            {
-                system.Render(clock);
-            }
+            this
+                .systemLookup
+                .Values
+                .ToList()
+                .ForEach(system => system.Render(clock));
         }
     }
 }

@@ -28,25 +28,61 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using System.Collections.Generic;
+    using nGratis.Cop.Gaia.Engine.Core;
+
     public abstract class BaseSystem : ISystem
     {
-        protected BaseSystem()
+        private readonly ComponentKinds requiredComponentKinds;
+
+        protected BaseSystem(
+            IEntityManager entityManager,
+            ITemplateManager templateManager,
+            ComponentKinds requiredComponentKinds)
         {
+            RapidGuard.AgainstNullArgument(entityManager);
+            RapidGuard.AgainstNullArgument(templateManager);
+            RapidGuard.AgainstNullArgument(requiredComponentKinds);
+
+            this.requiredComponentKinds = requiredComponentKinds;
+
+            this.EntityManager = entityManager;
+            this.TemplateManager = templateManager;
+            this.RelatedEntities = new HashSet<IEntity>();
+
             this.IsEnabled = true;
         }
 
         public bool IsEnabled { get; set; }
 
+        protected IEntityManager EntityManager { get; private set; }
+
+        protected ITemplateManager TemplateManager { get; private set; }
+
+        protected HashSet<IEntity> RelatedEntities { get; private set; }
+
         protected abstract int UpdatingOrder { get; }
 
-        public void AddEntity(IEntity entity)
+        public virtual void AddEntity(IEntity entity)
         {
-            throw new System.NotImplementedException();
+            RapidGuard.AgainstNullArgument(entity);
+
+            var template = this.TemplateManager.FindTemplate(entity.TemplateId);
+
+            var isEntityRelated =
+                template.ComponentKinds.HasFlags(this.requiredComponentKinds) &&
+                !this.RelatedEntities.Contains(entity);
+
+            if (isEntityRelated)
+            {
+                Guard.AgainstInvalidOperation(!this.RelatedEntities.Add(entity));
+            }
         }
 
-        public void RemoveEnity(IEntity entity)
+        public virtual void RemoveEnity(IEntity entity)
         {
-            throw new System.NotImplementedException();
+            RapidGuard.AgainstNullArgument(entity);
+            Guard.AgainstInvalidOperation(!this.RelatedEntities.Remove(entity));
         }
 
         public void Update(Clock clock)

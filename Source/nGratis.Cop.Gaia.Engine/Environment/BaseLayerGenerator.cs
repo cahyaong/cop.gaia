@@ -28,8 +28,6 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using System;
-    using System.Collections.Generic;
     using nGratis.Cop.Gaia.Engine.Core;
 
     public abstract class BaseLayerGenerator : ILayerGenerator
@@ -40,14 +38,14 @@ namespace nGratis.Cop.Gaia.Engine
 
         public virtual void UpdateSeed(string seed)
         {
-            Guard.AgainstNullArgument(() => seed);
+            RapidGuard.AgainstNullArgument(seed);
 
             this.Seed = seed;
         }
 
         public void GenerateLayer(WorldMap worldMap, int startIndex, int endIndex)
         {
-            Guard.AgainstNullArgument(() => worldMap);
+            RapidGuard.AgainstNullArgument(worldMap);
             Guard.AgainstInvalidArgument(startIndex < 0, () => startIndex);
             Guard.AgainstInvalidArgument(startIndex >= endIndex, () => startIndex);
 

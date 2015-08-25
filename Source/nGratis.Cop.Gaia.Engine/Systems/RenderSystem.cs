@@ -34,16 +34,65 @@ namespace nGratis.Cop.Gaia.Engine
     {
         private readonly IDrawingCanvas drawingCanvas;
 
-        public RenderSystem(IDrawingCanvas drawingCanvas)
+        private readonly float tileLength;
+
+        public RenderSystem(IDrawingCanvas drawingCanvas, IEntityManager entityManager, ITemplateManager templateManager)
+            : base(entityManager, templateManager, new ComponentKinds(ComponentKind.Placement))
         {
-            Guard.AgainstNullArgument(() => drawingCanvas);
+            RapidGuard.AgainstNullArgument(drawingCanvas);
 
             this.drawingCanvas = drawingCanvas;
+            this.tileLength = 10.0F;
         }
 
         protected override int UpdatingOrder
         {
             get { return SystemConstant.UpdatingOrders.Render; }
+        }
+
+        protected override void RenderCore(Clock clock)
+        {
+            var redPen = new Pen(new RgbColor(255, 0, 0), 1.0F, 1.0F);
+            var greenPen = new Pen(new RgbColor(0, 255, 0), 1.0F, 1.0F);
+            var orangePen = new Pen(new RgbColor(128, 128, 0), 1.0F, 1.0F);
+
+            foreach (var entity in this.RelatedEntities)
+            {
+                var constitutionComponent = this.EntityManager.FindComponent<ConstitutionComponent>(entity);
+
+                var pen = redPen;
+
+                if (constitutionComponent.HitPoint > 65)
+                {
+                    pen = greenPen;
+                }
+                else if (constitutionComponent.HitPoint > 35)
+                {
+                    pen = orangePen;
+                }
+
+                var placementComponent = this.EntityManager.FindComponent<PlacementComponent>(entity);
+
+                var startPoint = new Point(
+                    placementComponent.Position.X * this.tileLength,
+                    placementComponent.Position.Y * this.tileLength);
+
+                var endPoint = new Point(
+                    (placementComponent.Position.X + 1) * this.tileLength,
+                    (placementComponent.Position.Y + 1) * this.tileLength);
+
+                this.drawingCanvas.DrawLine(pen, startPoint, endPoint);
+
+                startPoint = new Point(
+                    (placementComponent.Position.X + 1) * this.tileLength,
+                    placementComponent.Position.Y * this.tileLength);
+
+                endPoint = new Point(
+                    placementComponent.Position.X * this.tileLength,
+                    (placementComponent.Position.Y + 1) * this.tileLength);
+
+                this.drawingCanvas.DrawLine(pen, startPoint, endPoint);
+            }
         }
     }
 }

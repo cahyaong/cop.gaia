@@ -34,9 +34,9 @@ namespace nGratis.Cop.Gaia.Engine
     {
         private readonly IDictionary<EntityKind, uint> nextIdLookup = new Dictionary<EntityKind, uint>()
             {
-                { EntityKind.Generic, 0x00000001 },
-                { EntityKind.Static, 0x10000000 },
-                { EntityKind.Dynamic, 0x40000000 },
+                { EntityKind.Generic, 1 },
+                { EntityKind.Static, 10000000 },
+                { EntityKind.Dynamic, 40000000 },
             };
 
         public uint RootId

@@ -28,6 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    [Component(ComponentKind.Placement)]
     public class PlacementComponent : BaseComponent
     {
         public Point Position { get; set; }

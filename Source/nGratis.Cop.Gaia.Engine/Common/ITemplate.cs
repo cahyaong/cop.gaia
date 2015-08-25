@@ -32,8 +32,12 @@ namespace nGratis.Cop.Gaia.Engine
 
     public interface ITemplate
     {
+        uint Id { get; }
+
         string Name { get; }
 
-        IEntity CreateEntity(uint id);
+        ComponentKinds ComponentKinds { get; }
+
+        IEnumerable<IComponent> Components { get; }
     }
 }

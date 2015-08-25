@@ -28,27 +28,24 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     public class Entity : IEntity
     {
-        public Entity(uint id, IEnumerable<IComponent> components)
-            : this(id, 0, components)
+        public Entity(uint id, uint templateId)
+            : this(id, 0, templateId)
         {
         }
 
-        public Entity(uint id, uint ownerId, IEnumerable<IComponent> components)
+        public Entity(uint id, uint ownerId, uint templateId)
         {
             this.Id = id;
             this.OwnerId = ownerId;
-            this.Components = components ?? Enumerable.Empty<IComponent>();
+            this.TemplateId = templateId;
         }
 
         public uint Id { get; private set; }
 
         public uint OwnerId { get; set; }
 
-        public IEnumerable<IComponent> Components { get; private set; }
+        public uint TemplateId { get; private set; }
     }
 }

@@ -30,10 +30,12 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public interface ITemplateManager
     {
-        ITemplate FindTemplate(string name);
-
         void AddTemplate(ITemplate template);
 
         void RemoveTemplate(string name);
+
+        ITemplate FindTemplate(string name);
+
+        ITemplate FindTemplate(uint id);
     }
 }

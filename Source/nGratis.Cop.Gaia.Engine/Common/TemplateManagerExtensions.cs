@@ -34,14 +34,15 @@ namespace nGratis.Cop.Gaia.Engine
     {
         public static void InitializeCreatureTemplates(this ITemplateManager templateManager)
         {
-            Guard.AgainstNullArgument(() => templateManager);
+            RapidGuard.AgainstNullArgument(templateManager);
 
             templateManager.AddTemplate(
                 new Template(
+                    0x10000000,
                     "Character",
+                    new StatisticComponent(),
+                    new ConstitutionComponent(),
                     new TraitComponent(),
-                    new BasicStatisticComponent(),
-                    new DerivedStatisticComponent(),
                     new PlacementComponent()));
         }
     }

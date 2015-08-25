@@ -28,14 +28,12 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using System.Collections.Generic;
-
     public interface IEntity
     {
         uint Id { get; }
 
         uint OwnerId { get; set; }
 
-        IEnumerable<IComponent> Components { get; }
+        uint TemplateId { get; }
     }
 }

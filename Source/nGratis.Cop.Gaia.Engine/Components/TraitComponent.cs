@@ -28,6 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    [Component(ComponentKind.Trait)]
     public class TraitComponent : BaseComponent
     {
         public string Race { get; set; }

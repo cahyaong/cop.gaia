@@ -41,6 +41,8 @@ namespace nGratis.Cop.Gaia.Client.Mono
     {
         private readonly IColor backgroundColor = new RgbColor(37, 37, 38);
 
+        private readonly ITemplateManager templateManager;
+
         private readonly IEntityManager entityManager;
 
         private readonly ISystemManager systemManager;
@@ -50,15 +52,20 @@ namespace nGratis.Cop.Gaia.Client.Mono
         private IFontManager fontManager;
 
         public GameManager()
-            : this(new EntityManager(), new SystemManager())
+            : this(new TemplateManager(), new EntityManager(), new SystemManager())
         {
         }
 
-        public GameManager(IEntityManager entityManager, ISystemManager systemManager)
+        public GameManager(
+            ITemplateManager templateManager,
+            IEntityManager entityManager,
+            ISystemManager systemManager)
         {
-            Guard.AgainstNullArgument(() => entityManager);
-            Guard.AgainstNullArgument(() => systemManager);
+            RapidGuard.AgainstNullArgument(templateManager);
+            RapidGuard.AgainstNullArgument(entityManager);
+            RapidGuard.AgainstNullArgument(systemManager);
 
+            this.templateManager = templateManager;
             this.entityManager = entityManager;
             this.systemManager = systemManager;
 
@@ -81,8 +88,11 @@ namespace nGratis.Cop.Gaia.Client.Mono
             this.fontManager = new FontManager(this.Content);
             this.drawingCanvas = new MonoDrawingCanvas(this.GraphicsDevice, this.fontManager);
 
+            this.InitializeTemplateManager();
             this.InitializeEntityManager();
             this.InitializeSystemManager();
+
+            this.InitializeGame();
         }
 
         protected override void Update(GameTime gameTime)
@@ -107,11 +117,16 @@ namespace nGratis.Cop.Gaia.Client.Mono
             base.Draw(gameTime);
         }
 
+        private void InitializeTemplateManager()
+        {
+            this.templateManager.InitializeCreatureTemplates();
+        }
+
         private void InitializeEntityManager()
         {
+            this.entityManager.RegisterComponentType<StatisticComponent>();
+            this.entityManager.RegisterComponentType<ConstitutionComponent>();
             this.entityManager.RegisterComponentType<TraitComponent>();
-            this.entityManager.RegisterComponentType<BasicStatisticComponent>();
-            this.entityManager.RegisterComponentType<DerivedStatisticComponent>();
             this.entityManager.RegisterComponentType<PlacementComponent>();
 
             Observable
@@ -125,12 +140,29 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         private void InitializeSystemManager()
         {
-            this.systemManager.AddSystem(new CombatSystem());
-            this.systemManager.AddSystem(new RenderSystem(this.drawingCanvas));
+            this.systemManager.AddSystem(new CombatSystem(this.entityManager, this.templateManager));
+            this.systemManager.AddSystem(new RenderSystem(this.drawingCanvas, this.entityManager, this.templateManager));
 
 #if DEBUG
-            this.systemManager.AddSystem(new DiagnosticSystem(this.drawingCanvas));
+            this.systemManager.AddSystem(new DiagnosticSystem(this.drawingCanvas, this.entityManager, this.templateManager));
 #endif
+        }
+
+        private void InitializeGame()
+        {
+            var random = new Random(Environment.TickCount);
+            var template = this.templateManager.FindTemplate("Character");
+
+            for (var counter = 0; counter < 250; counter++)
+            {
+                var entity = this.entityManager.CreateEntity(template);
+
+                var constitutionComponent = this.entityManager.FindComponent<ConstitutionComponent>(entity);
+                constitutionComponent.HitPoint = random.Next(0, 100);
+
+                var placementComponent = this.entityManager.FindComponent<PlacementComponent>(entity);
+                placementComponent.Position = new nGratis.Cop.Gaia.Engine.Point(random.Next(128), random.Next(72));
+            }
         }
     }
 }

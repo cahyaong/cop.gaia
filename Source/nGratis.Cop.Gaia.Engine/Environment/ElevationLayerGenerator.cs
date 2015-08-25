@@ -42,7 +42,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         public override void UpdateSeed(string seed)
         {
-            Guard.AgainstNullArgument(() => seed);
+            RapidGuard.AgainstNullArgument(seed);
 
             base.UpdateSeed(seed);
 

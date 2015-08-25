@@ -41,7 +41,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         public FontManager(ContentManager contentManager)
         {
-            Guard.AgainstNullArgument(() => contentManager);
+            RapidGuard.AgainstNullArgument(contentManager);
 
             this.contentManager = contentManager;
         }

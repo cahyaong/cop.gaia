@@ -30,9 +30,9 @@ namespace nGratis.Cop.Gaia.Engine
 {
     public interface ISystemManager
     {
-        void AddSystem<TSystem>(TSystem system) where TSystem : ISystem;
+        void AddSystem<TSystem>(TSystem system) where TSystem : class, ISystem;
 
-        void RemoveSystem<TSystem>() where TSystem : ISystem;
+        void RemoveSystem<TSystem>() where TSystem : class, ISystem;
 
         void AddEntity(IEntity entity);
 

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Template.cs" company="nGratis">
+// <copyright file="ComponentKindExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,49 +23,64 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 12:37:17 PM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 18 August 2015 1:48:33 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    internal class Template : ITemplate
+    internal static class ComponentKindExtensions
     {
-        public Template(uint id, string name, params IComponent[] components)
-        {
-            Guard.AgainstNullOrEmptyArgument(() => name);
-            RapidGuard.AgainstNullArgument(components);
+        // TODO: Consider making this lookup thread safe?
+        private static readonly IDictionary<Type, ComponentKind> ComponentKindLookup;
 
-            this.Id = id;
-            this.Name = name;
-            this.ComponentKinds = components.ToComponentKinds();
-            this.Components = components;
+        static ComponentKindExtensions()
+        {
+            ComponentKindLookup = new Dictionary<Type, ComponentKind>();
         }
 
-        public uint Id
+        public static ComponentKind ToComponentKind(this Type type)
         {
-            get;
-            private set;
+            RapidGuard.AgainstNullArgument(type);
+
+            var kind = ComponentKind.None;
+
+            if (ComponentKindLookup.TryGetValue(type, out kind))
+            {
+                return kind;
+            }
+
+            var attribute = type
+                .GetCustomAttributes(false)
+                .OfType<ComponentAttribute>()
+                .SingleOrDefault();
+
+            if (attribute != null)
+            {
+                kind = attribute.ComponentKind;
+            }
+
+            ComponentKindLookup.Add(type, kind);
+
+            return kind;
         }
 
-        public string Name
+        public static ComponentKinds ToComponentKinds(this IEnumerable<IComponent> components)
         {
-            get;
-            private set;
-        }
+            if (components == null)
+            {
+                return ComponentKinds.None;
+            }
 
-        public ComponentKinds ComponentKinds
-        {
-            get;
-            private set;
-        }
+            var kinds = components
+                .Select(component => component.GetType().ToComponentKind())
+                .ToArray();
 
-        public IEnumerable<IComponent> Components
-        {
-            get;
-            private set;
+            return new ComponentKinds(kinds);
         }
     }
 }

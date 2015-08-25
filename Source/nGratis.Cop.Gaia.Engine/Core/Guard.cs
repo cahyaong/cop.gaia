@@ -36,23 +36,6 @@ namespace nGratis.Cop.Gaia.Engine.Core
     internal static class Guard
     {
         [DebuggerStepThrough]
-        public static void AgainstNullArgument<T>([NotNull][InstantHandle] Expression<Func<T>> argumentExpression, Func<string> getReason = null)
-            where T : class
-        {
-            if (argumentExpression.Compile()() == null)
-            {
-                var argument = argumentExpression.FindName();
-                var reason = getReason != null ? getReason() : null;
-
-                var message = "{0}{1}".WithCurrentFormat(
-                    Messages.Guard_Exception_NullArgument.WithCurrentFormat(argument),
-                    !string.IsNullOrEmpty(reason) ? Environment.NewLine + Messages.Guard_Label_Reason.WithCurrentFormat(reason) : string.Empty);
-
-                Throw.ArgumentNullException(argument, message);
-            }
-        }
-
-        [DebuggerStepThrough]
         public static void AgainstDefaultArgument<T>([NotNull][InstantHandle] Expression<Func<T>> argumentExpression, Func<string> getReason = null)
         {
             if (argumentExpression.Compile()().Equals(default(T)))
@@ -69,11 +52,11 @@ namespace nGratis.Cop.Gaia.Engine.Core
         }
 
         [DebuggerStepThrough]
-        public static void AgainstNullOrWhitespaceArgument([NotNull][InstantHandle] Expression<Func<string>> argumentExpression, Func<string> getReason = null)
+        public static void AgainstNullOrEmptyArgument([NotNull][InstantHandle] Expression<Func<string>> argumentExpression, Func<string> getReason = null)
         {
             var value = argumentExpression.Compile()();
 
-            if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
                 var argument = argumentExpression.FindName();
                 var reason = getReason != null ? getReason() : null;

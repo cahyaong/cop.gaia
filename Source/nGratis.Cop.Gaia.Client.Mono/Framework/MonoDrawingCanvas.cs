@@ -48,8 +48,8 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         public MonoDrawingCanvas(GraphicsDevice graphicsDevice, IFontManager fontManager)
         {
-            Guard.AgainstNullArgument(() => graphicsDevice);
-            Guard.AgainstNullArgument(() => fontManager);
+            RapidGuard.AgainstNullArgument(graphicsDevice);
+            RapidGuard.AgainstNullArgument(fontManager);
 
             this.graphicsDevice = graphicsDevice;
             this.fontManager = fontManager;
@@ -91,7 +91,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
                 pen.Color.ToXnaColor(),
                 angle,
                 Vector2.Zero,
-                new Vector2(distance, (float)pen.Thickness),
+                new Vector2(distance, pen.Thickness),
                 SpriteEffects.None,
                 0);
         }

@@ -35,7 +35,7 @@ namespace nGratis.Cop.Gaia.Engine
     {
         public EntityChangedEventArgs(IEntity entity)
         {
-            Guard.AgainstNullArgument(() => entity);
+            RapidGuard.AgainstNullArgument(entity);
 
             this.Entity = entity;
         }

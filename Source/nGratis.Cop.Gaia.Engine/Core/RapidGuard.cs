@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CombatSystem.cs" company="nGratis">
+// <copyright file="RapidGuard.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,21 +23,34 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 11:52:14 AM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 20 August 2015 12:01:08 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Core
 {
-    public class CombatSystem : BaseSystem
-    {
-        public CombatSystem(IEntityManager entityManager, ITemplateManager templateManager)
-            : base(entityManager, templateManager, new ComponentKinds(ComponentKind.Constitution, ComponentKind.Placement))
-        {
-        }
+    using System;
+    using System.Diagnostics;
+    using JetBrains.Annotations;
 
-        protected override int UpdatingOrder
+    public static class RapidGuard
+    {
+        [DebuggerStepThrough]
+        [ContractAnnotation("argument:null => halt")]
+        public static void AgainstNullArgument<T>(T argument, Func<string> getReason = null)
+            where T : class
         {
-            get { return SystemConstant.UpdatingOrders.Combat; }
+            if (argument == null)
+            {
+                var reason = getReason != null ? getReason() : null;
+
+                var message = "{0}{1}".WithCurrentFormat(
+                    Messages.Guard_Exception_NullArgument.WithCurrentFormat("Unknown"),
+                    !string.IsNullOrEmpty(reason)
+                        ? Environment.NewLine + Messages.Guard_Label_Reason.WithCurrentFormat(reason)
+                        : string.Empty);
+
+                Throw.ArgumentNullException(null, message);
+            }
         }
     }
 }

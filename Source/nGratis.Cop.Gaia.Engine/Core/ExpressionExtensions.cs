@@ -37,7 +37,7 @@ namespace System.Linq.Expressions
     {
         public static string FindName<TProperty>(this Expression<Func<TProperty>> expression)
         {
-            Guard.AgainstNullArgument(() => expression);
+            RapidGuard.AgainstNullArgument(expression);
 
             var bodyExpression = expression.Body as MemberExpression ?? (MemberExpression)((UnaryExpression)expression.Body).Operand;
 

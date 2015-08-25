@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BasicStatisticComponent.cs" company="nGratis">
+// <copyright file="ComponentAttribute.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,36 +23,24 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 11:25:56 AM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 18 August 2015 1:14:08 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public class BasicStatisticComponent : BaseComponent
+    using System;
+    using nGratis.Cop.Gaia.Engine.Core;
+
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    internal sealed class ComponentAttribute : Attribute
     {
-        public int Strength { get; set; }
-
-        public int Dexterity { get; set; }
-
-        public int Constitution { get; set; }
-
-        public int Intelligence { get; set; }
-
-        public int Wisdom { get; set; }
-
-        public int Charisma { get; set; }
-
-        public override IComponent Clone()
+        public ComponentAttribute(ComponentKind componentKind)
         {
-            return new BasicStatisticComponent()
-                {
-                    Strength = this.Strength,
-                    Dexterity = this.Dexterity,
-                    Constitution = this.Constitution,
-                    Intelligence = this.Intelligence,
-                    Wisdom = this.Wisdom,
-                    Charisma = this.Charisma
-                };
+            Guard.AgainstInvalidArgument(componentKind == ComponentKind.None, () => componentKind);
+
+            this.ComponentKind = componentKind;
         }
+
+        public ComponentKind ComponentKind { get; private set; }
     }
 }

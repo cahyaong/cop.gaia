@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TemplateManager.cs" company="nGratis">
+// <copyright file="templateManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -29,36 +29,42 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System.Collections.Generic;
+    using System.Linq;
     using nGratis.Cop.Gaia.Engine.Core;
 
     public class TemplateManager : ITemplateManager
     {
-        private readonly IDictionary<string, ITemplate> templates = new Dictionary<string, ITemplate>();
-
-        public ITemplate FindTemplate(string name)
-        {
-            Guard.AgainstNullOrWhitespaceArgument(() => name);
-
-            var template = default(ITemplate);
-
-            Guard.AgainstInvalidOperation(!this.templates.TryGetValue(name, out template));
-
-            return template;
-        }
+        private readonly IDictionary<uint, ITemplate> templateLookup = new Dictionary<uint, ITemplate>();
 
         public void AddTemplate(ITemplate template)
         {
-            Guard.AgainstNullArgument(() => template);
+            RapidGuard.AgainstNullArgument(template);
+            Guard.AgainstInvalidArgument(string.IsNullOrEmpty(template.Name), () => template);
 
-            this.templates.Add(template.Name, template);
+            this.templateLookup.Add(template.Id, template);
         }
 
         public void RemoveTemplate(string name)
         {
-            Guard.AgainstNullArgument(() => name);
-            Guard.AgainstInvalidOperation(!this.templates.ContainsKey(name));
+            Guard.AgainstNullOrEmptyArgument(() => name);
 
-            this.templates.Remove(name);
+            var template = this.FindTemplate(name);
+            this.templateLookup.Remove(template.Id);
+        }
+
+        public ITemplate FindTemplate(string name)
+        {
+            Guard.AgainstNullOrEmptyArgument(() => name);
+
+            return this
+                .templateLookup
+                .Values
+                .Single(value => value.Name == name);
+        }
+
+        public ITemplate FindTemplate(uint id)
+        {
+            return this.templateLookup[id];
         }
     }
 }

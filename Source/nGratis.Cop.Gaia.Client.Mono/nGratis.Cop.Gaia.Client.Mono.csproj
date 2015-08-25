@@ -58,10 +58,6 @@
     <Compile Include="..\nGratis.Cop.Gaia.Common\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\nGratis.Cop.Gaia.Engine\Core\Guard.cs">
-      <Link>Core\Guard.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\nGratis.Cop.Gaia.Engine\Core\Messages.Designer.cs">
       <Link>Core\Messages.Designer.cs</Link>
       <DependentUpon>Messages.resx</DependentUpon>

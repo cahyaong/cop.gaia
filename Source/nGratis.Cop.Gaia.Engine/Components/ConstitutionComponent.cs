@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DerivedStatisticComponent.cs" company="nGratis">
+// <copyright file="ConstitutionComponent.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,41 +23,22 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 11:48:24 AM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 17 August 2015 12:46:09 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using System.Collections.Generic;
-
-    using System.Linq;
-
-    public class DerivedStatisticComponent : BaseComponent
+    [Component(ComponentKind.Constitution)]
+    public class ConstitutionComponent : BaseComponent
     {
-        public DerivedStatisticComponent()
-        {
-            this.Data = new Dictionary<Kind, int>();
-        }
-
-        public enum Kind
-        {
-            None = 0,
-            HitPoint,
-            MeleeDamage
-        }
-
-        protected IDictionary<Kind, int> Data { get; private set; }
+        public int HitPoint { get; set; }
 
         public override IComponent Clone()
         {
-            var clone = new DerivedStatisticComponent();
-
-            foreach (var kvp in this.Data)
-            {
-                clone.Data.Add(kvp.Key, kvp.Value);
-            }
-
-            return clone;
+            return new ConstitutionComponent()
+                {
+                    HitPoint = this.HitPoint
+                };
         }
     }
 }
