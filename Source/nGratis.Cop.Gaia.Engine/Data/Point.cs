@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vector.cs" company="nGratis">
+// <copyright file="Point.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,14 +23,14 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 30 July 2015 12:52:23 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Data
 {
-    public struct Vector
+    public struct Point
     {
-        public Vector(float x, float y, float z = 0.0F)
+        public Point(float x, float y, float z = 0.0F)
             : this()
         {
             this.X = x;
@@ -44,14 +44,14 @@ namespace nGratis.Cop.Gaia.Engine
 
         public float Z { get; set; }
 
-        public static Vector operator *(Vector vector, float factor)
+        public static Vector operator +(Point left, Point right)
         {
-            return new Vector(vector.X * factor, vector.Y * factor, vector.Z * factor);
+            return new Vector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
         }
 
-        public static Vector operator /(Vector vector, float factor)
+        public static Vector operator -(Point left, Point right)
         {
-            return new Vector(vector.X / factor, vector.Y / factor, vector.Z / factor);
+            return new Vector(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
     }
 }

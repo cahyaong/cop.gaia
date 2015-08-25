@@ -28,7 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
-    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     public static class MathExtensions
     {

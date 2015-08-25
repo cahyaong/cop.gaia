@@ -64,7 +64,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             }
             else
             {
-                var rectangle = new Rectangle((float)this.TileSize.Width, (float)this.TileSize.Height);
+                var rectangle = new nGratis.Cop.Gaia.Engine.Data.Rectangle((float)this.TileSize.Width, (float)this.TileSize.Height);
 
                 for (var row = 0; row < this.TileMapViewport.NumRows; row++)
                 {

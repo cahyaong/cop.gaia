@@ -29,6 +29,7 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     public interface IDrawingCanvas
     {

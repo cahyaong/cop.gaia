@@ -100,10 +100,11 @@
     <Compile Include="Math\DoubleExtensions.cs" />
     <Compile Include="Math\FloatExtensions.cs" />
     <Compile Include="Math\IntegerExtensions.cs" />
-    <Compile Include="Math\Point.cs" />
-    <Compile Include="Math\Range.cs" />
-    <Compile Include="Math\Rectangle.cs" />
-    <Compile Include="Math\Vector.cs" />
+    <Compile Include="Data\Point.cs" />
+    <Compile Include="Data\Range.cs" />
+    <Compile Include="Data\Rectangle.cs" />
+    <Compile Include="Data\Size.cs" />
+    <Compile Include="Data\Vector.cs" />
     <Compile Include="Noise\Generators\BaseGradientNoise.cs" />
     <Compile Include="Noise\INoiseModule.cs" />
     <Compile Include="Math\AuxiliaryMath.cs" />
@@ -111,8 +112,8 @@
     <Compile Include="Math\Quality.cs" />
     <Compile Include="Noise\Modifiers\BlendingModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Tile.cs" />
-    <Compile Include="Data\TileMap.cs" />
+    <Compile Include="Environment\Tile.cs" />
+    <Compile Include="Environment\TileMap.cs" />
     <Compile Include="Environment\WorldMap.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Systems\CombatSystem.cs" />

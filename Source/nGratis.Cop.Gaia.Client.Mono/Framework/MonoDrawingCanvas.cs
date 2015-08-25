@@ -33,8 +33,6 @@ namespace nGratis.Cop.Gaia.Client.Mono
     using Microsoft.Xna.Framework.Graphics;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
-    using Point = nGratis.Cop.Gaia.Engine.Point;
-    using Rectangle = nGratis.Cop.Gaia.Engine.Rectangle;
 
     internal class MonoDrawingCanvas : IDrawingCanvas
     {
@@ -74,12 +72,12 @@ namespace nGratis.Cop.Gaia.Client.Mono
             this.graphicsDevice.Clear(color.ToXnaColor());
         }
 
-        public void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle)
+        public void DrawRectangle(Pen pen, Brush brush, nGratis.Cop.Gaia.Engine.Data.Rectangle rectangle)
         {
             Throw.NotSupportedException("Drawing rectangle is not supported in Mono.");
         }
 
-        public void DrawLine(Pen pen, Point startPoint, Point endPoint)
+        public void DrawLine(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point startPoint, nGratis.Cop.Gaia.Engine.Data.Point endPoint)
         {
             var distance = Vector2.Distance(startPoint.ToXnaVector2(), endPoint.ToXnaVector2());
             var angle = (float)Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
@@ -96,7 +94,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
                 0);
         }
 
-        public void DrawText(Pen pen, Point position, string text, string font)
+        public void DrawText(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point position, string text, string font)
         {
             this.spriteBatch.DrawString(
                 this.fontManager.GetSpriteFont(font),

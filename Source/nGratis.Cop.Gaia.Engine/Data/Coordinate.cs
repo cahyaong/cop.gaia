@@ -26,7 +26,7 @@
 // <creation_timestamp>Thursday, 9 July 2015 1:17:22 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Data
 {
     public struct Coordinate
     {

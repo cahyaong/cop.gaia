@@ -30,6 +30,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 {
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Data;
     using Brush = nGratis.Cop.Gaia.Engine.Core.Brush;
     using Pen = nGratis.Cop.Gaia.Engine.Core.Pen;
 

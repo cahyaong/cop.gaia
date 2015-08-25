@@ -335,7 +335,10 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             if (diagnosticBucket != null)
             {
                 var selectedTile = this.SelectedTile;
-                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.SelectedCoordinate, selectedTile != null ? selectedTile.Coordinate : new Coordinate?());
+
+                diagnosticBucket.AddOrUpdateItem(DiagnosticKey.SelectedCoordinate, selectedTile != null
+                    ? selectedTile.Coordinate
+                    : new nGratis.Cop.Gaia.Engine.Data.Coordinate?());
             }
         }
 

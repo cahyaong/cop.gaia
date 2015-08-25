@@ -161,7 +161,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
                 constitutionComponent.HitPoint = random.Next(0, 100);
 
                 var placementComponent = this.entityManager.FindComponent<PlacementComponent>(entity);
-                placementComponent.Position = new nGratis.Cop.Gaia.Engine.Point(random.Next(128), random.Next(72));
+                placementComponent.Position = new nGratis.Cop.Gaia.Engine.Data.Point(random.Next(128), random.Next(72));
             }
         }
     }

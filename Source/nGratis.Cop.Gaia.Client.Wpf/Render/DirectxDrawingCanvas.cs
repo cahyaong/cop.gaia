@@ -33,8 +33,6 @@ namespace nGratis.Cop.Gaia.Client.Wpf
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
-    using Point = nGratis.Cop.Gaia.Engine.Point;
-    using Rectangle = nGratis.Cop.Gaia.Engine.Rectangle;
 
     internal class DirectxDrawingCanvas : IDrawingCanvas
     {
@@ -64,17 +62,17 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             this.graphicsDevice.Clear(new Color(rgbColor.Red, rgbColor.Green, rgbColor.Blue));
         }
 
-        public void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle)
+        public void DrawRectangle(Pen pen, Brush brush, nGratis.Cop.Gaia.Engine.Data.Rectangle rectangle)
         {
             Throw.NotSupportedException("Drawing rectangle is not available in DirectX.");
         }
 
-        public void DrawLine(Pen pen, Point startPoint, Point endPoint)
+        public void DrawLine(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point startPoint, nGratis.Cop.Gaia.Engine.Data.Point endPoint)
         {
             Throw.NotSupportedException("Drawing line is not available in DirectX.");
         }
 
-        public void DrawText(Pen pen, Point position, string text, string font)
+        public void DrawText(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point position, string text, string font)
         {
             Throw.NotSupportedException("Drawing text is not available in DirectX.");
         }

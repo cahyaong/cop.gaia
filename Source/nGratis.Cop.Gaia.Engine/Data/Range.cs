@@ -26,10 +26,8 @@
 // <creation_timestamp>Wednesday, 8 July 2015 11:05:30 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Data
 {
-    using System;
-
     public class Range<TValue>
     {
         public Range(TValue startValue, TValue endValue)

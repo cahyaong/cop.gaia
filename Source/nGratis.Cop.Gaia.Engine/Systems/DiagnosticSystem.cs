@@ -31,6 +31,7 @@ namespace nGratis.Cop.Gaia.Engine
     using System;
     using System.Diagnostics;
     using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     public class DiagnosticSystem : BaseSystem
     {

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Point.cs" company="nGratis">
+// <copyright file="Tile.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,35 +23,35 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 12:52:23 PM UTC</creation_timestamp>
+// <creation_timestamp>Friday, 29 May 2015 1:15:46 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public struct Point
+    using nGratis.Cop.Gaia.Engine.Data;
+
+    public class Tile
     {
-        public Point(float x, float y, float z = 0.0F)
-            : this()
+        public Tile(Coordinate coordinate)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            this.Coordinate = coordinate;
         }
 
-        public float X { get; set; }
-
-        public float Y { get; set; }
-
-        public float Z { get; set; }
-
-        public static Vector operator +(Point left, Point right)
+        public Tile(int row, int column)
         {
-            return new Vector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+            this.Coordinate = new Coordinate { Row = row, Column = column };
         }
 
-        public static Vector operator -(Point left, Point right)
+        public int Row
         {
-            return new Vector(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+            get { return this.Coordinate.Row; }
         }
+
+        public int Column
+        {
+            get { return this.Coordinate.Column; }
+        }
+
+        public Coordinate Coordinate { get; private set; }
     }
 }

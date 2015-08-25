@@ -34,6 +34,8 @@ namespace nGratis.Cop.Gaia.Engine.Core
 
     public static class RapidGuard
     {
+        public const string UnknownArgument = "Unknown";
+
         [DebuggerStepThrough]
         [ContractAnnotation("argument:null => halt")]
         public static void AgainstNullArgument<T>(T argument, Func<string> getReason = null)
@@ -44,12 +46,30 @@ namespace nGratis.Cop.Gaia.Engine.Core
                 var reason = getReason != null ? getReason() : null;
 
                 var message = "{0}{1}".WithCurrentFormat(
-                    Messages.Guard_Exception_NullArgument.WithCurrentFormat("Unknown"),
+                    Messages.Guard_Exception_NullArgument.WithCurrentFormat(UnknownArgument),
                     !string.IsNullOrEmpty(reason)
                         ? Environment.NewLine + Messages.Guard_Label_Reason.WithCurrentFormat(reason)
                         : string.Empty);
 
-                Throw.ArgumentNullException(null, message);
+                Throw.ArgumentNullException(UnknownArgument, message);
+            }
+        }
+
+        [DebuggerStepThrough]
+        public static void AgainstNegativeArgument<T>(T argument, Func<string> getReason = null)
+            where T : struct, IConvertible, IComparable<T>
+        {
+            if (argument.CompareTo(default(T)) < 0)
+            {
+                var reason = getReason != null ? getReason() : null;
+
+                var message = "{0}{1}".WithCurrentFormat(
+                    Messages.Guard_Exception_NegativeArgument.WithCurrentFormat(UnknownArgument),
+                    !string.IsNullOrEmpty(reason)
+                        ? Environment.NewLine + Messages.Guard_Label_Reason.WithCurrentFormat(reason)
+                        : string.Empty);
+
+                Throw.ArgumentException(UnknownArgument, message);
             }
         }
     }

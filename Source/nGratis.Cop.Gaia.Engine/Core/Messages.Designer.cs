@@ -106,6 +106,15 @@ namespace nGratis.Cop.Gaia.Engine.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameter [{0}] cannot be negative..
+        /// </summary>
+        internal static string Guard_Exception_NegativeArgument {
+            get {
+                return ResourceManager.GetString("Guard_Exception_NegativeArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter [{0}] cannot be &lt;null&gt;..
         /// </summary>
         internal static string Guard_Exception_NullArgument {
@@ -133,7 +142,7 @@ namespace nGratis.Cop.Gaia.Engine.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reason: {0}..
+        ///   Looks up a localized string similar to Reason: [{0}]..
         /// </summary>
         internal static string Guard_Label_Reason {
             get {

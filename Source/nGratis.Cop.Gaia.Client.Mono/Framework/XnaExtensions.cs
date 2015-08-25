@@ -31,6 +31,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
     using Microsoft.Xna.Framework;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     internal static class XnaExtensions
     {
@@ -39,15 +40,13 @@ namespace nGratis.Cop.Gaia.Client.Mono
             return new Vector2(vector.X, vector.Y);
         }
 
-        public static Vector2 ToXnaVector2(this nGratis.Cop.Gaia.Engine.Point point)
+        public static Vector2 ToXnaVector2(this nGratis.Cop.Gaia.Engine.Data.Point point)
         {
             return new Vector2(point.X, point.Y);
         }
 
         public static Color ToXnaColor(this IColor color)
         {
-            RapidGuard.AgainstNullArgument(color);
-
             var rgbColor = (RgbColor)color;
 
             return new Color()

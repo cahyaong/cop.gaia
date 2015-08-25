@@ -30,7 +30,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 {
     using System;
     using System.Globalization;
-    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     public sealed partial class DiagnosticKey
     {

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Rectangle.cs" company="nGratis">
+// <copyright file="Vector.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,38 +23,35 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 1:04:19 PM UTC</creation_timestamp>
+// <creation_timestamp>Thursday, 30 July 2015 11:09:50 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Data
 {
-    using nGratis.Cop.Gaia.Engine.Core;
-
-    public struct Rectangle
+    public struct Vector
     {
-        public Rectangle(float width, float height)
-            : this(0.0F, 0.0F, width, height)
-        {
-        }
-
-        public Rectangle(float x, float y, float width, float height)
+        public Vector(float x, float y, float z = 0.0F)
             : this()
         {
-            Guard.AgainstInvalidArgument(width < 0.0, () => width);
-            Guard.AgainstInvalidArgument(height < 0.0, () => height);
-
             this.X = x;
             this.Y = y;
-            this.Width = width;
-            this.Height = height;
+            this.Z = z;
         }
 
         public float X { get; set; }
 
         public float Y { get; set; }
 
-        public float Width { get; private set; }
+        public float Z { get; set; }
 
-        public float Height { get; private set; }
+        public static Vector operator *(Vector vector, float factor)
+        {
+            return new Vector(vector.X * factor, vector.Y * factor, vector.Z * factor);
+        }
+
+        public static Vector operator /(Vector vector, float factor)
+        {
+            return new Vector(vector.X / factor, vector.Y / factor, vector.Z / factor);
+        }
     }
 }

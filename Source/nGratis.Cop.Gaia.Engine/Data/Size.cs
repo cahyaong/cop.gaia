@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Tile.cs" company="nGratis">
+// <copyright file="Size.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,33 +23,35 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Friday, 29 May 2015 1:15:46 PM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 25 August 2015 12:54:38 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine
+namespace nGratis.Cop.Gaia.Engine.Data
 {
-    public class Tile
+    using nGratis.Cop.Gaia.Engine.Core;
+
+    public struct Size
     {
-        public Tile(Coordinate coordinate)
+        public Size(float width, float height)
+            : this()
         {
-            this.Coordinate = coordinate;
+            RapidGuard.AgainstNegativeArgument(width);
+            RapidGuard.AgainstNegativeArgument(height);
+
+            this.Width = width;
+            this.Height = height;
         }
 
-        public Tile(int row, int column)
+        public float Width
         {
-            this.Coordinate = new Coordinate { Row = row, Column = column };
+            get;
+            private set;
         }
 
-        public int Row
+        public float Height
         {
-            get { return this.Coordinate.Row; }
+            get;
+            private set;
         }
-
-        public int Column
-        {
-            get { return this.Coordinate.Column; }
-        }
-
-        public Coordinate Coordinate { get; private set; }
     }
 }

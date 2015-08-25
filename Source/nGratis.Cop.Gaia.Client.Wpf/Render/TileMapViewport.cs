@@ -30,6 +30,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 {
     using System;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     internal class TileMapViewport : ITileMapViewport
     {

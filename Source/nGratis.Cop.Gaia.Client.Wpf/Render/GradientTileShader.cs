@@ -28,12 +28,12 @@
 
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     internal class GradientTileShader : ITileShader
     {

@@ -28,6 +28,8 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using nGratis.Cop.Gaia.Engine.Data;
+
     public class WorldMap : TileMap<Region>
     {
         public WorldMap(int numColumns, int numRows)

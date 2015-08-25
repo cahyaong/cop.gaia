@@ -28,6 +28,8 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using nGratis.Cop.Gaia.Engine.Data;
+
     public class Region : Tile
     {
         public Region(int row, int column)
