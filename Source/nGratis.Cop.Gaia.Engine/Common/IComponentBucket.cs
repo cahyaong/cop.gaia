@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEntityManager.cs" company="nGratis">
+// <copyright file="IComponentBucket.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,27 +23,27 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 1:27:26 PM UTC</creation_timestamp>
+// <creation_timestamp>Tuesday, 1 September 2015 12:54:06 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using System;
-
-    public interface IEntityManager
+    public interface IComponentBucket<TComponent> : IComponentBucket
+        where TComponent : IComponent
     {
-        event EventHandler<EntityChangedEventArgs> EntityCreated;
+        void AddComponent(IEntity entity, TComponent component);
 
-        event EventHandler<EntityChangedEventArgs> EntityDestroyed;
+        new TComponent FindComponent(IEntity entity);
+    }
 
-        void RegisterComponentType<TComponent>() where TComponent : IComponent;
+    public interface IComponentBucket
+    {
+        ComponentKind ComponentKind { get; }
 
-        void UnregisterComponentType<TComponent>() where TComponent : IComponent;
+        void AddComponent(IEntity entity, IComponent component);
 
-        IEntity CreateEntity(ITemplate template);
+        void RemoveComponent(IEntity entity);
 
-        void DestroyEntity(IEntity entity);
-
-        IComponentBucket<TComponent> FindComponentBucket<TComponent>() where TComponent : IComponent;
+        IComponent FindComponent(IEntity entity);
     }
 }

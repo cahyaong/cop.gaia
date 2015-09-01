@@ -83,6 +83,7 @@
     <Compile Include="Common\Clock.cs" />
     <Compile Include="Common\BaseComponent.cs" />
     <Compile Include="Common\ComponentAttribute.cs" />
+    <Compile Include="Common\ComponentBucket.cs" />
     <Compile Include="Common\ComponentKind.cs" />
     <Compile Include="Common\ComponentKindExtensions.cs" />
     <Compile Include="Common\Entity.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Common\BaseSystem.cs" />
     <Compile Include="Common\EntityChangedEventArgs.cs" />
     <Compile Include="Common\IComponent.cs" />
+    <Compile Include="Common\IComponentBucket.cs" />
     <Compile Include="Common\IdentityManager.cs" />
     <Compile Include="Common\IEntity.cs" />
     <Compile Include="Common\IGameManager.cs" />

@@ -29,6 +29,7 @@
 namespace nGratis.Cop.Gaia.Client.Mono
 {
     using System;
+    using System.Linq;
     using System.Reactive.Linq;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
@@ -153,14 +154,19 @@ namespace nGratis.Cop.Gaia.Client.Mono
             var random = new Random(Environment.TickCount);
             var template = this.templateManager.FindTemplate("Character");
 
-            for (var counter = 0; counter < 250; counter++)
-            {
-                var entity = this.entityManager.CreateEntity(template);
+            var entities = Enumerable
+                .Range(0, 250)
+                .Select(_ => this.entityManager.CreateEntity(template));
 
-                var constitutionComponent = this.entityManager.FindComponent<ConstitutionComponent>(entity);
+            var constitutionBucket = this.entityManager.FindComponentBucket<ConstitutionComponent>();
+            var placementBucket = this.entityManager.FindComponentBucket<PlacementComponent>();
+
+            foreach (var entity in entities)
+            {
+                var constitutionComponent = constitutionBucket.FindComponent(entity);
                 constitutionComponent.HitPoint = random.Next(0, 100);
 
-                var placementComponent = this.entityManager.FindComponent<PlacementComponent>(entity);
+                var placementComponent = placementBucket.FindComponent(entity);
                 placementComponent.Position = new nGratis.Cop.Gaia.Engine.Data.Point(random.Next(128), random.Next(72));
             }
         }

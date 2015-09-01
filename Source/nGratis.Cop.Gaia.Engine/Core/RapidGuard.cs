@@ -35,7 +35,7 @@ namespace nGratis.Cop.Gaia.Engine.Core
 
     public static class RapidGuard
     {
-        public const string UnknownArgument = "Unknown";
+        private const string UnknownArgument = "Unknown";
 
         [DebuggerStepThrough]
         [ContractAnnotation("argument:null => halt")]
@@ -53,6 +53,24 @@ namespace nGratis.Cop.Gaia.Engine.Core
                         : string.Empty);
 
                 Throw.ArgumentNullException(UnknownArgument, message);
+            }
+        }
+
+        [DebuggerStepThrough]
+        [ContractAnnotation("isInvalid:true => halt")]
+        public static void AgainstInvalidArgument(bool isInvalid, Func<string> getReason = null)
+        {
+            if (isInvalid)
+            {
+                var reason = getReason != null ? getReason() : null;
+
+                var message = "{0}{1}".WithCurrentFormat(
+                    Messages.Guard_Exception_InvalidArgument.WithCurrentFormat(UnknownArgument),
+                    !string.IsNullOrWhiteSpace(reason)
+                        ? Environment.NewLine + Messages.Guard_Label_Reason.WithCurrentFormat(reason)
+                        : string.Empty);
+
+                Throw.ArgumentException(UnknownArgument, message);
             }
         }
 

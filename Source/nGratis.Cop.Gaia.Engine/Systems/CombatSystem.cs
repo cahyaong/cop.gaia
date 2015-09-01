@@ -39,5 +39,9 @@ namespace nGratis.Cop.Gaia.Engine
         {
             get { return SystemConstant.UpdatingOrders.Combat; }
         }
+
+        protected override void UpdateCore(Clock clock)
+        {
+        }
     }
 }

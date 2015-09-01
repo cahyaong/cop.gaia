@@ -39,7 +39,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         private readonly IDictionary<uint, IEntity> entityLookup;
 
-        private readonly IDictionary<ComponentKind, IDictionary<uint, IComponent>> componentLookup;
+        private readonly IDictionary<ComponentKind, IComponentBucket> componentBucketLookup;
 
         public EntityManager()
             : this(new IdentityManager())
@@ -51,7 +51,7 @@ namespace nGratis.Cop.Gaia.Engine
             RapidGuard.AgainstNullArgument(identityManager);
 
             this.entityLookup = new Dictionary<uint, IEntity>();
-            this.componentLookup = new Dictionary<ComponentKind, IDictionary<uint, IComponent>>();
+            this.componentBucketLookup = new Dictionary<ComponentKind, IComponentBucket>();
 
             this.identityManager = identityManager;
         }
@@ -62,14 +62,18 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void RegisterComponentType<TComponent>() where TComponent : IComponent
         {
-            var type = typeof(TComponent);
-            this.componentLookup.Add(type.ToComponentKind(), new Dictionary<uint, IComponent>());
+            var componentKind = typeof(TComponent).ToComponentKind();
+            RapidGuard.AgainstInvalidArgument(this.componentBucketLookup.ContainsKey(componentKind));
+
+            this.componentBucketLookup.Add(componentKind, new ComponentBucket<TComponent>(componentKind));
         }
 
         public void UnregisterComponentType<TComponent>() where TComponent : IComponent
         {
-            var type = typeof(TComponent);
-            this.componentLookup.Remove(type.ToComponentKind());
+            var componentKind = typeof(TComponent).ToComponentKind();
+            RapidGuard.AgainstInvalidArgument(!this.componentBucketLookup.ContainsKey(componentKind));
+
+            this.componentBucketLookup.Remove(componentKind);
         }
 
         public IEntity CreateEntity(ITemplate template)
@@ -91,7 +95,7 @@ namespace nGratis.Cop.Gaia.Engine
                         Component = component.Clone()
                     })
                 .ToList()
-                .ForEach(annon => this.componentLookup[annon.Kind].Add(entity.Id, annon.Component));
+                .ForEach(annon => this.componentBucketLookup[annon.Kind].AddComponent(entity, annon.Component));
 
             if (this.EntityCreated != null)
             {
@@ -111,11 +115,12 @@ namespace nGratis.Cop.Gaia.Engine
             }
         }
 
-        public TComponent FindComponent<TComponent>(IEntity entity) where TComponent : IComponent
+        public IComponentBucket<TComponent> FindComponentBucket<TComponent>() where TComponent : IComponent
         {
-            RapidGuard.AgainstNullArgument(entity);
+            var componentKind = typeof(TComponent).ToComponentKind();
+            RapidGuard.AgainstInvalidArgument(!this.componentBucketLookup.ContainsKey(componentKind));
 
-            return (TComponent)this.componentLookup[typeof(TComponent).ToComponentKind()][entity.Id];
+            return (IComponentBucket<TComponent>)this.componentBucketLookup[componentKind];
         }
     }
 }

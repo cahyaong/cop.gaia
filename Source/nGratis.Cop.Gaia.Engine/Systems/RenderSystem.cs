@@ -57,9 +57,12 @@ namespace nGratis.Cop.Gaia.Engine
             var greenPen = new Pen(new RgbColor(0, 255, 0), 1.0F, 1.0F);
             var orangePen = new Pen(new RgbColor(128, 128, 0), 1.0F, 1.0F);
 
+            var constitutionBucket = this.EntityManager.FindComponentBucket<ConstitutionComponent>();
+            var placementBucket = this.EntityManager.FindComponentBucket<PlacementComponent>();
+
             foreach (var entity in this.RelatedEntities)
             {
-                var constitutionComponent = this.EntityManager.FindComponent<ConstitutionComponent>(entity);
+                var constitutionComponent = constitutionBucket.FindComponent(entity);
 
                 var pen = redPen;
 
@@ -72,7 +75,7 @@ namespace nGratis.Cop.Gaia.Engine
                     pen = orangePen;
                 }
 
-                var placementComponent = this.EntityManager.FindComponent<PlacementComponent>(entity);
+                var placementComponent = placementBucket.FindComponent(entity);
 
                 var startPoint = new Point(
                     placementComponent.Position.X * this.tileSize.Width,
