@@ -30,7 +30,7 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System.Collections;
     using System.Linq;
-    using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Core.Contract;
 
     public enum ComponentKind
     {
@@ -70,7 +70,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         public bool HasFlags(ComponentKinds kinds)
         {
-            if (kinds == ComponentKinds.Any)
+            if (kinds == Any)
             {
                 return true;
             }

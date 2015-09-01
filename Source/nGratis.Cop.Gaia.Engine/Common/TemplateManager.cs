@@ -30,6 +30,7 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System.Collections.Generic;
     using System.Linq;
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
 
     public class TemplateManager : ITemplateManager
@@ -46,7 +47,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void RemoveTemplate(string name)
         {
-            Guard.AgainstNullOrEmptyArgument(() => name);
+            Guard.AgainstNullOrWhitespaceArgument(() => name);
 
             var template = this.FindTemplate(name);
             this.templateLookup.Remove(template.Id);
@@ -54,7 +55,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         public ITemplate FindTemplate(string name)
         {
-            Guard.AgainstNullOrEmptyArgument(() => name);
+            Guard.AgainstNullOrWhitespaceArgument(() => name);
 
             return this
                 .templateLookup

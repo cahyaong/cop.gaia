@@ -31,6 +31,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
     using System;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
 

@@ -29,13 +29,14 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System.Collections.Generic;
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
 
     internal class Template : ITemplate
     {
         public Template(uint id, string name, params IComponent[] components)
         {
-            Guard.AgainstNullOrEmptyArgument(() => name);
+            Guard.AgainstNullOrWhitespaceArgument(() => name);
             RapidGuard.AgainstNullArgument(components);
 
             this.Id = id;

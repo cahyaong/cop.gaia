@@ -29,6 +29,7 @@
 namespace nGratis.Cop.Gaia.Engine.Core
 {
     using System.Collections.Generic;
+    using nGratis.Cop.Core.Contract;
 
     public static class AuxiliaryEnumerable
     {

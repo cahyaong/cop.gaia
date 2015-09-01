@@ -28,7 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine.Noise
 {
-    using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Core.Contract;
 
     public abstract class BaseGradientNoise : INoiseModule
     {

@@ -28,7 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Core.Contract;
 
     public class TileMap<TTile> : TileMap
         where TTile : Tile

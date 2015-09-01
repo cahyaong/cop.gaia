@@ -29,7 +29,7 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System;
-    using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Core.Contract;
 
     public struct Clock
     {

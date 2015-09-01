@@ -23,35 +23,20 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 27 May 2015 1:12:15 PM UTC</creation_timestamp>
+// <creation_timestamp>Sunday, 21 June 2015 2:17:36 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-// ReSharper disable CheckNamespace
-namespace System
-// ReSharper restore CheckNamespace
+namespace nGratis.Cop.Gaia.Engine.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
-    using JetBrains.Annotations;
 
     public static class StringExtensions
     {
-        [StringFormatMethod("format")]
-        internal static string WithCurrentFormat(this string format, params object[] args)
+        public static int ToStableSeed(this string value)
         {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.CurrentCulture, format, args);
-        }
-
-        [StringFormatMethod("format")]
-        internal static string WithInvariantFormat(this string format, params object[] args)
-        {
-            return string.IsNullOrEmpty(format)
-                ? format
-                : string.Format(CultureInfo.InvariantCulture, format, args);
+            return string.IsNullOrEmpty(value)
+                ? 0
+                : value.Aggregate(42, (hash, letter) => (hash * 31) + (int)letter);
         }
     }
 }

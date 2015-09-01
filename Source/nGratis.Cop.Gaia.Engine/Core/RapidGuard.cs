@@ -31,6 +31,7 @@ namespace nGratis.Cop.Gaia.Engine.Core
     using System;
     using System.Diagnostics;
     using JetBrains.Annotations;
+    using nGratis.Cop.Core.Contract;
 
     public static class RapidGuard
     {
