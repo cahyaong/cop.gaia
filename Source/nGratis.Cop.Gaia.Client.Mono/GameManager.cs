@@ -33,10 +33,12 @@ namespace nGratis.Cop.Gaia.Client.Mono
     using System.Reactive.Linq;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Client.Mono.Core;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Common;
     using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     internal class GameManager : Game, IGameManager
     {
@@ -48,33 +50,48 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         private readonly ISystemManager systemManager;
 
+        private readonly IProbabilityManager probabilityManager;
+
+        private readonly Size tileSize;
+
+        private readonly Size mapSize;
+
         private IDrawingCanvas drawingCanvas;
 
         private IFontManager fontManager;
 
         public GameManager()
-            : this(new TemplateManager(), new EntityManager(), new SystemManager())
+            : this(new TemplateManager(), new EntityManager(), new SystemManager(), new ProbabilityManager())
         {
         }
 
         public GameManager(
             ITemplateManager templateManager,
             IEntityManager entityManager,
-            ISystemManager systemManager)
+            ISystemManager systemManager,
+            IProbabilityManager probabilityManager)
         {
-            RapidGuard.AgainstNullArgument(templateManager);
-            RapidGuard.AgainstNullArgument(entityManager);
-            RapidGuard.AgainstNullArgument(systemManager);
+            Guard.AgainstNullArgument(() => templateManager);
+            Guard.AgainstNullArgument(() => entityManager);
+            Guard.AgainstNullArgument(() => systemManager);
+            Guard.AgainstNullArgument(() => probabilityManager);
 
             this.templateManager = templateManager;
             this.entityManager = entityManager;
             this.systemManager = systemManager;
+            this.probabilityManager = probabilityManager;
 
             var graphicsDeviceManager = new GraphicsDeviceManager(this)
                 {
                     PreferredBackBufferWidth = 1280,
                     PreferredBackBufferHeight = 720
                 };
+
+            this.tileSize = new Size(10, 10);
+
+            this.mapSize = new Size(
+                graphicsDeviceManager.PreferredBackBufferWidth / this.tileSize.Width,
+                graphicsDeviceManager.PreferredBackBufferHeight / this.tileSize.Height);
 
             graphicsDeviceManager.ApplyChanges();
 
@@ -141,8 +158,8 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         private void InitializeSystemManager()
         {
-            this.systemManager.AddSystem(new CombatSystem(this.entityManager, this.templateManager));
-            this.systemManager.AddSystem(new RenderSystem(this.drawingCanvas, this.entityManager, this.templateManager));
+            this.systemManager.AddSystem(new MovementSystem(this.entityManager, this.templateManager, this.probabilityManager, mapSize));
+            this.systemManager.AddSystem(new RenderSystem(this.drawingCanvas, this.entityManager, this.templateManager, tileSize));
 
 #if DEBUG
             this.systemManager.AddSystem(new DiagnosticSystem(this.drawingCanvas, this.entityManager, this.templateManager));
@@ -151,7 +168,6 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         private void InitializeGame()
         {
-            var random = new Random(Environment.TickCount);
             var template = this.templateManager.FindTemplate("Character");
 
             var entities = Enumerable
@@ -164,10 +180,19 @@ namespace nGratis.Cop.Gaia.Client.Mono
             foreach (var entity in entities)
             {
                 var constitutionComponent = constitutionBucket.FindComponent(entity);
-                constitutionComponent.HitPoint = random.Next(0, 100);
+                constitutionComponent.HitPoint = this.probabilityManager.Roll(0, 100);
 
                 var placementComponent = placementBucket.FindComponent(entity);
-                placementComponent.Position = new nGratis.Cop.Gaia.Engine.Data.Point(random.Next(128), random.Next(72));
+
+                placementComponent.Position = new nGratis.Cop.Gaia.Engine.Data.Point(
+                    this.probabilityManager.Roll(0, this.mapSize.Width),
+                    this.probabilityManager.Roll(0, this.mapSize.Height));
+
+                placementComponent.Direction = new Vector(
+                    this.probabilityManager.Roll(-1, 1),
+                    this.probabilityManager.Roll(-1, 1));
+
+                placementComponent.Speed = this.probabilityManager.Roll(0, 3);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CombatSystem.cs" company="nGratis">
+// <copyright file="IProbabilityManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,25 +23,15 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Tuesday, 4 August 2015 11:52:14 AM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 7 September 2015 12:25:14 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public class CombatSystem : BaseSystem
+    public interface IProbabilityManager
     {
-        public CombatSystem(IEntityManager entityManager, ITemplateManager templateManager)
-            : base(entityManager, templateManager, new ComponentKinds(ComponentKind.Constitution, ComponentKind.Placement))
-        {
-        }
+        float Roll();
 
-        protected override int UpdatingOrder
-        {
-            get { return SystemConstant.UpdatingOrders.Combat; }
-        }
-
-        protected override void UpdateCore(Clock clock)
-        {
-        }
+        float Roll(float min, float max);
     }
 }

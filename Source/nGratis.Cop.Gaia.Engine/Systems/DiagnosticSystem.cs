@@ -30,6 +30,7 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System;
     using System.Diagnostics;
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
     using nGratis.Cop.Gaia.Engine.Data;
 
@@ -62,7 +63,7 @@ namespace nGratis.Cop.Gaia.Engine
         public DiagnosticSystem(IDrawingCanvas drawingCanvas, IEntityManager entityManager, ITemplateManager templateManager)
             : base(entityManager, templateManager, ComponentKinds.Any)
         {
-            RapidGuard.AgainstNullArgument(drawingCanvas);
+            Guard.AgainstNullArgument(() => drawingCanvas);
 
             var processName = Process.GetCurrentProcess().ProcessName;
 

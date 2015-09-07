@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ConstitutionComponent.cs" company="nGratis">
+// <copyright file="ProbabilityManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,22 +23,35 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Monday, 17 August 2015 12:46:09 PM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 7 September 2015 12:28:03 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    [Component(ComponentKind.Constitution)]
-    public class ConstitutionComponent : BaseComponent
-    {
-        public float HitPoint { get; set; }
+    using System;
 
-        public override IComponent Clone()
+    public class ProbabilityManager : IProbabilityManager
+    {
+        private readonly Random random;
+
+        public ProbabilityManager()
+            : this(Environment.TickCount)
         {
-            return new ConstitutionComponent()
-                {
-                    HitPoint = this.HitPoint
-                };
+        }
+
+        public ProbabilityManager(int seed)
+        {
+            this.random = new Random(seed);
+        }
+
+        public float Roll()
+        {
+            return (float)this.random.NextDouble();
+        }
+
+        public float Roll(float min, float max)
+        {
+            return (float)((this.random.NextDouble() * (max - min)) + min);
         }
     }
 }

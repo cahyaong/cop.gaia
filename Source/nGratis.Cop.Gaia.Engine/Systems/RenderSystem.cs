@@ -28,6 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
     using nGratis.Cop.Gaia.Engine.Data;
 
@@ -37,13 +38,14 @@ namespace nGratis.Cop.Gaia.Engine
 
         private readonly Size tileSize;
 
-        public RenderSystem(IDrawingCanvas drawingCanvas, IEntityManager entityManager, ITemplateManager templateManager)
+        public RenderSystem(IDrawingCanvas drawingCanvas, IEntityManager entityManager, ITemplateManager templateManager, Size tileSize)
             : base(entityManager, templateManager, new ComponentKinds(ComponentKind.Placement))
         {
-            RapidGuard.AgainstNullArgument(drawingCanvas);
+            Guard.AgainstNullArgument(() => drawingCanvas);
+            Guard.AgainstDefaultArgument(() => tileSize);
 
             this.drawingCanvas = drawingCanvas;
-            this.tileSize = new Size(10.0F, 10.0F);
+            this.tileSize = tileSize;
         }
 
         protected override int UpdatingOrder

@@ -96,9 +96,11 @@
     <Compile Include="Common\IEntity.cs" />
     <Compile Include="Common\IGameManager.cs" />
     <Compile Include="Common\IIdentityManager.cs" />
+    <Compile Include="Common\IProbabilityManager.cs" />
     <Compile Include="Common\ISystem.cs" />
     <Compile Include="Common\ISystemManager.cs" />
     <Compile Include="Common\ITemplate.cs" />
+    <Compile Include="Common\ProbabilityManager.cs" />
     <Compile Include="Common\SystemManager.cs" />
     <Compile Include="Common\Template.cs" />
     <Compile Include="Common\TemplateManager.cs" />
@@ -148,7 +150,7 @@
     <Compile Include="Environment\TileMap.cs" />
     <Compile Include="Environment\WorldMap.cs" />
     <Compile Include="Core\StringExtensions.cs" />
-    <Compile Include="Systems\CombatSystem.cs" />
+    <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\DiagnosticSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />
     <Compile Include="Systems\SystemConstant.cs" />
