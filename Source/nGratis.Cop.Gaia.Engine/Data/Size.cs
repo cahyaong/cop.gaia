@@ -32,6 +32,10 @@ namespace nGratis.Cop.Gaia.Engine.Data
 
     public struct Size
     {
+        public static readonly Size Zero = new Size(0, 0);
+
+        public static readonly Size One = new Size(1, 1);
+
         public Size(float width, float height)
             : this()
         {

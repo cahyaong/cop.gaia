@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ISystem.cs" company="nGratis">
+// <copyright file="GameSpecification.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,28 +23,33 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 5 August 2015 12:57:31 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 9 September 2015 1:58:11 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public interface ISystem
+    using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine.Data;
+
+    public class GameSpecification
     {
-        bool IsInitialized { get; }
+        public GameSpecification(Size screenSize, Size mapSize)
+        {
+            Guard.AgainstDefaultArgument(() => screenSize);
+            Guard.AgainstDefaultArgument(() => mapSize);
 
-        bool IsEnabled { get; set; }
+            this.ScreenSize = screenSize;
+            this.MapSize = mapSize;
 
-        void Initialize(
-            GameSpecification gameSpecification,
-            IGameInfrastructure gameInfrastructure,
-            IDrawingCanvas drawingCanvas);
+            this.TileSize = new Size(
+                screenSize.Width / mapSize.Width,
+                screenSize.Height / mapSize.Height);
+        }
 
-        void AddEntity(IEntity entity);
+        public Size ScreenSize { get; private set; }
 
-        void RemoveEnity(IEntity entity);
+        public Size MapSize { get; private set; }
 
-        void Update(Clock clock);
-
-        void Render(Clock clock);
+        public Size TileSize { get; private set; }
     }
 }

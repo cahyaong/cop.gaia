@@ -29,21 +29,24 @@
 namespace nGratis.Cop.Gaia.Client.Mono
 {
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-    using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine;
 
-    internal class FontManager : IFontManager
+    [Export(typeof(IManager))]
+    internal class FontManager : BaseManager, IFontManager
     {
         private readonly IDictionary<string, SpriteFont> spriteFontLookup = new Dictionary<string, SpriteFont>();
 
-        private readonly ContentManager contentManager;
+        protected ContentManager ContentManager { get; private set; }
 
-        public FontManager(ContentManager contentManager)
+        public void Initialize(ContentManager contentManager)
         {
-            RapidGuard.AgainstNullArgument(contentManager);
+            Guard.AgainstNullArgument(() => contentManager);
 
-            this.contentManager = contentManager;
+            this.ContentManager = contentManager;
         }
 
         public SpriteFont GetSpriteFont(string font)
@@ -52,7 +55,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
             if (!this.spriteFontLookup.TryGetValue(font, out spriteFont))
             {
-                spriteFont = this.contentManager.Load<SpriteFont>(font);
+                spriteFont = this.ContentManager.Load<SpriteFont>(font);
                 this.spriteFontLookup.Add(font, spriteFont);
             }
 

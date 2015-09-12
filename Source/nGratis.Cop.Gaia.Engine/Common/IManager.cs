@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ISystem.cs" company="nGratis">
+// <copyright file="IManager.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,28 +23,15 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 5 August 2015 12:57:31 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 9 September 2015 12:34:01 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public interface ISystem
+    public interface IManager
     {
         bool IsInitialized { get; }
 
-        bool IsEnabled { get; set; }
-
-        void Initialize(
-            GameSpecification gameSpecification,
-            IGameInfrastructure gameInfrastructure,
-            IDrawingCanvas drawingCanvas);
-
-        void AddEntity(IEntity entity);
-
-        void RemoveEnity(IEntity entity);
-
-        void Update(Clock clock);
-
-        void Render(Clock clock);
+        void Initialize(IGameInfrastructure gameInfrastructure);
     }
 }

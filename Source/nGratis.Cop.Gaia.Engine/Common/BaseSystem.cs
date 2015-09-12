@@ -36,39 +36,79 @@ namespace nGratis.Cop.Gaia.Engine
     {
         private readonly ComponentKinds requiredComponentKinds;
 
-        protected BaseSystem(
-            IEntityManager entityManager,
-            ITemplateManager templateManager,
-            ComponentKinds requiredComponentKinds)
+        protected BaseSystem(ComponentKinds requiredComponentKinds)
         {
-            RapidGuard.AgainstNullArgument(entityManager);
-            RapidGuard.AgainstNullArgument(templateManager);
-            RapidGuard.AgainstNullArgument(requiredComponentKinds);
+            Guard.AgainstNullArgument(() => requiredComponentKinds);
 
             this.requiredComponentKinds = requiredComponentKinds;
 
-            this.EntityManager = entityManager;
-            this.TemplateManager = templateManager;
             this.RelatedEntities = new HashSet<IEntity>();
-
             this.IsEnabled = true;
         }
 
-        public bool IsEnabled { get; set; }
+        public bool IsInitialized
+        {
+            get;
+            private set;
+        }
 
-        protected IEntityManager EntityManager { get; private set; }
+        public bool IsEnabled
+        {
+            get;
+            set;
+        }
 
-        protected ITemplateManager TemplateManager { get; private set; }
+        protected GameSpecification GameSpecification
+        {
+            get;
+            private set;
+        }
 
-        protected HashSet<IEntity> RelatedEntities { get; private set; }
+        protected IGameInfrastructure GameInfrastructure
+        {
+            get;
+            private set;
+        }
 
-        protected abstract int UpdatingOrder { get; }
+        protected IDrawingCanvas DrawingCanvas
+        {
+            get;
+            private set;
+        }
+
+        protected HashSet<IEntity> RelatedEntities
+        {
+            get;
+            private set;
+        }
+
+        protected abstract int UpdatingOrder
+        {
+            get;
+        }
+
+        public virtual void Initialize(
+            GameSpecification gameSpecification,
+            IGameInfrastructure gameInfrastructure,
+            IDrawingCanvas drawingCanvas)
+        {
+            Guard.AgainstNullArgument(() => gameSpecification);
+            Guard.AgainstNullArgument(() => gameInfrastructure);
+            Guard.AgainstNullArgument(() => drawingCanvas);
+
+            this.GameSpecification = gameSpecification;
+            this.GameInfrastructure = gameInfrastructure;
+            this.DrawingCanvas = drawingCanvas;
+
+            this.InitializeCore();
+            this.IsInitialized = true;
+        }
 
         public virtual void AddEntity(IEntity entity)
         {
             RapidGuard.AgainstNullArgument(entity);
 
-            var template = this.TemplateManager.FindTemplate(entity.TemplateId);
+            var template = this.GameInfrastructure.TemplateManager.FindTemplate(entity.TemplateId);
 
             var isEntityRelated =
                 template.ComponentKinds.HasFlags(this.requiredComponentKinds) &&
@@ -88,7 +128,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void Update(Clock clock)
         {
-            if (this.IsEnabled)
+            if (this.IsInitialized && this.IsEnabled)
             {
                 this.UpdateCore(clock);
             }
@@ -96,10 +136,14 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void Render(Clock clock)
         {
-            if (this.IsEnabled)
+            if (this.IsInitialized && this.IsEnabled)
             {
                 this.RenderCore(clock);
             }
+        }
+
+        protected virtual void InitializeCore()
+        {
         }
 
         protected virtual void UpdateCore(Clock clock)

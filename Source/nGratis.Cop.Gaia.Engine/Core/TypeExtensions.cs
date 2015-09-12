@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IGameManager.cs" company="nGratis">
+// <copyright file="TypeExtensions.cs" company="nGratis">
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 - 2015 Cahya Ong
@@ -23,13 +23,28 @@
 //  SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 30 July 2015 10:36:15 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 9 September 2015 3:34:01 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine.Common
+// ReSharper disable CheckNamespace
+namespace System
+
+// ReSharper restore CheckNamespace
 {
-    public interface IGameManager
+    using System.Linq;
+    using nGratis.Cop.Core.Contract;
+
+    public static class TypeExtensions
     {
-        void Run();
+        public static Type FindDirectInterface(this Type type)
+        {
+            Guard.AgainstNullArgument(() => type);
+
+            var interfaces = type.GetInterfaces();
+
+            return interfaces
+                .Except(interfaces.SelectMany(item => item.GetInterfaces()))
+                .SingleOrDefault();
+        }
     }
 }

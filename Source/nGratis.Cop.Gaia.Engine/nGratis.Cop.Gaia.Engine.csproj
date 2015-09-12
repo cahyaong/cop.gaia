@@ -55,6 +55,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -80,6 +81,7 @@
     <Compile Include="..\nGratis.Cop.Gaia.Common\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\BaseManager.cs" />
     <Compile Include="Common\Clock.cs" />
     <Compile Include="Common\BaseComponent.cs" />
     <Compile Include="Common\ComponentAttribute.cs" />
@@ -90,12 +92,14 @@
     <Compile Include="Common\EntityManager.cs" />
     <Compile Include="Common\BaseSystem.cs" />
     <Compile Include="Common\EntityChangedEventArgs.cs" />
+    <Compile Include="Common\GameInfrastructure.cs" />
     <Compile Include="Common\IComponent.cs" />
     <Compile Include="Common\IComponentBucket.cs" />
     <Compile Include="Common\IdentityManager.cs" />
     <Compile Include="Common\IEntity.cs" />
-    <Compile Include="Common\IGameManager.cs" />
+    <Compile Include="Common\IGameInfrastructure.cs" />
     <Compile Include="Common\IIdentityManager.cs" />
+    <Compile Include="Common\IManager.cs" />
     <Compile Include="Common\IProbabilityManager.cs" />
     <Compile Include="Common\ISystem.cs" />
     <Compile Include="Common\ISystemManager.cs" />
@@ -125,12 +129,14 @@
     </Compile>
     <Compile Include="Core\Pen.cs" />
     <Compile Include="Core\RapidGuard.cs" />
+    <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="Data\Coordinate.cs" />
     <Compile Include="Environment\ElevationLayerGenerator.cs" />
     <Compile Include="Environment\ILayerGenerator.cs" />
     <Compile Include="Environment\Region.cs" />
     <Compile Include="Environment\BaseLayerGenerator.cs" />
     <Compile Include="Environment\LayerMode.cs" />
+    <Compile Include="GameSpecification.cs" />
     <Compile Include="Math\DoubleExtensions.cs" />
     <Compile Include="Math\FloatExtensions.cs" />
     <Compile Include="Math\IntegerExtensions.cs" />

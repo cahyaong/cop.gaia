@@ -28,7 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public interface IProbabilityManager
+    public interface IProbabilityManager : IManager
     {
         float Roll();
 

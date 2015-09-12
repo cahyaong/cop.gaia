@@ -29,8 +29,10 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
 
-    internal class IdentityManager : IIdentityManager
+    [Export(typeof(IManager))]
+    internal class IdentityManager : BaseManager, IIdentityManager
     {
         private readonly IDictionary<EntityKind, uint> nextIdLookup = new Dictionary<EntityKind, uint>()
             {

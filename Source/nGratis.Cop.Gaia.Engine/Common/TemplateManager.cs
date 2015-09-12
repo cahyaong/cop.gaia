@@ -29,11 +29,13 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    public class TemplateManager : ITemplateManager
+    [Export(typeof(IManager))]
+    public class TemplateManager : BaseManager, ITemplateManager
     {
         private readonly IDictionary<uint, ITemplate> templateLookup = new Dictionary<uint, ITemplate>();
 

@@ -35,7 +35,7 @@ namespace nGratis.Cop.Gaia.Engine
         Dynamic
     }
 
-    public interface IIdentityManager
+    public interface IIdentityManager : IManager
     {
         uint RootId { get; }
 

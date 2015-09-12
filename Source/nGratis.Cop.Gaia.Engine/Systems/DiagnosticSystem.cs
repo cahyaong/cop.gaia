@@ -29,16 +29,15 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Diagnostics;
-    using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
     using nGratis.Cop.Gaia.Engine.Data;
 
+    [Export(typeof(ISystem))]
     public class DiagnosticSystem : BaseSystem
     {
         private const string Font = "Fonts/Diagnostics";
-
-        private readonly IDrawingCanvas drawingCanvas;
 
         private readonly Pen pen;
 
@@ -60,14 +59,12 @@ namespace nGratis.Cop.Gaia.Engine
 
         private int deltaEntities;
 
-        public DiagnosticSystem(IDrawingCanvas drawingCanvas, IEntityManager entityManager, ITemplateManager templateManager)
-            : base(entityManager, templateManager, ComponentKinds.Any)
+        [ImportingConstructor]
+        public DiagnosticSystem()
+            : base(ComponentKinds.Any)
         {
-            Guard.AgainstNullArgument(() => drawingCanvas);
-
             var processName = Process.GetCurrentProcess().ProcessName;
 
-            this.drawingCanvas = drawingCanvas;
             this.pen = new Pen(RgbColor.CornflowerBlue, 1.0F, 1.0F);
             this.globalCpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             this.instanceCpuCounter = new PerformanceCounter("Process", "% Processor Time", processName);
@@ -106,16 +103,36 @@ namespace nGratis.Cop.Gaia.Engine
             this.numFrames++;
 
             var position = new Point(20.0F, 20.0F);
-            this.drawingCanvas.DrawText(this.pen, position, "-fps: {0}".WithInvariantFormat(this.fps), Font);
+
+            this.DrawingCanvas.DrawText(
+                this.pen,
+                position,
+                "-fps: {0}".WithInvariantFormat(this.fps),
+                Font);
 
             position.Y += 20.0F;
-            this.drawingCanvas.DrawText(this.pen, position, "-memory: {0:0.00} MB".WithInvariantFormat(this.memory), Font);
+
+            this.DrawingCanvas.DrawText(
+                this.pen,
+                position,
+                "-memory: {0:0.00} MB".WithInvariantFormat(this.memory),
+                Font);
 
             position.Y += 20.0F;
-            this.drawingCanvas.DrawText(this.pen, position, "-cpu: {0:0}%".WithInvariantFormat(this.cpu), Font);
+
+            this.DrawingCanvas.DrawText(
+                this.pen,
+                position,
+                "-cpu: {0:0}%".WithInvariantFormat(this.cpu),
+                Font);
 
             position.Y += 20.0F;
-            this.drawingCanvas.DrawText(this.pen, position, "-num.entities: {0:N0}".WithInvariantFormat(this.numEntities), Font);
+
+            this.DrawingCanvas.DrawText(
+                this.pen,
+                position,
+                "-num.entities: {0:N0}".WithInvariantFormat(this.numEntities),
+                Font);
         }
     }
 }

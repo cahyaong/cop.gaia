@@ -29,15 +29,35 @@
 namespace nGratis.Cop.Gaia.Client.Mono
 {
     using System;
+    using System.ComponentModel.Composition.Hosting;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     public static class Program
     {
         [STAThread]
         private static void Main()
         {
-            using (var gameManager = new GameManager())
+            var mefContainer = new CompositionContainer(
+                new AggregateCatalog(
+                    new AssemblyCatalog(Assembly.GetExecutingAssembly()),
+                    new DirectoryCatalog(Directory.GetCurrentDirectory(), "nGratis.Cop.*.dll")),
+                CompositionOptions.DisableSilentRejection | CompositionOptions.IsThreadSafe);
+
+            var gameInfrastructure = mefContainer.GetExportedValue<IGameInfrastructure>();
+            var gameSpecification = new GameSpecification(new Size(1280, 720), new Size(128, 72));
+
+            using (var mainGame = new MainGame())
             {
-                gameManager.Run();
+                mainGame.Initialize(
+                    gameSpecification,
+                    gameInfrastructure,
+                    mefContainer.GetExportedValues<ISystem>().ToList());
+
+                mainGame.Run();
             }
         }
     }

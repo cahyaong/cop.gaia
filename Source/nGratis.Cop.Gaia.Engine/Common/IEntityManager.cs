@@ -30,7 +30,7 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System;
 
-    public interface IEntityManager
+    public interface IEntityManager : IManager
     {
         event EventHandler<EntityChangedEventArgs> EntityCreated;
 

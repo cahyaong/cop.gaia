@@ -28,7 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public interface ITemplateManager
+    public interface ITemplateManager : IManager
     {
         void AddTemplate(ITemplate template);
 

@@ -30,30 +30,22 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
     using nGratis.Cop.Gaia.Engine.Core;
 
-    public class EntityManager : IEntityManager
+    [Export(typeof(IManager))]
+    public class EntityManager : BaseManager, IEntityManager
     {
-        private readonly IIdentityManager identityManager;
-
         private readonly IDictionary<uint, IEntity> entityLookup;
 
         private readonly IDictionary<ComponentKind, IComponentBucket> componentBucketLookup;
 
+        [ImportingConstructor]
         public EntityManager()
-            : this(new IdentityManager())
         {
-        }
-
-        public EntityManager(IIdentityManager identityManager)
-        {
-            RapidGuard.AgainstNullArgument(identityManager);
-
             this.entityLookup = new Dictionary<uint, IEntity>();
             this.componentBucketLookup = new Dictionary<ComponentKind, IComponentBucket>();
-
-            this.identityManager = identityManager;
         }
 
         public event EventHandler<EntityChangedEventArgs> EntityCreated;
@@ -81,8 +73,8 @@ namespace nGratis.Cop.Gaia.Engine
             RapidGuard.AgainstNullArgument(template);
 
             var entity = new Entity(
-                this.identityManager.FindNextId(EntityKind.Dynamic),
-                this.identityManager.RootId,
+                this.GameInfrastructure.IdentityManager.FindNextId(EntityKind.Dynamic),
+                this.GameInfrastructure.IdentityManager.RootId,
                 template.Id);
 
             this.entityLookup.Add(entity.Id, entity);

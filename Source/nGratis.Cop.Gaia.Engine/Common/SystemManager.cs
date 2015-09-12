@@ -30,17 +30,20 @@ namespace nGratis.Cop.Gaia.Engine
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
-    using nGratis.Cop.Gaia.Engine.Core;
+    using nGratis.Cop.Core.Contract;
 
-    public class SystemManager : ISystemManager
+    [Export(typeof(IManager))]
+    public class SystemManager : BaseManager, ISystemManager
     {
         private readonly IDictionary<Type, ISystem> systemLookup = new Dictionary<Type, ISystem>();
 
         public void AddSystem<TSystem>(TSystem system) where TSystem : class, ISystem
         {
-            RapidGuard.AgainstNullArgument(system);
-            this.systemLookup.Add(typeof(TSystem), system);
+            Guard.AgainstNullArgument(() => system);
+
+            this.systemLookup.Add(system.GetType(), system);
         }
 
         public void RemoveSystem<TSystem>() where TSystem : class, ISystem

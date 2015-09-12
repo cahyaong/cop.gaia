@@ -28,7 +28,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public interface ISystemManager
+    public interface ISystemManager : IManager
     {
         void AddSystem<TSystem>(TSystem system) where TSystem : class, ISystem;
 

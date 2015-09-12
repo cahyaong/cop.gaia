@@ -28,23 +28,16 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using nGratis.Cop.Core.Contract;
+    using System.ComponentModel.Composition;
     using nGratis.Cop.Gaia.Engine.Data;
 
+    [Export(typeof(ISystem))]
     public class MovementSystem : BaseSystem
     {
-        private readonly IProbabilityManager probabilityManager;
-
-        private readonly Size mapSize;
-
-        public MovementSystem(IEntityManager entityManager, ITemplateManager templateManager, IProbabilityManager probabilityManager, Size mapSize)
-            : base(entityManager, templateManager, new ComponentKinds(ComponentKind.Constitution, ComponentKind.Placement))
+        [ImportingConstructor]
+        public MovementSystem()
+            : base(new ComponentKinds(ComponentKind.Constitution, ComponentKind.Placement))
         {
-            Guard.AgainstNullArgument(() => probabilityManager);
-            Guard.AgainstDefaultArgument(() => mapSize);
-
-            this.probabilityManager = probabilityManager;
-            this.mapSize = mapSize;
         }
 
         protected override int UpdatingOrder
@@ -54,7 +47,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         protected override void UpdateCore(Clock clock)
         {
-            var placementBucket = this.EntityManager.FindComponentBucket<PlacementComponent>();
+            var placementBucket = this.GameInfrastructure.EntityManager.FindComponentBucket<PlacementComponent>();
 
             foreach (var entity in this.RelatedEntities)
             {
@@ -72,38 +65,38 @@ namespace nGratis.Cop.Gaia.Engine
                 if (positionX < 0)
                 {
                     positionX = 0;
-                    directionX = this.probabilityManager.Roll(-1, 1);
+                    directionX = this.GameInfrastructure.ProbabilityManager.Roll(-1, 1);
                 }
-                else if (positionX > this.mapSize.Width - 1)
+                else if (positionX > this.GameSpecification.MapSize.Width - 1)
                 {
-                    positionX = this.mapSize.Width - 1;
-                    directionX = this.probabilityManager.Roll(-1, 1);
+                    positionX = this.GameSpecification.MapSize.Width - 1;
+                    directionX = this.GameInfrastructure.ProbabilityManager.Roll(-1, 1);
                 }
                 else
                 {
-                    directionX += this.probabilityManager.Roll(-0.5F, 0.5F) / 10;
+                    directionX += this.GameInfrastructure.ProbabilityManager.Roll(-0.5F, 0.5F) / 10;
                     directionX = directionX.Clamp(-1, 1);
                 }
 
                 if (positionY < 0)
                 {
                     positionY = 0;
-                    directionY = this.probabilityManager.Roll(-1, 1);
+                    directionY = this.GameInfrastructure.ProbabilityManager.Roll(-1, 1);
                 }
-                else if (positionY > this.mapSize.Height - 1)
+                else if (positionY > this.GameSpecification.MapSize.Height - 1)
                 {
-                    positionY = this.mapSize.Height - 1;
-                    directionY = this.probabilityManager.Roll(-1, 1);
+                    positionY = this.GameSpecification.MapSize.Height - 1;
+                    directionY = this.GameInfrastructure.ProbabilityManager.Roll(-1, 1);
                 }
                 else
                 {
-                    directionY += this.probabilityManager.Roll(-0.5F, 0.5F) / 10;
+                    directionY += this.GameInfrastructure.ProbabilityManager.Roll(-0.5F, 0.5F) / 10;
                     directionY = directionY.Clamp(-1, 1);
                 }
 
-                if (this.probabilityManager.Roll() >= 0.5)
+                if (this.GameInfrastructure.ProbabilityManager.Roll() >= 0.5)
                 {
-                    placementComponent.Speed += this.probabilityManager.Roll() - 0.5F;
+                    placementComponent.Speed += this.GameInfrastructure.ProbabilityManager.Roll() - 0.5F;
                     placementComponent.Speed = placementComponent.Speed.Clamp(0, 5);
                 }
 

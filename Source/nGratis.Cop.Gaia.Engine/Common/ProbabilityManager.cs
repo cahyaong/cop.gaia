@@ -29,11 +29,14 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System;
+    using System.ComponentModel.Composition;
 
-    public class ProbabilityManager : IProbabilityManager
+    [Export(typeof(IManager))]
+    public class ProbabilityManager : BaseManager, IProbabilityManager
     {
         private readonly Random random;
 
+        [ImportingConstructor]
         public ProbabilityManager()
             : this(Environment.TickCount)
         {

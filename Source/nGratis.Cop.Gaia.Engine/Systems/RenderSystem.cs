@@ -28,24 +28,17 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using nGratis.Cop.Core.Contract;
+    using System.ComponentModel.Composition;
     using nGratis.Cop.Gaia.Engine.Core;
     using nGratis.Cop.Gaia.Engine.Data;
 
+    [Export(typeof(ISystem))]
     public class RenderSystem : BaseSystem
     {
-        private readonly IDrawingCanvas drawingCanvas;
-
-        private readonly Size tileSize;
-
-        public RenderSystem(IDrawingCanvas drawingCanvas, IEntityManager entityManager, ITemplateManager templateManager, Size tileSize)
-            : base(entityManager, templateManager, new ComponentKinds(ComponentKind.Placement))
+        [ImportingConstructor]
+        public RenderSystem()
+            : base(new ComponentKinds(ComponentKind.Placement))
         {
-            Guard.AgainstNullArgument(() => drawingCanvas);
-            Guard.AgainstDefaultArgument(() => tileSize);
-
-            this.drawingCanvas = drawingCanvas;
-            this.tileSize = tileSize;
         }
 
         protected override int UpdatingOrder
@@ -55,12 +48,19 @@ namespace nGratis.Cop.Gaia.Engine
 
         protected override void RenderCore(Clock clock)
         {
-            var redPen = new Pen(new RgbColor(255, 0, 0), 1.0F, 1.0F);
-            var greenPen = new Pen(new RgbColor(0, 255, 0), 1.0F, 1.0F);
-            var orangePen = new Pen(new RgbColor(128, 128, 0), 1.0F, 1.0F);
+            var redPen = new Pen(new RgbColor(255, 0, 0), 1, 1);
+            var greenPen = new Pen(new RgbColor(0, 255, 0), 1, 1);
+            var orangePen = new Pen(new RgbColor(128, 128, 0), 1, 1);
 
-            var constitutionBucket = this.EntityManager.FindComponentBucket<ConstitutionComponent>();
-            var placementBucket = this.EntityManager.FindComponentBucket<PlacementComponent>();
+            var constitutionBucket = this
+                .GameInfrastructure
+                .EntityManager
+                .FindComponentBucket<ConstitutionComponent>();
+
+            var placementBucket = this
+                .GameInfrastructure
+                .EntityManager
+                .FindComponentBucket<PlacementComponent>();
 
             foreach (var entity in this.RelatedEntities)
             {
@@ -80,24 +80,24 @@ namespace nGratis.Cop.Gaia.Engine
                 var placementComponent = placementBucket.FindComponent(entity);
 
                 var startPoint = new Point(
-                    placementComponent.Position.X * this.tileSize.Width,
-                    placementComponent.Position.Y * this.tileSize.Height);
+                    placementComponent.Position.X * this.GameSpecification.TileSize.Width,
+                    placementComponent.Position.Y * this.GameSpecification.TileSize.Height);
 
                 var endPoint = new Point(
-                    (placementComponent.Position.X + 1) * this.tileSize.Width,
-                    (placementComponent.Position.Y + 1) * this.tileSize.Height);
+                    (placementComponent.Position.X + 1) * this.GameSpecification.TileSize.Width,
+                    (placementComponent.Position.Y + 1) * this.GameSpecification.TileSize.Height);
 
-                this.drawingCanvas.DrawLine(pen, startPoint, endPoint);
+                this.DrawingCanvas.DrawLine(pen, startPoint, endPoint);
 
                 startPoint = new Point(
-                    (placementComponent.Position.X + 1) * this.tileSize.Width,
-                    placementComponent.Position.Y * this.tileSize.Height);
+                    (placementComponent.Position.X + 1) * this.GameSpecification.TileSize.Width,
+                    placementComponent.Position.Y * this.GameSpecification.TileSize.Height);
 
                 endPoint = new Point(
-                    placementComponent.Position.X * this.tileSize.Width,
-                    (placementComponent.Position.Y + 1) * this.tileSize.Height);
+                    placementComponent.Position.X * this.GameSpecification.TileSize.Width,
+                    (placementComponent.Position.Y + 1) * this.GameSpecification.TileSize.Height);
 
-                this.drawingCanvas.DrawLine(pen, startPoint, endPoint);
+                this.DrawingCanvas.DrawLine(pen, startPoint, endPoint);
             }
         }
     }

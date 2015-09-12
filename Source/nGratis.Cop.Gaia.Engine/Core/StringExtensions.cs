@@ -26,7 +26,9 @@
 // <creation_timestamp>Sunday, 21 June 2015 2:17:36 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Engine.Core
+// ReSharper disable CheckNamespace
+namespace System
+// ReSharper restore CheckNamespace
 {
     using System.Linq;
 
