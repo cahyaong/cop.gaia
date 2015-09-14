@@ -29,6 +29,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
     using System.Collections.Generic;
     using System.Linq;
     using System.Reactive.Linq;
+    using System.Reflection;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
     using nGratis.Cop.Core.Contract;
@@ -160,10 +161,18 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         private void LoadEntityManager()
         {
-            this.GameInfrastructure.EntityManager.RegisterComponentType<StatisticComponent>();
-            this.GameInfrastructure.EntityManager.RegisterComponentType<ConstitutionComponent>();
-            this.GameInfrastructure.EntityManager.RegisterComponentType<TraitComponent>();
-            this.GameInfrastructure.EntityManager.RegisterComponentType<PlacementComponent>();
+            AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => type.GetCustomAttributes<ComponentAttribute>().Any())
+                .ForEach(type =>
+                    {
+                        typeof(IEntityManager)
+                            .GetMethod("RegisterComponentType")
+                            .MakeGenericMethod(type)
+                            .Invoke(this.GameInfrastructure.EntityManager, null);
+                    });
 
             Observable
                 .FromEventPattern<EntityChangedEventArgs>(this.GameInfrastructure.EntityManager, "EntityCreated")

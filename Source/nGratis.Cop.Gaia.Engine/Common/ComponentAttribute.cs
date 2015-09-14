@@ -29,7 +29,7 @@ namespace nGratis.Cop.Gaia.Engine
     using nGratis.Cop.Core.Contract;
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    internal sealed class ComponentAttribute : Attribute
+    public sealed class ComponentAttribute : Attribute
     {
         public ComponentAttribute(ComponentKind componentKind)
         {

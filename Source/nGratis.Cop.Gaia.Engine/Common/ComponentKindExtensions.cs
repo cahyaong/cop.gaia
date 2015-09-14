@@ -28,6 +28,7 @@ namespace nGratis.Cop.Gaia.Engine
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using nGratis.Cop.Gaia.Engine.Core;
 
     internal static class ComponentKindExtensions
@@ -52,8 +53,7 @@ namespace nGratis.Cop.Gaia.Engine
             }
 
             var attribute = type
-                .GetCustomAttributes(false)
-                .OfType<ComponentAttribute>()
+                .GetCustomAttributes<ComponentAttribute>()
                 .SingleOrDefault();
 
             if (attribute != null)
