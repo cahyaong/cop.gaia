@@ -63,8 +63,9 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             this.directxImage = new D3DImage();
             this.directxImage.IsFrontBufferAvailableChanged += this.OnFrontBufferAvailableChanged;
 
+            // FIXME: Handle unloading process properly; consider making shared graphics device manager?
+
             this.Loaded += this.OnLoaded;
-            this.Unloaded += this.OnUnloaded;
         }
 
         ~AweDirectxSurface()
@@ -124,7 +125,6 @@ namespace nGratis.Cop.Gaia.Client.Wpf
                 }
 
                 this.directxImage.IsFrontBufferAvailableChanged -= this.OnFrontBufferAvailableChanged;
-                this.Unloaded -= this.OnUnloaded;
                 this.Loaded -= this.OnLoaded;
             }
 
@@ -156,22 +156,6 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             CompositionTarget.Rendering += this.OnCompositionTargetRendering;
 
             this.shouldRedraw = true;
-        }
-
-        private void OnUnloaded(object sender, RoutedEventArgs args)
-        {
-            if (this.graphicsDeviceManager != null)
-            {
-                this.DestroyBackBuffer();
-
-                CompositionTarget.Rendering -= this.OnCompositionTargetRendering;
-
-                this.graphicsDeviceManager.DeviceResetting -= this.OnGraphicsDeviceDeviceResetting;
-                this.graphicsDeviceManager.Dispose();
-                this.graphicsDeviceManager = null;
-            }
-
-            this.Content = null;
         }
 
         private void OnGraphicsDeviceDeviceResetting(object sender, EventArgs args)
