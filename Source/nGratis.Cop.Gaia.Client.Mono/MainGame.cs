@@ -109,10 +109,10 @@ namespace nGratis.Cop.Gaia.Client.Mono
             this.DrawingCanvas = new MonoDrawingCanvas(this.GraphicsDevice, fontManager);
             base.LoadContent();
 
-            this.InitializeTemplateManager();
-            this.InitializeEntityManager();
-            this.InitializeSystemManager();
-            this.InitializeGame();
+            this.LoadTemplateManager();
+            this.LoadEntityManager();
+            this.LoadSystemManager();
+            this.LoadGame();
         }
 
         protected override void BeginRun()
@@ -153,12 +153,12 @@ namespace nGratis.Cop.Gaia.Client.Mono
             base.Draw(gameTime);
         }
 
-        private void InitializeTemplateManager()
+        private void LoadTemplateManager()
         {
             this.GameInfrastructure.TemplateManager.InitializeCreatureTemplates();
         }
 
-        private void InitializeEntityManager()
+        private void LoadEntityManager()
         {
             this.GameInfrastructure.EntityManager.RegisterComponentType<StatisticComponent>();
             this.GameInfrastructure.EntityManager.RegisterComponentType<ConstitutionComponent>();
@@ -174,7 +174,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
                 .Subscribe(pattern => this.GameInfrastructure.SystemManager.RemoveEntity(pattern.EventArgs.Entity));
         }
 
-        private void InitializeSystemManager()
+        private void LoadSystemManager()
         {
 #if DEBUG
             foreach (var system in this.Systems)
@@ -187,7 +187,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
             }
         }
 
-        private void InitializeGame()
+        private void LoadGame()
         {
             var template = this.GameInfrastructure.TemplateManager.FindTemplate("Character");
 
