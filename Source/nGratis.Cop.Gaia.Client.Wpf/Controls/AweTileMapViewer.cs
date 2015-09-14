@@ -355,6 +355,20 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             this.InvalidateVisual();
         }
 
+        private void OnMouseDown(object sender, MouseButtonEventArgs args)
+        {
+            if (args.ChangedButton == MouseButton.Left || args.ChangedButton == MouseButton.Right)
+            {
+                this.Focus();
+                args.Handled = true;
+            }
+
+            if (args.ChangedButton == MouseButton.Right)
+            {
+                this.draggedPoint = args.GetPosition(this);
+            }
+        }
+
         private void OnMouseUp(object sender, MouseButtonEventArgs args)
         {
             if (args.ChangedButton == MouseButton.Left && args.ClickCount == 1)
@@ -362,11 +376,11 @@ namespace nGratis.Cop.Gaia.Client.Wpf
                 this.PickTile(args.GetPosition(this));
                 args.Handled = true;
             }
-        }
-
-        private void OnMouseDown(object sender, MouseButtonEventArgs args)
-        {
-            this.Focus();
+            else if (args.ChangedButton == MouseButton.Right)
+            {
+                this.draggedPoint = null;
+                args.Handled = true;
+            }
         }
 
         private void OnMouseMove(object sender, MouseEventArgs args)
@@ -396,16 +410,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
                         this.draggedPoint = selectedPoint;
                     }
                 }
-                else
-                {
-                    this.draggedPoint = selectedPoint;
-                }
 
-                args.Handled = true;
-            }
-            else if (args.RightButton == MouseButtonState.Released)
-            {
-                this.draggedPoint = null;
                 args.Handled = true;
             }
         }
