@@ -156,7 +156,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         private void LoadTemplateManager()
         {
-            this.GameInfrastructure.TemplateManager.InitializeCreatureTemplates();
+            this.GameInfrastructure.TemplateManager.LoadCreatureTemplates();
         }
 
         private void LoadEntityManager()

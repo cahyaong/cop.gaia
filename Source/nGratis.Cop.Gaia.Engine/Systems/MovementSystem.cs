@@ -26,6 +26,7 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System.ComponentModel.Composition;
+    using System.Linq;
     using nGratis.Cop.Gaia.Engine.Data;
 
     [Export(typeof(ISystem))]
@@ -33,7 +34,7 @@ namespace nGratis.Cop.Gaia.Engine
     {
         [ImportingConstructor]
         public MovementSystem()
-            : base(new ComponentKinds(ComponentKind.Constitution, ComponentKind.Placement))
+            : base(new ComponentKinds(ComponentKind.Brain, ComponentKind.Placement))
         {
         }
 
@@ -45,16 +46,21 @@ namespace nGratis.Cop.Gaia.Engine
         protected override void UpdateCore(Clock clock)
         {
             var placementBucket = this.GameInfrastructure.EntityManager.FindComponentBucket<PlacementComponent>();
+            var brainBucket = this.GameInfrastructure.EntityManager.FindComponentBucket<BrainComponent>();
 
-            foreach (var entity in this.RelatedEntities)
+            var movingEntities = this
+                .RelatedEntities
+                .Where(entity => brainBucket.FindComponent(entity).EntityAction == EntityAction.Explore);
+
+            foreach (var entity in movingEntities)
             {
                 var placementComponent = placementBucket.FindComponent(entity);
 
                 var directionX = placementComponent.Direction.X;
                 var directionY = placementComponent.Direction.Y;
 
-                var displacementX = (float)(directionX * placementComponent.Speed * clock.ElapsedPeriod.TotalSeconds);
-                var displacementY = (float)(directionY * placementComponent.Speed * clock.ElapsedPeriod.TotalSeconds);
+                var displacementX = (float)(directionX * placementComponent.Speed * clock.ElapsedDuration.TotalSeconds);
+                var displacementY = (float)(directionY * placementComponent.Speed * clock.ElapsedDuration.TotalSeconds);
 
                 var positionX = placementComponent.Position.X + displacementX;
                 var positionY = placementComponent.Position.Y + displacementY;

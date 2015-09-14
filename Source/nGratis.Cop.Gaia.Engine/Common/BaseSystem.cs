@@ -33,6 +33,8 @@ namespace nGratis.Cop.Gaia.Engine
     {
         private readonly ComponentKinds requiredComponentKinds;
 
+        private float skippedUpdatingDuration;
+
         protected BaseSystem(ComponentKinds requiredComponentKinds)
         {
             Guard.AgainstNullArgument(() => requiredComponentKinds);
@@ -84,6 +86,11 @@ namespace nGratis.Cop.Gaia.Engine
             get;
         }
 
+        protected virtual float UpdatingInterval
+        {
+            get { return 0; }
+        }
+
         public virtual void Initialize(
             GameSpecification gameSpecification,
             IGameInfrastructure gameInfrastructure,
@@ -125,6 +132,18 @@ namespace nGratis.Cop.Gaia.Engine
 
         public void Update(Clock clock)
         {
+            if (this.UpdatingInterval > 0)
+            {
+                this.skippedUpdatingDuration += (float)clock.ElapsedDuration.TotalSeconds;
+
+                if (this.skippedUpdatingDuration < this.UpdatingInterval)
+                {
+                    return;
+                }
+
+                this.skippedUpdatingDuration -= this.UpdatingInterval;
+            }
+
             if (this.IsInitialized && this.IsEnabled)
             {
                 this.UpdateCore(clock);

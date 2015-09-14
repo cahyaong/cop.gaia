@@ -30,18 +30,18 @@ namespace nGratis.Cop.Gaia.Engine
 
     public struct Clock
     {
-        public Clock(TimeSpan totalPeriod, TimeSpan elapsedPeriod)
+        public Clock(TimeSpan totalDuration, TimeSpan elapsedDuration)
             : this()
         {
-            Guard.AgainstInvalidArgument(totalPeriod < TimeSpan.Zero, () => totalPeriod);
-            Guard.AgainstInvalidArgument(elapsedPeriod < TimeSpan.Zero, () => elapsedPeriod);
+            Guard.AgainstInvalidArgument(totalDuration < TimeSpan.Zero, () => totalDuration);
+            Guard.AgainstInvalidArgument(elapsedDuration < TimeSpan.Zero, () => elapsedDuration);
 
-            this.TotalPeriod = totalPeriod;
-            this.ElapsedPeriod = elapsedPeriod;
+            this.TotalDuration = totalDuration;
+            this.ElapsedDuration = elapsedDuration;
         }
 
-        public TimeSpan TotalPeriod { get; set; }
+        public TimeSpan TotalDuration { get; set; }
 
-        public TimeSpan ElapsedPeriod { get; set; }
+        public TimeSpan ElapsedDuration { get; set; }
     }
 }

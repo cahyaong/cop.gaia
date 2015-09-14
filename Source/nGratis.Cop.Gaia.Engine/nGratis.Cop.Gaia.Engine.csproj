@@ -89,6 +89,7 @@
     <Compile Include="Common\ComponentKind.cs" />
     <Compile Include="Common\ComponentKindExtensions.cs" />
     <Compile Include="Common\Entity.cs" />
+    <Compile Include="Common\EntityAction.cs" />
     <Compile Include="Common\EntityManager.cs" />
     <Compile Include="Common\BaseSystem.cs" />
     <Compile Include="Common\EntityChangedEventArgs.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Common\IEntityManager.cs" />
     <Compile Include="Common\ITemplateManager.cs" />
     <Compile Include="Common\TemplateManagerExtensions.cs" />
+    <Compile Include="Components\BrainComponent.cs" />
     <Compile Include="Components\ConstitutionComponent.cs" />
     <Compile Include="Components\PlacementComponent.cs" />
     <Compile Include="Components\StatisticComponent.cs" />
@@ -156,6 +158,7 @@
     <Compile Include="Environment\TileMap.cs" />
     <Compile Include="Environment\WorldMap.cs" />
     <Compile Include="Core\StringExtensions.cs" />
+    <Compile Include="Systems\DecisionMakingSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\DiagnosticSystem.cs" />
     <Compile Include="Systems\RenderSystem.cs" />

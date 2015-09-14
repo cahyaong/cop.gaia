@@ -30,7 +30,8 @@ namespace nGratis.Cop.Gaia.Engine
         public static class UpdatingOrders
         {
             public const int Any = 0;
-            public const int Movement = 100;
+            public const int DecisionMaking = 100;
+            public const int Movement = 101;
             public const int Render = 200;
             public const int Diagnostic = 900;
         }

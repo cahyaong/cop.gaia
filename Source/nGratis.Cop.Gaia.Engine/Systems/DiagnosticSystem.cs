@@ -42,7 +42,7 @@ namespace nGratis.Cop.Gaia.Engine
 
         private readonly PerformanceCounter instanceCpuCounter;
 
-        private TimeSpan elapsedPeriod;
+        private TimeSpan elapsedDuration;
 
         private uint numFrames;
 
@@ -74,14 +74,14 @@ namespace nGratis.Cop.Gaia.Engine
 
         protected override void UpdateCore(Clock clock)
         {
-            this.elapsedPeriod += clock.ElapsedPeriod;
+            this.elapsedDuration += clock.ElapsedDuration;
 
-            if (this.elapsedPeriod.TotalSeconds < 1.0)
+            if (this.elapsedDuration.TotalSeconds < 1.0)
             {
                 return;
             }
 
-            this.elapsedPeriod -= TimeSpan.FromSeconds(1.0);
+            this.elapsedDuration -= TimeSpan.FromSeconds(1.0);
 
             this.fps = this.numFrames;
             this.numFrames = 0;

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TemplateManagerExtensions.cs" company="nGratis">
+// <copyright file="WpfDrawingCanvas.cs" company="nGratis">
 //   The MIT License (MIT)
 // 
 //   Copyright (c) 2014 - 2015 Cahya Ong
@@ -20,28 +20,22 @@
 //   THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Thursday, 6 August 2015 1:56:27 PM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 14 September 2015 1:46:09 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    using nGratis.Cop.Gaia.Engine.Core;
-
-    public static class TemplateManagerExtensions
+    [Component(ComponentKind.Brain)]
+    internal class BrainComponent : BaseComponent
     {
-        public static void LoadCreatureTemplates(this ITemplateManager templateManager)
-        {
-            RapidGuard.AgainstNullArgument(templateManager);
+        public EntityAction EntityAction { get; set; }
 
-            templateManager.AddTemplate(
-                new Template(
-                    0x10000000,
-                    "Character",
-                    new BrainComponent(),
-                    new StatisticComponent(),
-                    new ConstitutionComponent(),
-                    new TraitComponent(),
-                    new PlacementComponent()));
+        public override IComponent Clone()
+        {
+            return new BrainComponent()
+                {
+                    EntityAction = this.EntityAction
+                };
         }
     }
 }
