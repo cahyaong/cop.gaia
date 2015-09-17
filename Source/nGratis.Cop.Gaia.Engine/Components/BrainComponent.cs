@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WpfDrawingCanvas.cs" company="nGratis">
+// <copyright file="BrainComponent.cs" company="nGratis">
 //   The MIT License (MIT)
 // 
 //   Copyright (c) 2014 - 2015 Cahya Ong
@@ -33,9 +33,9 @@ namespace nGratis.Cop.Gaia.Engine
         public override IComponent Clone()
         {
             return new BrainComponent()
-                {
-                    EntityAction = this.EntityAction
-                };
+            {
+                EntityAction = this.EntityAction
+            };
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WpfDrawingCanvas.cs" company="nGratis">
+// <copyright file="DecisionMakingSystem.cs" company="nGratis">
 //   The MIT License (MIT)
 // 
 //   Copyright (c) 2014 - 2015 Cahya Ong
