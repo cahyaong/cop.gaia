@@ -48,6 +48,12 @@ namespace nGratis.Cop.Gaia.Client.Mono
             private set;
         }
 
+        public IDrawingCanvas DrawingCanvas
+        {
+            get;
+            private set;
+        }
+
         protected GameSpecification GameSpecification
         {
             get;
@@ -55,12 +61,6 @@ namespace nGratis.Cop.Gaia.Client.Mono
         }
 
         protected IGameInfrastructure GameInfrastructure
-        {
-            get;
-            private set;
-        }
-
-        public IDrawingCanvas DrawingCanvas
         {
             get;
             private set;
@@ -87,10 +87,10 @@ namespace nGratis.Cop.Gaia.Client.Mono
             this.Systems = systems.ToList();
 
             var graphicsDeviceManager = new GraphicsDeviceManager(this)
-                {
-                    PreferredBackBufferWidth = (int)gameSpecification.ScreenSize.Width,
-                    PreferredBackBufferHeight = (int)gameSpecification.ScreenSize.Height
-                };
+            {
+                PreferredBackBufferWidth = (int)gameSpecification.ScreenSize.Width,
+                PreferredBackBufferHeight = (int)gameSpecification.ScreenSize.Height
+            };
 
             graphicsDeviceManager.ApplyChanges();
 
