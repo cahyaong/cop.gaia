@@ -165,7 +165,7 @@
     <Compile Include="Systems\DecisionMakingSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\DiagnosticSystem.cs" />
-    <Compile Include="Systems\RenderSystem.cs" />
+    <Compile Include="Systems\RenderingSystem.cs" />
     <Compile Include="Systems\SystemConstant.cs" />
   </ItemGroup>
   <ItemGroup>

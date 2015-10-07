@@ -38,9 +38,9 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
     public class AweDirectxSurface : ContentControl, IDisposable
     {
-        public static readonly DependencyProperty RenderManagerProperty = DependencyProperty.Register(
-            "RenderManager",
-            typeof(IRenderManager),
+        public static readonly DependencyProperty RenderingManagerProperty = DependencyProperty.Register(
+            "RenderingManager",
+            typeof(IRenderingManager),
             typeof(AweDirectxSurface),
             new PropertyMetadata(null));
 
@@ -50,7 +50,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
         private GraphicsDeviceManager graphicsDeviceManager;
 
-        private RenderTarget2D renderTarget;
+        private RenderTarget2D renderingTarget;
 
         private IDrawingCanvas drawingCanvas;
 
@@ -73,19 +73,19 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             this.Dispose(false);
         }
 
-        public IRenderManager RenderManager
+        public IRenderingManager RenderingManager
         {
             get
             {
-                return (IRenderManager)this.GetValue(RenderManagerProperty);
+                return (IRenderingManager)this.GetValue(RenderingManagerProperty);
             }
 
             set
             {
-                this.RenderManager.SetDrawingCanvas(null);
+                this.RenderingManager.SetDrawingCanvas(null);
 
                 value.SetDrawingCanvas(this.drawingCanvas);
-                this.SetValue(RenderManagerProperty, value);
+                this.SetValue(RenderingManagerProperty, value);
 
                 this.InvalidateVisual();
             }
@@ -118,10 +118,10 @@ namespace nGratis.Cop.Gaia.Client.Wpf
                     this.sharpdxTexture = null;
                 }
 
-                if (this.renderTarget != null)
+                if (this.renderingTarget != null)
                 {
-                    this.renderTarget.Dispose();
-                    this.renderTarget = null;
+                    this.renderingTarget.Dispose();
+                    this.renderingTarget = null;
                 }
 
                 if (this.graphicsDeviceManager != null)
@@ -172,12 +172,12 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
         private void EstablishBackBuffer()
         {
-            if (this.renderTarget != null)
+            if (this.renderingTarget != null)
             {
                 return;
             }
 
-            this.renderTarget = new RenderTarget2D(
+            this.renderingTarget = new RenderTarget2D(
                 this.graphicsDeviceManager.GraphicsDevice,
                 (int)ActualWidth,
                 (int)ActualHeight,
@@ -188,13 +188,13 @@ namespace nGratis.Cop.Gaia.Client.Wpf
                 RenderTargetUsage.PlatformContents,
                 true);
 
-            var handle = this.renderTarget.GetSharedHandle();
+            var handle = this.renderingTarget.GetSharedHandle();
             Guard.AgainstInvalidOperation(handle == IntPtr.Zero);
 
             this.sharpdxTexture = new SharpDX.Direct3D9.Texture(
                 this.graphicsDeviceManager.SharpdxDevice,
-                this.renderTarget.Width,
-                this.renderTarget.Height,
+                this.renderingTarget.Width,
+                this.renderingTarget.Height,
                 1,
                 Usage.RenderTarget,
                 Format.A8R8G8B8,
@@ -210,27 +210,27 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
             this.drawingCanvas = new DirectxDrawingCanvas(this.graphicsDeviceManager.GraphicsDevice);
 
-            var renderManager = this.RenderManager;
+            var renderingManager = this.RenderingManager;
 
-            if (renderManager != null)
+            if (renderingManager != null)
             {
-                renderManager.SetDrawingCanvas(this.drawingCanvas);
+                renderingManager.SetDrawingCanvas(this.drawingCanvas);
             }
         }
 
         private void DestroyBackBuffer()
         {
-            var renderManager = this.RenderManager;
+            var renderingManager = this.RenderingManager;
 
-            if (renderManager != null)
+            if (renderingManager != null)
             {
-                renderManager.SetDrawingCanvas(null);
+                renderingManager.SetDrawingCanvas(null);
             }
 
-            if (this.renderTarget != null)
+            if (this.renderingTarget != null)
             {
-                this.renderTarget.Dispose();
-                this.renderTarget = null;
+                this.renderingTarget.Dispose();
+                this.renderingTarget = null;
             }
 
             if (this.sharpdxTexture != null)
@@ -268,14 +268,14 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
             this.directxImage.Lock();
 
-            this.graphicsDeviceManager.GraphicsDevice.SetRenderTarget(this.renderTarget);
+            this.graphicsDeviceManager.GraphicsDevice.SetRenderTarget(this.renderingTarget);
             this.graphicsDeviceManager.GraphicsDevice.Viewport = new Viewport(
                 0,
                 0,
                 Math.Max(1, actualWidth),
                 Math.Max(1, actualHeight));
 
-            this.RenderManager.Render();
+            this.RenderingManager.Render();
 
             this.graphicsDeviceManager.GraphicsDevice.Flush();
 

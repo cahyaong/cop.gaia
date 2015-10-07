@@ -32,14 +32,14 @@ namespace nGratis.Cop.Gaia.Engine
             public const int Any = 0;
             public const int DecisionMaking = 100;
             public const int Movement = 101;
-            public const int Render = 200;
+            public const int Rendering = 200;
             public const int Diagnostic = 900;
         }
 
         public static class RenderingOrders
         {
             public const int None = 0;
-            public const int Render = 100;
+            public const int Background = 100;
         }
     }
 }

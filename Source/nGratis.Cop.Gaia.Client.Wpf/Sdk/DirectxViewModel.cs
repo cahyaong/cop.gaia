@@ -32,18 +32,18 @@ namespace nGratis.Cop.Gaia.Client.Wpf.Sdk
     [Export]
     public class DirectxViewModel : ReactiveObject
     {
-        private IRenderManager renderManager;
+        private IRenderingManager renderingManager;
 
         [ImportingConstructor]
         public DirectxViewModel()
         {
-            this.RenderManager = new SdkRenderManager();
+            this.RenderingManager = new SdkRenderingManager();
         }
 
-        public IRenderManager RenderManager
+        public IRenderingManager RenderingManager
         {
-            get { return this.renderManager; }
-            private set { this.RaiseAndSetIfChanged(ref this.renderManager, value); }
+            get { return this.renderingManager; }
+            private set { this.RaiseAndSetIfChanged(ref this.renderingManager, value); }
         }
     }
 }

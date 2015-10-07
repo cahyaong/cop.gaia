@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRenderManager.cs" company="nGratis">
+// <copyright file="SdkRenderingManager.cs" company="nGratis">
 //   The MIT License (MIT)
 // 
 //   Copyright (c) 2014 - 2015 Cahya Ong
@@ -20,17 +20,49 @@
 //   THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Wednesday, 29 July 2015 12:33:01 PM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 29 July 2015 12:54:01 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace nGratis.Cop.Gaia.Client.Wpf.Framework
+namespace nGratis.Cop.Gaia.Client.Wpf.Sdk
 {
+    using Microsoft.Xna.Framework.Graphics;
+    using nGratis.Cop.Gaia.Client.Wpf.Framework;
     using nGratis.Cop.Gaia.Engine;
 
-    public interface IRenderManager
+    internal class SdkRenderingManager : IRenderingManager
     {
-        void Render();
+        private readonly CubePrimitive cube;
 
-        void SetDrawingCanvas(IDrawingCanvas drawingCanvas);
+        private GraphicsDevice graphicsDevice;
+
+        public SdkRenderingManager()
+        {
+            this.cube = new CubePrimitive();
+        }
+
+        public void Render()
+        {
+            if (this.graphicsDevice == null)
+            {
+                return;
+            }
+
+            this.graphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+
+            this.cube.Render();
+        }
+
+        public void SetDrawingCanvas(IDrawingCanvas drawingCanvas)
+        {
+            if (drawingCanvas == null)
+            {
+                this.graphicsDevice = null;
+                return;
+            }
+
+            this.graphicsDevice = drawingCanvas.GetDrawingContext<GraphicsDevice>();
+
+            this.cube.Initialize(drawingCanvas);
+        }
     }
 }

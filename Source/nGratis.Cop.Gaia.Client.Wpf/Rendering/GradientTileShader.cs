@@ -52,10 +52,10 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             this.colorLookup = Enumerable
                 .Range(0, numBuckets)
                 .Select(index => new
-                    {
-                        Index = index,
-                        Color = (RgbColor)new HsvColor(startColor.Hue + (index * hueStep), startColor.Saturation, startColor.Value)
-                    })
+                {
+                    Index = index,
+                    Color = (RgbColor)new HsvColor(startColor.Hue + (index * hueStep), startColor.Saturation, startColor.Value)
+                })
                 .ToDictionary(annon => annon.Index, annon => (IColor)annon.Color);
 
             this.bucketSize = (valueRange.EndValue - valueRange.StartValue) / numBuckets;

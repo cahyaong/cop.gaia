@@ -34,7 +34,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
         public static readonly DiagnosticKey Unknown = new DiagnosticKey("[__UNKNOWN__]");
 
         public static readonly DiagnosticKey RenderTime = new DiagnosticKey(
-            "Render time (ms)",
+            "Rendering time (ms)",
             value => value.ToDouble().ToString("N0", CultureInfo.InvariantCulture));
 
         public static readonly DiagnosticKey FramesPerSecond = new DiagnosticKey(

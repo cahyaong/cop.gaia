@@ -9,6 +9,6 @@
   d:DataContext="{d:DesignInstance sdk:DirectxViewModel}"
   mc:Ignorable="d">
   <Grid>
-    <local:AweDirectxSurface RenderManager="{Binding RenderManager, Mode=OneWay}" />
+    <local:AweDirectxSurface RenderingManager="{Binding RenderingManager, Mode=OneWay}" />
   </Grid>
 </UserControl>

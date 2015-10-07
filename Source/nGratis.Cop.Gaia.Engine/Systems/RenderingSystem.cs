@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RenderSystem.cs" company="nGratis">
+// <copyright file="RenderingSystem.cs" company="nGratis">
 //   The MIT License (MIT)
 // 
 //   Copyright (c) 2014 - 2015 Cahya Ong
@@ -30,17 +30,17 @@ namespace nGratis.Cop.Gaia.Engine
     using nGratis.Cop.Gaia.Engine.Data;
 
     [Export(typeof(ISystem))]
-    public class RenderSystem : BaseSystem
+    public class RenderingSystem : BaseSystem
     {
         [ImportingConstructor]
-        public RenderSystem()
+        public RenderingSystem()
             : base(new ComponentKinds(ComponentKind.Placement))
         {
         }
 
         protected override int UpdatingOrder
         {
-            get { return SystemConstant.UpdatingOrders.Render; }
+            get { return SystemConstant.UpdatingOrders.Rendering; }
         }
 
         protected override void RenderCore(Clock clock)

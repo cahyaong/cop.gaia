@@ -160,7 +160,7 @@
     <Compile Include="Common\IDiagnosticBucket.cs" />
     <Compile Include="Common\InteractionExtensions.cs" />
     <Compile Include="Core\MathExtensions.cs" />
-    <Compile Include="Framework\IRenderManager.cs" />
+    <Compile Include="Framework\IRenderingManager.cs" />
     <Compile Include="Controls\AweTileMapViewer.cs" />
     <Compile Include="Core\AuxiliaryTask.cs" />
     <Compile Include="Core\AweTile.cs" />
@@ -174,7 +174,7 @@
     <Compile Include="Controls\AweDirectxSurface.cs" />
     <Compile Include="Sdk\Common\GeometricPrimitive.cs" />
     <Compile Include="Core\GraphicsDeviceManager.cs" />
-    <Compile Include="Sdk\Common\SdkRenderManager.cs" />
+    <Compile Include="Sdk\Common\SdkRenderingManager.cs" />
     <Compile Include="Sdk\Common\VertexPositionNormal.cs" />
     <Compile Include="Render\GradientTileShader.cs" />
     <Compile Include="Environment\IWorldGenerator.cs" />
