@@ -25,7 +25,9 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public interface ISystem
+    using System;
+
+    public interface ISystem : IDisposable
     {
         bool IsInitialized { get; }
 

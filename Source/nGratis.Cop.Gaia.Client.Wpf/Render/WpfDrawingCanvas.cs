@@ -25,6 +25,7 @@
 
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
+    using System;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Data;
@@ -40,6 +41,11 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Guard.AgainstNullArgument(() => drawingContext);
 
             this.drawingContext = drawingContext;
+        }
+
+        ~WpfDrawingCanvas()
+        {
+            this.Dispose(false);
         }
 
         public void BeginBatch()
@@ -82,6 +88,16 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Guard.AgainstInvalidOperation(typeof(TContext) != typeof(System.Windows.Media.DrawingContext));
 
             return this.drawingContext as TContext;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool isDisposing)
+        {
         }
     }
 }

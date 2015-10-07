@@ -56,6 +56,8 @@ namespace nGratis.Cop.Gaia.Engine
 
         private int deltaEntities;
 
+        private bool isDisposed;
+
         [ImportingConstructor]
         public DiagnosticSystem()
             : base(ComponentKinds.Any)
@@ -130,6 +132,23 @@ namespace nGratis.Cop.Gaia.Engine
                 position,
                 "-num.entities: {0:N0}".WithInvariantFormat(this.numEntities),
                 Font);
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            if (this.isDisposed)
+            {
+                return;
+            }
+
+            if (isDisposing)
+            {
+                this.globalCpuCounter.Dispose();
+                this.instanceCpuCounter.Dispose();
+            }
+
+            base.Dispose(isDisposing);
+            this.isDisposed = true;
         }
     }
 }

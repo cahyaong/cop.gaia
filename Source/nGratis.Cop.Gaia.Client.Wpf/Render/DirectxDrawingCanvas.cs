@@ -25,6 +25,7 @@
 
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
+    using System;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using nGratis.Cop.Core.Contract;
@@ -40,6 +41,11 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Guard.AgainstNullArgument(() => graphicsDevice);
 
             this.graphicsDevice = graphicsDevice;
+        }
+
+        ~DirectxDrawingCanvas()
+        {
+            this.Dispose(false);
         }
 
         public void BeginBatch()
@@ -79,6 +85,16 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Guard.AgainstInvalidOperation(typeof(TContext) != typeof(GraphicsDevice));
 
             return this.graphicsDevice as TContext;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool isDisposing)
+        {
         }
     }
 }

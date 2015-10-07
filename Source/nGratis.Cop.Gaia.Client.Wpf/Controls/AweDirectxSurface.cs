@@ -106,6 +106,12 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
             if (isDisposing)
             {
+                if (this.drawingCanvas != null)
+                {
+                    this.drawingCanvas.Dispose();
+                    this.drawingCanvas = null;
+                }
+
                 if (this.sharpdxTexture != null)
                 {
                     this.sharpdxTexture.Dispose();

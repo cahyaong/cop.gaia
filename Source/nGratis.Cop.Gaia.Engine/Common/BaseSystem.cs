@@ -25,6 +25,7 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using System;
     using System.Collections.Generic;
     using nGratis.Cop.Core.Contract;
     using nGratis.Cop.Gaia.Engine.Core;
@@ -43,6 +44,11 @@ namespace nGratis.Cop.Gaia.Engine
 
             this.RelatedEntities = new HashSet<IEntity>();
             this.IsEnabled = true;
+        }
+
+        ~BaseSystem()
+        {
+            this.Dispose(false);
         }
 
         public bool IsInitialized
@@ -158,6 +164,12 @@ namespace nGratis.Cop.Gaia.Engine
             }
         }
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         protected virtual void InitializeCore()
         {
         }
@@ -167,6 +179,10 @@ namespace nGratis.Cop.Gaia.Engine
         }
 
         protected virtual void RenderCore(Clock clock)
+        {
+        }
+
+        protected virtual void Dispose(bool isDisposing)
         {
         }
     }

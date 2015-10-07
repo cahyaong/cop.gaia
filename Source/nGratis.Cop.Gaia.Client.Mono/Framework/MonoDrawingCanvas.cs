@@ -42,6 +42,8 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
         private readonly Texture2D pixelTexture;
 
+        private bool isDisposed;
+
         public MonoDrawingCanvas(GraphicsDevice graphicsDevice, IFontManager fontManager)
         {
             RapidGuard.AgainstNullArgument(graphicsDevice);
@@ -53,6 +55,11 @@ namespace nGratis.Cop.Gaia.Client.Mono
             this.spriteBatch = new SpriteBatch(graphicsDevice);
             this.pixelTexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             this.pixelTexture.SetData(new[] { Color.Gray });
+        }
+
+        ~MonoDrawingCanvas()
+        {
+            this.Dispose(false);
         }
 
         public void BeginBatch()
@@ -106,6 +113,28 @@ namespace nGratis.Cop.Gaia.Client.Mono
             Throw.NotSupportedException("Getting drawing context is not supported in Mono.");
 
             return default(TContext);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool isDisposing)
+        {
+            if (this.isDisposed)
+            {
+                return;
+            }
+
+            if (isDisposing)
+            {
+                this.spriteBatch.Dispose();
+                this.pixelTexture.Dispose();
+            }
+
+            this.isDisposed = true;
         }
     }
 }
