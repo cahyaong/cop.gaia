@@ -169,25 +169,25 @@
     <Compile Include="Core\ObjectExtensions.cs" />
     <Compile Include="Core\ReadOnlyBinding.cs" />
     <Compile Include="Core\ReadOnlyBindingCollection.cs" />
-    <Compile Include="Render\DirectxDrawingCanvas.cs" />
+    <Compile Include="Rendering\DirectxDrawingCanvas.cs" />
     <Compile Include="Sdk\Common\CubePrimitive.cs" />
     <Compile Include="Controls\AweDirectxSurface.cs" />
     <Compile Include="Sdk\Common\GeometricPrimitive.cs" />
     <Compile Include="Core\GraphicsDeviceManager.cs" />
     <Compile Include="Sdk\Common\SdkRenderingManager.cs" />
     <Compile Include="Sdk\Common\VertexPositionNormal.cs" />
-    <Compile Include="Render\GradientTileShader.cs" />
+    <Compile Include="Rendering\GradientTileShader.cs" />
     <Compile Include="Environment\IWorldGenerator.cs" />
     <Compile Include="Environment\WorldGenerator.cs" />
-    <Compile Include="Render\GrayscaleTileShader.cs" />
-    <Compile Include="Render\ITileMapViewport.cs" />
-    <Compile Include="Render\ITileMapRenderer.cs" />
-    <Compile Include="Render\ITileShader.cs" />
-    <Compile Include="Render\TileMapRenderer.cs" />
-    <Compile Include="Render\TileMapViewport.cs" />
+    <Compile Include="Rendering\GrayscaleTileShader.cs" />
+    <Compile Include="Rendering\ITileMapViewport.cs" />
+    <Compile Include="Rendering\ITileMapRenderer.cs" />
+    <Compile Include="Rendering\ITileShader.cs" />
+    <Compile Include="Rendering\TileMapRenderer.cs" />
+    <Compile Include="Rendering\TileMapViewport.cs" />
     <Compile Include="Environment\IWorldMapRenderer.cs" />
     <Compile Include="Environment\WorldMapRenderer.cs" />
-    <Compile Include="Render\WpfDrawingCanvas.cs" />
+    <Compile Include="Rendering\WpfDrawingCanvas.cs" />
     <Compile Include="Environment\WorldView.xaml.cs">
       <DependentUpon>WorldView.xaml</DependentUpon>
     </Compile>
