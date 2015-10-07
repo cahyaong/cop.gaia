@@ -41,6 +41,26 @@ namespace nGratis.Cop.Gaia.Engine.Data
 
         public float Z { get; set; }
 
+        public static Vector operator +(Vector left, Vector right)
+        {
+            return new Vector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+        }
+
+        public static Vector operator -(Vector left, Vector right)
+        {
+            return new Vector(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+        }
+
+        public static Vector operator +(Vector vector, float factor)
+        {
+            return new Vector(vector.X + factor, vector.Y + factor, vector.Z + factor);
+        }
+
+        public static Vector operator -(Vector vector, float factor)
+        {
+            return new Vector(vector.X - factor, vector.Y - factor, vector.Z - factor);
+        }
+
         public static Vector operator *(Vector vector, float factor)
         {
             return new Vector(vector.X * factor, vector.Y * factor, vector.Z * factor);

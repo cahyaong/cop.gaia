@@ -25,10 +25,13 @@
 
 namespace nGratis.Cop.Gaia.Engine
 {
+    using System;
     using System.Linq;
 
     public static class AuxiliaryMath
     {
+        private const double DegreeToRadian = Math.PI / 180.0;
+
         public static double Max(params double[] values)
         {
             return values != null ? values.Max() : 0.0;
@@ -52,6 +55,21 @@ namespace nGratis.Cop.Gaia.Engine
         public static double InterpolateLinear(double a, double b, double position)
         {
             return ((1.0 - position) * a) + (position * b);
+        }
+
+        public static double Sin(double angle)
+        {
+            return Math.Sin(angle * DegreeToRadian);
+        }
+
+        public static double Cos(double angle)
+        {
+            return Math.Cos(angle * DegreeToRadian);
+        }
+
+        public static double Tan(double angle)
+        {
+            return Math.Tan(angle * DegreeToRadian);
         }
     }
 }

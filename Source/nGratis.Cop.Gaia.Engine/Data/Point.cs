@@ -50,5 +50,15 @@ namespace nGratis.Cop.Gaia.Engine.Data
         {
             return new Vector(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
         }
+
+        public static Point operator +(Point point, Vector displacement)
+        {
+            return new Point(point.X + displacement.X, point.Y + displacement.Y, point.Z + displacement.Z);
+        }
+
+        public static Point operator -(Point point, Vector displacement)
+        {
+            return new Point(point.X - displacement.X, point.Y - displacement.Y, point.Z - displacement.Z);
+        }
     }
 }

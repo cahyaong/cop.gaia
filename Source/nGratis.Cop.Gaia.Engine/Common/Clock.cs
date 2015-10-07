@@ -26,22 +26,27 @@
 namespace nGratis.Cop.Gaia.Engine
 {
     using System;
-    using nGratis.Cop.Core.Contract;
+    using nGratis.Cop.Gaia.Engine.Core;
 
     public struct Clock
     {
         public Clock(TimeSpan totalDuration, TimeSpan elapsedDuration)
+            : this((float)totalDuration.TotalSeconds, (float)elapsedDuration.TotalSeconds)
+        {
+        }
+
+        public Clock(float totalDuration, float elapsedDuration)
             : this()
         {
-            Guard.AgainstInvalidArgument(totalDuration < TimeSpan.Zero, () => totalDuration);
-            Guard.AgainstInvalidArgument(elapsedDuration < TimeSpan.Zero, () => elapsedDuration);
+            RapidGuard.AgainstInvalidArgument(totalDuration < 0);
+            RapidGuard.AgainstInvalidArgument(elapsedDuration < 0);
 
             this.TotalDuration = totalDuration;
             this.ElapsedDuration = elapsedDuration;
         }
 
-        public TimeSpan TotalDuration { get; set; }
+        public float TotalDuration { get; private set; }
 
-        public TimeSpan ElapsedDuration { get; set; }
+        public float ElapsedDuration { get; private set; }
     }
 }

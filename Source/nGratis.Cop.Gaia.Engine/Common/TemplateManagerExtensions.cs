@@ -41,7 +41,8 @@ namespace nGratis.Cop.Gaia.Engine
                     new StatisticComponent(),
                     new ConstitutionComponent(),
                     new TraitComponent(),
-                    new PlacementComponent()));
+                    new PlacementComponent(),
+                    new PhysicsComponent()));
         }
     }
 }

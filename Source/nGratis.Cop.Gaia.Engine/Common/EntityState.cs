@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityAction.cs" company="nGratis">
+// <copyright file="EntityState.cs" company="nGratis">
 //   The MIT License (MIT)
 // 
 //   Copyright (c) 2014 - 2015 Cahya Ong
@@ -20,14 +20,14 @@
 //   THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 19 September 2015 12:24:14 AM UTC</creation_timestamp>
+// <creation_timestamp>Monday, 14 September 2015 1:49:12 PM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public enum EntityAction
+    public enum EntityState
     {
-        DoNothing = 0,
-        Wander
+        Idle = 0,
+        Exploration
     }
 }

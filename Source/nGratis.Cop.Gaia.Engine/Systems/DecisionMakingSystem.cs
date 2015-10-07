@@ -53,21 +53,23 @@ namespace nGratis.Cop.Gaia.Engine
             {
                 var brainComponent = brainBucket.FindComponent(entity);
 
-                switch (brainComponent.EntityAction)
+                switch (brainComponent.EntityState)
                 {
-                    case EntityAction.DoNothing:
+                    case EntityState.Idle:
                         {
-                            if (this.GameInfrastructure.ProbabilityManager.Roll(0, 1) < 0.50)
+                            if (this.GameInfrastructure.ProbabilityManager.Roll(0, 1) < 0.75)
                             {
-                                brainComponent.EntityAction = EntityAction.Explore;
+                                brainComponent.EntityState = EntityState.Exploration;
+                                brainComponent.EntityAction = EntityAction.Wander;
                             }
 
                             break;
                         }
-                    case EntityAction.Explore:
+                    case EntityState.Exploration:
                         {
                             if (this.GameInfrastructure.ProbabilityManager.Roll(0, 1) < 0.25)
                             {
+                                brainComponent.EntityState = EntityState.Idle;
                                 brainComponent.EntityAction = EntityAction.DoNothing;
                             }
 

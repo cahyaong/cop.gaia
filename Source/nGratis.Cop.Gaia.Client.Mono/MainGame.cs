@@ -36,7 +36,6 @@ namespace nGratis.Cop.Gaia.Client.Mono
     using nGratis.Cop.Gaia.Client.Mono.Core;
     using nGratis.Cop.Gaia.Engine;
     using nGratis.Cop.Gaia.Engine.Core;
-    using nGratis.Cop.Gaia.Engine.Data;
 
     internal class MainGame : Game
     {
@@ -214,6 +213,11 @@ namespace nGratis.Cop.Gaia.Client.Mono
                 .EntityManager
                 .FindComponentBucket<PlacementComponent>();
 
+            var physicsBucket = this
+                .GameInfrastructure
+                .EntityManager
+                .FindComponentBucket<PhysicsComponent>();
+
             foreach (var entity in entities)
             {
                 var constitutionComponent = constitutionBucket.FindComponent(entity);
@@ -225,11 +229,10 @@ namespace nGratis.Cop.Gaia.Client.Mono
                     this.GameInfrastructure.ProbabilityManager.Roll(0, this.GameSpecification.MapSize.Width),
                     this.GameInfrastructure.ProbabilityManager.Roll(0, this.GameSpecification.MapSize.Height));
 
-                placementComponent.Direction = new Vector(
-                    this.GameInfrastructure.ProbabilityManager.Roll(-1, 1),
-                    this.GameInfrastructure.ProbabilityManager.Roll(-1, 1));
+                var physicsComponent = physicsBucket.FindComponent(entity);
 
-                placementComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(0, 3);
+                physicsComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(-3, 3);
+                physicsComponent.DirectionAngle = this.GameInfrastructure.ProbabilityManager.Roll(0, 360);
             }
         }
     }

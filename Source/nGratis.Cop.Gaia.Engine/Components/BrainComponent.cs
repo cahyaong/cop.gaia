@@ -30,10 +30,13 @@ namespace nGratis.Cop.Gaia.Engine
     {
         public EntityAction EntityAction { get; set; }
 
+        public EntityState EntityState { get; set; }
+
         public override IComponent Clone()
         {
             return new BrainComponent()
             {
+                EntityState = this.EntityState,
                 EntityAction = this.EntityAction
             };
         }

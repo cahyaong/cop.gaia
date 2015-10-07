@@ -32,18 +32,12 @@ namespace nGratis.Cop.Gaia.Engine
     {
         public Point Position { get; set; }
 
-        public Vector Direction { get; set; }
-
-        public float Speed { get; set; }
-
         public override IComponent Clone()
         {
             return new PlacementComponent()
-                {
-                    Position = this.Position,
-                    Direction = this.Direction,
-                    Speed = this.Speed
-                };
+            {
+                Position = this.Position
+            };
         }
     }
 }

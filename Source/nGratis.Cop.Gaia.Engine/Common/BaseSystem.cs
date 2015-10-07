@@ -134,7 +134,7 @@ namespace nGratis.Cop.Gaia.Engine
         {
             if (this.UpdatingInterval > 0)
             {
-                this.skippedUpdatingDuration += (float)clock.ElapsedDuration.TotalSeconds;
+                this.skippedUpdatingDuration += clock.ElapsedDuration;
 
                 if (this.skippedUpdatingDuration < this.UpdatingInterval)
                 {

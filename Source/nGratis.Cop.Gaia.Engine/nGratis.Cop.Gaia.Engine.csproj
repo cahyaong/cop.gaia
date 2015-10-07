@@ -27,6 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nGratis.Cop.Core, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -90,6 +92,7 @@
     <Compile Include="Common\ComponentKindExtensions.cs" />
     <Compile Include="Common\Entity.cs" />
     <Compile Include="Common\EntityAction.cs" />
+    <Compile Include="Common\EntityState.cs" />
     <Compile Include="Common\EntityManager.cs" />
     <Compile Include="Common\BaseSystem.cs" />
     <Compile Include="Common\EntityChangedEventArgs.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="Common\TemplateManagerExtensions.cs" />
     <Compile Include="Components\BrainComponent.cs" />
     <Compile Include="Components\ConstitutionComponent.cs" />
+    <Compile Include="Components\PhysicsComponent.cs" />
     <Compile Include="Components\PlacementComponent.cs" />
     <Compile Include="Components\StatisticComponent.cs" />
     <Compile Include="Components\TraitComponent.cs" />

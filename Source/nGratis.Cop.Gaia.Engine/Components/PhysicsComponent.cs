@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityAction.cs" company="nGratis">
+// <copyright file="PhysicsComponent.cs" company="nGratis">
 //   The MIT License (MIT)
 // 
 //   Copyright (c) 2014 - 2015 Cahya Ong
@@ -20,14 +20,25 @@
 //   THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 19 September 2015 12:24:14 AM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 19 September 2015 12:40:07 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Engine
 {
-    public enum EntityAction
+    [Component(ComponentKind.Physics)]
+    public class PhysicsComponent : BaseComponent
     {
-        DoNothing = 0,
-        Wander
+        public float Speed { get; set; }
+
+        public float DirectionAngle { get; set; }
+
+        public override IComponent Clone()
+        {
+            return new PhysicsComponent()
+            {
+                Speed = this.Speed,
+                DirectionAngle = this.DirectionAngle
+            };
+        }
     }
 }

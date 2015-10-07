@@ -32,11 +32,12 @@ namespace nGratis.Cop.Gaia.Engine
     public enum ComponentKind
     {
         None = 0,
-        Brain = 1,
-        Statistic = 11,
-        Constitution = 13,
-        Trait = 17,
-        Placement = 18
+        Brain,
+        Statistic = 10,
+        Constitution,
+        Trait,
+        Placement = 20,
+        Physics
     }
 
     public sealed class ComponentKinds
