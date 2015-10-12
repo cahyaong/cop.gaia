@@ -70,12 +70,17 @@ namespace nGratis.Cop.Gaia.Client.Wpf
                 rectangle.ToWindowsRectangle());
         }
 
-        public void DrawLine(Pen pen, Point startPoint, Point endPoint)
+        public void DrawLine(Pen pen, Point start, Point end)
         {
             this.drawingContext.DrawLine(
                 pen.ToMediaPen(),
-                startPoint.ToWindowsPoint(),
-                endPoint.ToWindowsPoint());
+                start.ToWindowsPoint(),
+                end.ToWindowsPoint());
+        }
+
+        public void DrawCircle(Pen pen, Brush brush, Point center, float radius)
+        {
+            Throw.NotSupportedException("Drawing circle is not available in WPF.");
         }
 
         public void DrawText(Pen pen, Point position, string text, string font)

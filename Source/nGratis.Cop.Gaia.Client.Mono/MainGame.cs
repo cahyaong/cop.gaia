@@ -221,17 +221,17 @@ namespace nGratis.Cop.Gaia.Client.Mono
             foreach (var entity in entities)
             {
                 var constitutionComponent = constitutionBucket.FindComponent(entity);
+                var placementComponent = placementBucket.FindComponent(entity);
+                var physicsComponent = physicsBucket.FindComponent(entity);
+
                 constitutionComponent.HitPoint = this.GameInfrastructure.ProbabilityManager.Roll(0, 100);
 
-                var placementComponent = placementBucket.FindComponent(entity);
-
-                placementComponent.Position = new nGratis.Cop.Gaia.Engine.Data.Point(
+                placementComponent.Center = new nGratis.Cop.Gaia.Engine.Data.Point(
                     this.GameInfrastructure.ProbabilityManager.Roll(0, this.GameSpecification.MapSize.Width),
                     this.GameInfrastructure.ProbabilityManager.Roll(0, this.GameSpecification.MapSize.Height));
 
-                var physicsComponent = physicsBucket.FindComponent(entity);
-
-                physicsComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(-3, 3);
+                physicsComponent.Radius = 0.5F;
+                physicsComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(0, 3);
                 physicsComponent.DirectionAngle = this.GameInfrastructure.ProbabilityManager.Roll(0, 360);
             }
         }

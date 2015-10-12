@@ -63,9 +63,9 @@ namespace nGratis.Cop.Gaia.Engine
             return Math.Min(Math.Max(value, min), max);
         }
 
-        public static bool IsCloseTo(this double firstValue, double secondValue, double tolerance = 0.00001)
+        public static bool IsCloseTo(this double left, double right, double tolerance = 0.00001)
         {
-            return Math.Abs(firstValue - secondValue) <= tolerance;
+            return Math.Abs(left - right) <= tolerance;
         }
     }
 }

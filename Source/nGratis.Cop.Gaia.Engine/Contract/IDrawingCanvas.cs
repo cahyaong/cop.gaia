@@ -39,7 +39,9 @@ namespace nGratis.Cop.Gaia.Engine
 
         void DrawRectangle(Pen pen, Brush brush, Rectangle rectangle);
 
-        void DrawLine(Pen pen, Point startPoint, Point endPoint);
+        void DrawLine(Pen pen, Point start, Point end);
+
+        void DrawCircle(Pen pen, Brush brush, Point center, float radius);
 
         void DrawText(Pen pen, Point position, string text, string font);
 

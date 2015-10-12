@@ -26,6 +26,7 @@
 namespace nGratis.Cop.Gaia.Client.Mono
 {
     using System;
+    using System.Linq;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using nGratis.Cop.Core.Contract;
@@ -34,6 +35,8 @@ namespace nGratis.Cop.Gaia.Client.Mono
 
     internal class MonoDrawingCanvas : IDrawingCanvas
     {
+        private static readonly nGratis.Cop.Gaia.Engine.Data.Point[] CirclePoints;
+
         private readonly GraphicsDevice graphicsDevice;
 
         private readonly IFontManager fontManager;
@@ -43,6 +46,21 @@ namespace nGratis.Cop.Gaia.Client.Mono
         private readonly Texture2D pixelTexture;
 
         private bool isDisposed;
+
+        static MonoDrawingCanvas()
+        {
+            CirclePoints = Enumerable
+                .Range(0, 16)
+                .Select(index =>
+                    {
+                        var angle = 360.0 / 16 * index;
+
+                        return new nGratis.Cop.Gaia.Engine.Data.Point(
+                            (float)AuxiliaryMath.Cos(angle),
+                            (float)AuxiliaryMath.Sin(angle));
+                    })
+                .ToArray();
+        }
 
         public MonoDrawingCanvas(GraphicsDevice graphicsDevice, IFontManager fontManager)
         {
@@ -82,14 +100,14 @@ namespace nGratis.Cop.Gaia.Client.Mono
             Throw.NotSupportedException("Drawing rectangle is not supported in Mono.");
         }
 
-        public void DrawLine(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point startPoint, nGratis.Cop.Gaia.Engine.Data.Point endPoint)
+        public void DrawLine(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point start, nGratis.Cop.Gaia.Engine.Data.Point end)
         {
-            var distance = Vector2.Distance(startPoint.ToXnaVector2(), endPoint.ToXnaVector2());
-            var angle = (float)Math.Atan2(endPoint.Y - startPoint.Y, endPoint.X - startPoint.X);
+            var distance = Vector2.Distance(start.ToXnaVector2(), end.ToXnaVector2());
+            var angle = (float)Math.Atan2(end.Y - start.Y, end.X - start.X);
 
             this.spriteBatch.Draw(
                 this.pixelTexture,
-                startPoint.ToXnaVector2(),
+                start.ToXnaVector2(),
                 null,
                 pen.Color.ToXnaColor(),
                 angle,
@@ -97,6 +115,22 @@ namespace nGratis.Cop.Gaia.Client.Mono
                 new Vector2(distance, pen.Thickness),
                 SpriteEffects.None,
                 0);
+        }
+
+        public void DrawCircle(Pen pen, Brush brush, nGratis.Cop.Gaia.Engine.Data.Point center, float radius)
+        {
+            for (var index = 0; index < CirclePoints.Length; index++)
+            {
+                var start = new nGratis.Cop.Gaia.Engine.Data.Point(
+                    center.X + CirclePoints[index].X * radius,
+                    center.Y + CirclePoints[index].Y * radius);
+
+                var end = new nGratis.Cop.Gaia.Engine.Data.Point(
+                    center.X + CirclePoints[(index + 1) % CirclePoints.Length].X * radius,
+                    center.Y + CirclePoints[(index + 1) % CirclePoints.Length].Y * radius);
+
+                this.DrawLine(pen, start, end);
+            }
         }
 
         public void DrawText(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point position, string text, string font)

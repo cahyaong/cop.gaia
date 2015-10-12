@@ -54,5 +54,10 @@ namespace nGratis.Cop.Gaia.Engine.Data
             get;
             private set;
         }
+
+        public static Size operator *(Size size, float factor)
+        {
+            return new Size(size.Width * factor, size.Height * factor);
+        }
     }
 }

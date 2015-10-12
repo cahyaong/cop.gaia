@@ -70,9 +70,14 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             Throw.NotSupportedException("Drawing rectangle is not available in DirectX.");
         }
 
-        public void DrawLine(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point startPoint, nGratis.Cop.Gaia.Engine.Data.Point endPoint)
+        public void DrawLine(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point start, nGratis.Cop.Gaia.Engine.Data.Point end)
         {
             Throw.NotSupportedException("Drawing line is not available in DirectX.");
+        }
+
+        public void DrawCircle(Pen pen, Brush brush, nGratis.Cop.Gaia.Engine.Data.Point center, float radius)
+        {
+            Throw.NotSupportedException("Drawing circle is not available in DirectX.");
         }
 
         public void DrawText(Pen pen, nGratis.Cop.Gaia.Engine.Data.Point position, string text, string font)

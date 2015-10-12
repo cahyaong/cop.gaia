@@ -45,7 +45,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
                 CompositionOptions.DisableSilentRejection | CompositionOptions.IsThreadSafe);
 
             var gameInfrastructure = mefContainer.GetExportedValue<IGameInfrastructure>();
-            var gameSpecification = new GameSpecification(new Size(1280, 720), new Size(128, 72));
+            var gameSpecification = new GameSpecification(new Size(128, 72), 10);
 
             using (var mainGame = new MainGame())
             {

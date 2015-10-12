@@ -28,6 +28,8 @@ namespace nGratis.Cop.Gaia.Engine
     [Component(ComponentKind.Physics)]
     public class PhysicsComponent : BaseComponent
     {
+        public float Radius { get; set; }
+
         public float Speed { get; set; }
 
         public float DirectionAngle { get; set; }
@@ -36,6 +38,7 @@ namespace nGratis.Cop.Gaia.Engine
         {
             return new PhysicsComponent()
             {
+                Radius = Radius,
                 Speed = this.Speed,
                 DirectionAngle = this.DirectionAngle
             };

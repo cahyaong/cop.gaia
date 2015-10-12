@@ -34,7 +34,7 @@ namespace nGratis.Cop.Gaia.Engine
     {
         [ImportingConstructor]
         public RenderingSystem()
-            : base(new ComponentKinds(ComponentKind.Placement))
+            : base(new ComponentKinds(ComponentKind.Placement, ComponentKind.Physics))
         {
         }
 
@@ -59,9 +59,16 @@ namespace nGratis.Cop.Gaia.Engine
                 .EntityManager
                 .FindComponentBucket<PlacementComponent>();
 
+            var physicsBucket = this
+                .GameInfrastructure
+                .EntityManager
+                .FindComponentBucket<PhysicsComponent>();
+
             foreach (var entity in this.RelatedEntities)
             {
                 var constitutionComponent = constitutionBucket.FindComponent(entity);
+                var placementComponent = placementBucket.FindComponent(entity);
+                var physicsComponent = physicsBucket.FindComponent(entity);
 
                 var pen = redPen;
 
@@ -74,27 +81,19 @@ namespace nGratis.Cop.Gaia.Engine
                     pen = orangePen;
                 }
 
-                var placementComponent = placementBucket.FindComponent(entity);
+                var radius = physicsComponent.Radius * this.GameSpecification.TileLength;
 
-                var startPoint = new Point(
-                    placementComponent.Position.X * this.GameSpecification.TileSize.Width,
-                    placementComponent.Position.Y * this.GameSpecification.TileSize.Height);
+                var center = new Point(
+                    placementComponent.Center.X * this.GameSpecification.TileLength,
+                    placementComponent.Center.Y * this.GameSpecification.TileLength);
 
-                var endPoint = new Point(
-                    (placementComponent.Position.X + 1) * this.GameSpecification.TileSize.Width,
-                    (placementComponent.Position.Y + 1) * this.GameSpecification.TileSize.Height);
+                this.DrawingCanvas.DrawCircle(pen, Brush.Null, center, radius);
 
-                this.DrawingCanvas.DrawLine(pen, startPoint, endPoint);
+                var point = new Point(
+                    center.X + (float)AuxiliaryMath.Cos(physicsComponent.DirectionAngle) * radius,
+                    center.Y + (float)AuxiliaryMath.Sin(physicsComponent.DirectionAngle) * radius);
 
-                startPoint = new Point(
-                    (placementComponent.Position.X + 1) * this.GameSpecification.TileSize.Width,
-                    placementComponent.Position.Y * this.GameSpecification.TileSize.Height);
-
-                endPoint = new Point(
-                    placementComponent.Position.X * this.GameSpecification.TileSize.Width,
-                    (placementComponent.Position.Y + 1) * this.GameSpecification.TileSize.Height);
-
-                this.DrawingCanvas.DrawLine(pen, startPoint, endPoint);
+                this.DrawingCanvas.DrawLine(pen, center, point);
             }
         }
     }

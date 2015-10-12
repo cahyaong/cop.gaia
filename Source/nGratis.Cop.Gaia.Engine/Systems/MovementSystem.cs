@@ -62,52 +62,52 @@ namespace nGratis.Cop.Gaia.Engine
                 var distanceX = (float)(distance * AuxiliaryMath.Cos(physicsComponent.DirectionAngle));
                 var distanceY = (float)(distance * AuxiliaryMath.Sin(physicsComponent.DirectionAngle));
 
-                var positionX = placementComponent.Position.X + distanceX;
-                var positionY = placementComponent.Position.Y + distanceY;
+                var positionX = placementComponent.Center.X + distanceX;
+                var positionY = placementComponent.Center.Y + distanceY;
 
-                if (positionX < 0)
+                if (positionX - physicsComponent.Radius <= 0)
                 {
-                    positionX = 0;
+                    positionX = physicsComponent.Radius;
                     physicsComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(0, 3);
                     physicsComponent.DirectionAngle = this.GameInfrastructure.ProbabilityManager.Roll(-45, 45);
                 }
-                else if (positionX > this.GameSpecification.MapSize.Width - 1)
+                else if (positionX + physicsComponent.Radius >= this.GameSpecification.MapSize.Width)
                 {
-                    positionX = this.GameSpecification.MapSize.Width - 1;
+                    positionX = this.GameSpecification.MapSize.Width - physicsComponent.Radius;
                     physicsComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(0, 3);
                     physicsComponent.DirectionAngle = this.GameInfrastructure.ProbabilityManager.Roll(135, 225);
                 }
                 else
                 {
                     physicsComponent.Speed += this.GameInfrastructure.ProbabilityManager.Roll(-1, 1) / 10;
-                    physicsComponent.Speed = physicsComponent.Speed.Clamp(-5, 5);
+                    physicsComponent.Speed = physicsComponent.Speed.Clamp(0, 5);
                 }
 
-                if (positionY < 0)
+                if (positionY - physicsComponent.Radius <= 0)
                 {
-                    positionY = 0;
+                    positionY = physicsComponent.Radius;
                     physicsComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(0, 3);
                     physicsComponent.DirectionAngle = this.GameInfrastructure.ProbabilityManager.Roll(45, 135);
                 }
-                else if (positionY > this.GameSpecification.MapSize.Height - 1)
+                else if (positionY + physicsComponent.Radius >= this.GameSpecification.MapSize.Height)
                 {
-                    positionY = this.GameSpecification.MapSize.Height - 1;
+                    positionY = this.GameSpecification.MapSize.Height - physicsComponent.Radius;
                     physicsComponent.Speed = this.GameInfrastructure.ProbabilityManager.Roll(0, 3);
                     physicsComponent.DirectionAngle = this.GameInfrastructure.ProbabilityManager.Roll(225, 315);
                 }
                 else
                 {
                     physicsComponent.Speed += this.GameInfrastructure.ProbabilityManager.Roll(-1, 1) / 10;
-                    physicsComponent.Speed = physicsComponent.Speed.Clamp(-5, 5);
+                    physicsComponent.Speed = physicsComponent.Speed.Clamp(0, 5);
                 }
 
                 if (this.GameInfrastructure.ProbabilityManager.Roll() >= 0.5)
                 {
                     physicsComponent.Speed += this.GameInfrastructure.ProbabilityManager.Roll(-1, 1);
-                    physicsComponent.Speed.Clamp(-5, 5);
+                    physicsComponent.Speed.Clamp(0, 5);
                 }
 
-                placementComponent.Position = new Point(positionX, positionY);
+                placementComponent.Center = new Point(positionX, positionY);
             }
         }
     }

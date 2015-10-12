@@ -30,13 +30,13 @@ namespace nGratis.Cop.Gaia.Engine
     [Component(ComponentKind.Placement)]
     public class PlacementComponent : BaseComponent
     {
-        public Point Position { get; set; }
+        public Point Center { get; set; }
 
         public override IComponent Clone()
         {
             return new PlacementComponent()
             {
-                Position = this.Position
+                Center = this.Center
             };
         }
     }

@@ -33,5 +33,10 @@ namespace nGratis.Cop.Gaia.Engine
         {
             return Math.Min(Math.Max(value, min), max);
         }
+
+        public static bool IsCloseTo(this float left, float right, float tolerance = 0.00001F)
+        {
+            return Math.Abs(left - right) <= tolerance;
+        }
     }
 }

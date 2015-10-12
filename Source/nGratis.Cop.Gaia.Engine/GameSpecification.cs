@@ -30,23 +30,21 @@ namespace nGratis.Cop.Gaia.Engine
 
     public class GameSpecification
     {
-        public GameSpecification(Size screenSize, Size mapSize)
+        public GameSpecification(Size mapSize, float tileLength)
         {
-            Guard.AgainstDefaultArgument(() => screenSize);
             Guard.AgainstDefaultArgument(() => mapSize);
+            Guard.AgainstInvalidArgument(tileLength <= 0, () => tileLength);
 
-            this.ScreenSize = screenSize;
             this.MapSize = mapSize;
+            this.TileLength = tileLength;
 
-            this.TileSize = new Size(
-                screenSize.Width / mapSize.Width,
-                screenSize.Height / mapSize.Height);
+            this.ScreenSize = mapSize * tileLength;
         }
 
         public Size ScreenSize { get; private set; }
 
         public Size MapSize { get; private set; }
 
-        public Size TileSize { get; private set; }
+        public float TileLength { get; private set; }
     }
 }
