@@ -26,6 +26,7 @@
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Reactive.Linq;
     using System.Windows;
@@ -47,7 +48,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             "TileMapRenderer",
             typeof(ITileMapRenderer),
             typeof(AweTileMapViewer),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnTileMapRendererChanged));
 
         public static readonly DependencyProperty SelectedTileProperty = DependencyProperty.Register(
             "SelectedTile",
@@ -67,6 +68,8 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             typeof(AweTileMapViewer),
             new PropertyMetadata(null));
 
+        private readonly IList<IDisposable> subscriptions = new List<IDisposable>();
+
         private System.Windows.Point? draggedPoint;
 
         public AweTileMapViewer()
@@ -74,7 +77,7 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             this.Focusable = true;
             this.FocusVisualStyle = null;
 
-            this.InitializeEventHandlers();
+            this.HookEventHandlers();
         }
 
         public TileMap TileMap
@@ -205,17 +208,74 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             viewer.ResetViewport();
         }
 
-        private void InitializeEventHandlers()
+        private static void OnTileMapRendererChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
-            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseDown", this.OnMouseDown);
-            this.AddEventHandler<AweTileMapViewer, MouseButtonEventArgs>("MouseUp", this.OnMouseUp);
-            this.AddEventHandler<AweTileMapViewer, MouseEventArgs>("MouseMove", this.OnMouseMove);
+            var viewer = (AweTileMapViewer)dependencyObject;
 
-            Observable
+            if (viewer == null)
+            {
+                return;
+            }
+
+            viewer.UnhookEventHandlers();
+            viewer.HookEventHandlers();
+        }
+
+        private void HookEventHandlers()
+        {
+            var subscription = default(IDisposable);
+
+            subscription = Observable
+                .FromEventPattern<MouseButtonEventArgs>(this, "MouseDown")
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(pattern => this.OnMouseDown(pattern.Sender, pattern.EventArgs));
+
+            this.subscriptions.Add(subscription);
+
+            subscription = Observable
+                .FromEventPattern<MouseButtonEventArgs>(this, "MouseUp")
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(pattern => this.OnMouseUp(pattern.Sender, pattern.EventArgs));
+
+            this.subscriptions.Add(subscription);
+
+            subscription = Observable
+                .FromEventPattern<MouseEventArgs>(this, "MouseMove")
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(pattern => this.OnMouseMove(pattern.Sender, pattern.EventArgs));
+
+            this.subscriptions.Add(subscription);
+
+            subscription = Observable
                 .FromEventPattern<KeyEventArgs>(this, "KeyDown")
                 .Where(pattern => pattern.EventArgs.Key.IsPanning())
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(pattern => this.PanDisplay(pattern.EventArgs.Key));
+
+            this.subscriptions.Add(subscription);
+
+            var renderer = this.TileMapRenderer;
+
+            if (renderer != null)
+            {
+                subscription = renderer
+                    .TileMapViewport
+                    .WhenCoordinateUpdated
+                    .Distinct()
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(pattern => this.InvalidateVisual());
+
+                this.subscriptions.Add(subscription);
+            }
+        }
+
+        private void UnhookEventHandlers()
+        {
+            this
+                .subscriptions
+                .ForEach(subscription => subscription.Dispose());
+
+            this.subscriptions.Clear();
         }
 
         private void PanDisplay(Key key)
@@ -259,7 +319,6 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             renderer.PanCamera(4 * deltaRows, 4 * deltaColumns, tileMap.NumRows, tileMap.NumColumns);
 
             this.AdjustSelectedTile();
-            this.InvalidateVisual();
         }
 
         private void PanDisplay(System.Windows.Point oldPoint, System.Windows.Point newPoint)
@@ -284,7 +343,6 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             renderer.PanCamera(deltaRows, deltaColumns, tileMap.NumRows, tileMap.NumColumns);
 
             this.AdjustSelectedTile();
-            this.InvalidateVisual();
         }
 
         private void PickTile(System.Windows.Point point)
@@ -352,7 +410,6 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
             this.SelectedTile = null;
             this.AdjustSelectedTile();
-            this.InvalidateVisual();
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs args)

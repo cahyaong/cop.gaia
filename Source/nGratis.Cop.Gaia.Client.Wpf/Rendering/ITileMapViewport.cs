@@ -25,7 +25,9 @@
 
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
+    using System;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     public interface ITileMapViewport
     {
@@ -40,6 +42,8 @@ namespace nGratis.Cop.Gaia.Client.Wpf
         int MostRows { get; }
 
         int MostColumns { get; }
+
+        IObservable<Coordinate> WhenCoordinateUpdated { get; }
 
         void Reset();
 

@@ -26,10 +26,14 @@
 namespace nGratis.Cop.Gaia.Client.Wpf
 {
     using System;
+    using System.Reactive.Subjects;
     using nGratis.Cop.Gaia.Engine;
+    using nGratis.Cop.Gaia.Engine.Data;
 
     internal class TileMapViewport : ITileMapViewport
     {
+        private readonly ISubject<Coordinate> coordinateUpdatedSubject = new Subject<Coordinate>();
+
         public TileMapViewport()
         {
             this.Column = 0;
@@ -40,22 +44,53 @@ namespace nGratis.Cop.Gaia.Client.Wpf
             this.MostColumns = 64;
         }
 
-        public int Column { get; private set; }
+        public int Column
+        {
+            get;
+            private set;
+        }
 
-        public int Row { get; private set; }
+        public int Row
+        {
+            get;
+            private set;
+        }
 
-        public int NumRows { get; private set; }
+        public int NumRows
+        {
+            get;
+            private set;
+        }
 
-        public int NumColumns { get; private set; }
+        public int NumColumns
+        {
+            get;
+            private set;
+        }
 
-        public int MostRows { get; private set; }
+        public int MostRows
+        {
+            get;
+            private set;
+        }
 
-        public int MostColumns { get; private set; }
+        public int MostColumns
+        {
+            get;
+            private set;
+        }
+
+        public IObservable<Coordinate> WhenCoordinateUpdated
+        {
+            get { return this.coordinateUpdatedSubject; }
+        }
 
         public void Reset()
         {
             this.Row = 0;
             this.Column = 0;
+
+            this.coordinateUpdatedSubject.OnNext(Coordinate.Origin);
         }
 
         public void Resize(int numRows, int numColumns)
@@ -69,12 +104,16 @@ namespace nGratis.Cop.Gaia.Client.Wpf
 
             this.NumRows = numRows;
             this.NumColumns = numColumns;
+
+            this.coordinateUpdatedSubject.OnNext(new Coordinate() { Row = this.Row, Column = this.Column });
         }
 
         public void Pan(int deltaRows, int deltaColumns)
         {
             this.Row = Math.Max(0, this.Row + deltaRows);
             this.Column = Math.Max(0, this.Column + deltaColumns);
+
+            this.coordinateUpdatedSubject.OnNext(new Coordinate() { Row = this.Row, Column = this.Column });
         }
 
         public bool IsTileVisible(Tile tile)
