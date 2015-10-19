@@ -200,7 +200,7 @@ namespace nGratis.Cop.Gaia.Client.Mono
             var template = this.GameInfrastructure.TemplateManager.FindTemplate("Character");
 
             var entities = Enumerable
-                .Range(0, 250)
+                .Range(0, 100)
                 .Select(_ => this.GameInfrastructure.EntityManager.CreateEntity(template));
 
             var constitutionBucket = this
