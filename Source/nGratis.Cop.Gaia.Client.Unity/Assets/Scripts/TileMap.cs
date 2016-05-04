@@ -29,7 +29,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
     public class TileMap : MonoBehaviour
     {
-        private Tile[,] tiles;
+        private Tile[,] _tiles;
 
         public TileMap()
         {
@@ -67,13 +67,13 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
         public void Generate()
         {
-            this.tiles = new Tile[this.NumRows, this.NumColumns];
+            this._tiles = new Tile[this.NumRows, this.NumColumns];
 
             for (var row = 0; row < this.NumRows; row++)
             {
                 for (var column = 0; column < this.NumColumns; column++)
                 {
-                    this.tiles[row, column] = new Tile();
+                    this._tiles[row, column] = new Tile();
                 }
             }
         }

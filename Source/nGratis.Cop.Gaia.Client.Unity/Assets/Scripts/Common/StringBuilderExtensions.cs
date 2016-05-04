@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Throw.cs" company="nGratis">
+// <copyright file="StringBuilderExtensions.cs" company="nGratis">
 //   The MIT License (MIT)
 //
 //   Copyright (c) 2014 - 2016 Cahya Ong
@@ -20,56 +20,21 @@
 //   THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 9 April 2016 5:40:34 AM UTC</creation_timestamp>
+// <creation_timestamp>Wednesday, 4 May 2016 9:44:39 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace nGratis.Cop.Gaia.Client.Unity
 {
-    using System;
-    using System.Diagnostics;
+    using System.Globalization;
+    using System.Text;
 
-    public static class Guard
+    public static class StringBuilderExtensions
     {
-        public static class Argument
+        public static StringBuilder AppendLine(this StringBuilder builder, string format, params object[] args)
         {
-            [DebuggerStepThrough]
-            public static void IsNull(object value)
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-            }
+            Guard.Argument.IsNull(builder);
 
-            [DebuggerStepThrough]
-            public static void IsZeroOrNegative(int value)
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentException("Value cannot be zero or negative.");
-                }
-            }
-
-            [DebuggerStepThrough]
-            public static void IsNegative(int value)
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentException("Value cannot be negative.");
-                }
-            }
-        }
-
-        public static class Operation
-        {
-            [DebuggerStepThrough]
-            public static void IsUnexpectedNull(object value)
-            {
-                if (value == null)
-                {
-                    throw new InvalidOperationException("Value cannot be null");
-                }
-            }
+            return builder.AppendLine(string.Format(CultureInfo.CurrentCulture, format, args));
         }
     }
 }
