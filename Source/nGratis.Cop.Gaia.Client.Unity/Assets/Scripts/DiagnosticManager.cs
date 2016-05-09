@@ -29,22 +29,27 @@ namespace nGratis.Cop.Gaia.Client.Unity
     using System.Text;
     using UnityEngine;
 
-    public class DiagnosticManager : MonoBehaviour
+    public class DiagnosticManager : BaseManager
     {
         private const int MarginInPixel = 20;
 
         private bool _isEnabled = true;
 
-        private GameManager _gameManager;
+        private TemporalManager _temporalManager;
 
         private uint _previousNumTicks;
 
         private uint _deltaTicks;
 
+        public override void ExecuteVariableDelta(float delta)
+        {
+            this.HandleUserInput();
+        }
+
         private void Start()
         {
-            this._gameManager = Object.FindObjectOfType<GameManager>();
-            Guard.Operation.IsUnexpectedNull(this._gameManager);
+            this._temporalManager = Object.FindObjectOfType<TemporalManager>();
+            Guard.Operation.IsUnexpectedNull(this._temporalManager);
 
             this.StartCoroutine("DoSamplingCoroutine");
         }
@@ -63,15 +68,10 @@ namespace nGratis.Cop.Gaia.Client.Unity
                 Screen.height - DiagnosticManager.MarginInPixel);
 
             var labelBuilder = new StringBuilder()
-                .AppendLine("--simulation.total-ticks: {0:N0}", this._gameManager.NumTicks)
+                .AppendLine("--simulation.total-ticks: {0:N0}", this._temporalManager.NumTicks)
                 .AppendLine("--simulation.ticks-per-second: {0:N0}", this._deltaTicks);
 
             GUI.Label(labelArea, labelBuilder.ToString());
-        }
-
-        private void Update()
-        {
-            this.HandleUserInput();
         }
 
         private void HandleUserInput()
@@ -79,7 +79,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.D))
             {
                 this._isEnabled = !this._isEnabled;
-                this._previousNumTicks = this._gameManager.NumTicks;
+                this._previousNumTicks = this._temporalManager.NumTicks;
                 this._deltaTicks = 0;
 
                 if (this._isEnabled)
@@ -97,7 +97,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
         {
             while (this._isEnabled)
             {
-                var currentNumTicks = this._gameManager.NumTicks;
+                var currentNumTicks = this._temporalManager.NumTicks;
                 this._deltaTicks = currentNumTicks - this._previousNumTicks;
                 this._previousNumTicks = currentNumTicks;
 

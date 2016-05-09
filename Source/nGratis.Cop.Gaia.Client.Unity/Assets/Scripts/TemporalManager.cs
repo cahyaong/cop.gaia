@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GameManager.cs" company="nGratis">
+// <copyright file="TemporalManager.cs" company="nGratis">
 //   The MIT License (MIT)
 //
 //   Copyright (c) 2014 - 2016 Cahya Ong
@@ -20,16 +20,18 @@
 //   THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <author>Cahya Ong - cahya.ong@gmail.com</author>
-// <creation_timestamp>Saturday, 30 April 2016 6:23:56 AM UTC</creation_timestamp>
+// <creation_timestamp>Saturday, 7 May 2016 4:18:37 AM UTC</creation_timestamp>
 // --------------------------------------------------------------------------------------------------------------------
+
+using UnityEngine;
 
 namespace nGratis.Cop.Gaia.Client.Unity
 {
-    using UnityEngine;
+    using System;
 
-    public class GameManager : MonoBehaviour
+    public class TemporalManager : BaseManager
     {
-        private enum SimulationSpeed
+        private enum GameSpeed
         {
             Stop = 0,
             Normal,
@@ -39,13 +41,13 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
         private const int DefaultNumTicksPerSecond = 1;
 
-        private float _unprocessedTime;
+        private GameSpeed _gameSpeed;
 
-        private SimulationSpeed _simulationSpeed;
-
-        private float _simulationRateMultiplier;
+        private float _speedMultiplier;
 
         private int _numTicksPerSecond;
+
+        private float _unprocessedPeriod;
 
         private float _tickPeriod;
 
@@ -55,95 +57,94 @@ namespace nGratis.Cop.Gaia.Client.Unity
             private set;
         }
 
-        private void Start()
-        {
-            this.AdjustSimulationRate(SimulationSpeed.Normal);
-        }
+        public event EventHandler TickPulsed;
 
-        private void Update()
+        public override void ExecuteVariableDelta(float delta)
         {
             this.HandleUserInput();
 
-            if (this._simulationSpeed == SimulationSpeed.Stop)
+            if (this._gameSpeed == GameSpeed.Stop)
             {
                 return;
             }
 
-            this._unprocessedTime += Time.deltaTime;
+            this._unprocessedPeriod += delta;
 
-            for (var tick = 0; this._unprocessedTime > this._tickPeriod && tick < this._numTicksPerSecond; tick++)
+            for (var tick = 0; this._unprocessedPeriod > this._tickPeriod && tick < this._numTicksPerSecond; tick++)
             {
-                this.ExecuteSingleTick();
                 this.NumTicks++;
-                this._unprocessedTime -= this._tickPeriod;
+                this.TickPulsed.Raise();
+
+                this._unprocessedPeriod -= this._tickPeriod;
             }
         }
 
-        private void ExecuteSingleTick()
+        private void Start()
         {
+            this.AdjustTickRate(GameSpeed.Normal);
         }
 
         private void HandleUserInput()
         {
-            var simulationSpeed = this._simulationSpeed;
+            var gameSpeed = this._gameSpeed;
 
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
-                simulationSpeed = simulationSpeed == SimulationSpeed.Stop
-                    ? SimulationSpeed.Normal
-                    : SimulationSpeed.Stop;
+                gameSpeed = gameSpeed == GameSpeed.Stop
+                    ? GameSpeed.Normal
+                    : GameSpeed.Stop;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                simulationSpeed = SimulationSpeed.Normal;
+                gameSpeed = GameSpeed.Normal;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                simulationSpeed = SimulationSpeed.Fast;
+                gameSpeed = GameSpeed.Fast;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                simulationSpeed = SimulationSpeed.UberFast;
+                gameSpeed = GameSpeed.UberFast;
             }
 
-            this.AdjustSimulationRate(simulationSpeed);
+            this.AdjustTickRate(gameSpeed);
         }
 
-        private void AdjustSimulationRate(SimulationSpeed simulationSpeed)
+        private void AdjustTickRate(GameSpeed gameSpeed)
         {
-            if (this._simulationSpeed == simulationSpeed)
+            if (this._gameSpeed == gameSpeed)
             {
                 return;
             }
 
-            this._simulationSpeed = simulationSpeed;
+            this._gameSpeed = gameSpeed;
 
-            switch (this._simulationSpeed)
+            switch (this._gameSpeed)
             {
-                case SimulationSpeed.Stop:
-                    this._simulationRateMultiplier = 0;
+                case GameSpeed.Stop:
+                    this._speedMultiplier = 0;
                     break;
 
-                case SimulationSpeed.Normal:
-                    this._simulationRateMultiplier = 1;
+                case GameSpeed.Normal:
+                    this._speedMultiplier = 1;
                     break;
 
-                case SimulationSpeed.Fast:
-                    this._simulationRateMultiplier = 4;
+                case GameSpeed.Fast:
+                    this._speedMultiplier = 4;
                     break;
 
-                case SimulationSpeed.UberFast:
-                    this._simulationRateMultiplier = 8;
+                case GameSpeed.UberFast:
+                    this._speedMultiplier = 8;
                     break;
 
                 default:
-                    this._simulationRateMultiplier = 1;
+                    this._speedMultiplier = 1;
                     break;
             }
 
-            this._numTicksPerSecond = (int)(this._simulationRateMultiplier * GameManager.DefaultNumTicksPerSecond);
+            this._numTicksPerSecond = (int)(this._speedMultiplier * TemporalManager.DefaultNumTicksPerSecond);
 
-            this._tickPeriod = this._simulationSpeed == SimulationSpeed.Stop
+            this._tickPeriod = this._gameSpeed == GameSpeed.Stop
                 ? 0
                 : 1 / (float)this._numTicksPerSecond;
         }

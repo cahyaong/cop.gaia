@@ -62,10 +62,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BaseManager.cs" />
+    <Compile Include="Assets\Scripts\Common\EventExtensions.cs" />
     <Compile Include="Assets\Scripts\Common\Guard.cs" />
     <Compile Include="Assets\Scripts\Common\StringBuilderExtensions.cs" />
     <Compile Include="Assets\Scripts\DiagnosticManager.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GameBootstrap.cs" />
+    <Compile Include="Assets\Scripts\IManager.cs" />
+    <Compile Include="Assets\Scripts\SimulationManager.cs" />
+    <Compile Include="Assets\Scripts\TemporalManager.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
     <Compile Include="Assets\Scripts\TileMap.cs" />
   </ItemGroup>
