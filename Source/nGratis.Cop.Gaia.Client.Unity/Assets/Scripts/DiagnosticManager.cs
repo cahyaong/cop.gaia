@@ -35,6 +35,8 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
         private bool _isEnabled = true;
 
+        private IDrawingCanvas _drawingCanvas;
+
         private TemporalManager _temporalManager;
 
         private uint _previousNumTicks;
@@ -44,12 +46,21 @@ namespace nGratis.Cop.Gaia.Client.Unity
         public override void ExecuteVariableDelta(float delta)
         {
             this.HandleUserInput();
+
+            if (!this._isEnabled)
+            {
+                return;
+            }
+
+            this._drawingCanvas.DrawRectangle(Color.green, new Rect(-0.5f, -0.5f, 1f, 1f));
+            this._drawingCanvas.DrawLine(Color.green, new Vector2(-0.25f, 0f), new Vector2(0.25f, 0f));
+            this._drawingCanvas.DrawLine(Color.green, new Vector2(0f, -0.25f), new Vector2(0f, 0.25f));
         }
 
         private void Start()
         {
-            this._temporalManager = Object.FindObjectOfType<TemporalManager>();
-            Guard.Operation.IsUnexpectedNull(this._temporalManager);
+            this._drawingCanvas = ObjectFinder.FindExactlySingleObject<UnityDrawingCanvas>();
+            this._temporalManager = ObjectFinder.FindExactlySingleObject<TemporalManager>();
 
             this.StartCoroutine("DoSamplingCoroutine");
         }

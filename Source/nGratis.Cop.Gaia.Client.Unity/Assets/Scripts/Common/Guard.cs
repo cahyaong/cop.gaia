@@ -51,7 +51,25 @@ namespace nGratis.Cop.Gaia.Client.Unity
             }
 
             [DebuggerStepThrough]
+            public static void IsZeroOrNegative(float value)
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Value cannot be zero or negative.");
+                }
+            }
+
+            [DebuggerStepThrough]
             public static void IsNegative(int value)
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Value cannot be negative.");
+                }
+            }
+
+            [DebuggerStepThrough]
+            public static void IsNegative(float value)
             {
                 if (value < 0)
                 {
@@ -68,6 +86,15 @@ namespace nGratis.Cop.Gaia.Client.Unity
                 if (value == null)
                 {
                     throw new InvalidOperationException("Value cannot be null");
+                }
+            }
+
+            [DebuggerStepThrough]
+            public static void IsInvalidState(bool isInvalid)
+            {
+                if (isInvalid)
+                {
+                    throw new InvalidOperationException("Operation state is not valid");
                 }
             }
         }
