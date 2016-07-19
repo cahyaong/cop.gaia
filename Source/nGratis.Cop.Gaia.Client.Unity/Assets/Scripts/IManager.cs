@@ -30,5 +30,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
         void ExecuteVariableDelta(float delta);
 
         void ExecuteSingleTick();
+
+        void DrawDiagnosticVisual(IDrawingCanvas canvas);
     }
 }

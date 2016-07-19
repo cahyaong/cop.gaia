@@ -25,7 +25,33 @@
 
 namespace nGratis.Cop.Gaia.Client.Unity
 {
+    using System.Linq;
+    using UnityEngine;
+
     public class SimulationManager : BaseManager
     {
+        private readonly TileMap _tileMap = new TileMap();
+
+        public override void DrawDiagnosticVisual(IDrawingCanvas canvas)
+        {
+            var rowOffset = (int)this._tileMap.VisualBound.yMin;
+            var columnOffset = (int)this._tileMap.VisualBound.xMin;
+
+            Enumerable
+                .Range(rowOffset, this._tileMap.NumRows + 1)
+                .ToList()
+                .ForEach(index => canvas.DrawLine(
+                    Color.gray,
+                    new Vector2(columnOffset, index),
+                    new Vector2(this._tileMap.NumColumns + columnOffset, index)));
+
+            Enumerable
+                .Range(columnOffset, this._tileMap.NumColumns + 1)
+                .ToList()
+                .ForEach(index => canvas.DrawLine(
+                    Color.gray,
+                    new Vector2(index, rowOffset),
+                    new Vector2(index, this._tileMap.NumRows + rowOffset)));
+        }
     }
 }

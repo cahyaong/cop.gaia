@@ -36,5 +36,9 @@ namespace nGratis.Cop.Gaia.Client.Unity
         public virtual void ExecuteSingleTick()
         {
         }
+
+        public virtual void DrawDiagnosticVisual(IDrawingCanvas canvas)
+        {
+        }
     }
 }

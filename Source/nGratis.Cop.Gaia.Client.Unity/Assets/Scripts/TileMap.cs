@@ -33,8 +33,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
         public TileMap()
         {
-            this.NumRows = 8;
-            this.NumColumns = 8;
+            this.Resize(64, 64);
         }
 
         public int NumRows
@@ -44,6 +43,12 @@ namespace nGratis.Cop.Gaia.Client.Unity
         }
 
         public int NumColumns
+        {
+            get;
+            private set;
+        }
+
+        public Rect VisualBound
         {
             get;
             private set;
@@ -61,6 +66,10 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
             this.NumRows = numRows;
             this.NumColumns = numColumns;
+
+            this.VisualBound = new Rect(
+                new Vector2(-numRows / 2f, -numColumns / 2f),
+                new Vector2(numRows, numColumns));
 
             this.Generate();
         }
