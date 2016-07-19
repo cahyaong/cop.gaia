@@ -85,11 +85,11 @@ namespace nGratis.Cop.Gaia.Client.Unity
         private static void DrawLine(Material material, Vector2 start, Vector2 end)
         {
             var angle = Mathf.Atan2(end.y - start.y, end.x - start.x);
-            var length = (end - start).magnitude;
+            var length = (end - start).magnitude + Plane.LineHalfThickness;
             var matrix = Matrix4x4.identity;
 
             matrix.SetTRS(
-                new Vector2(start.x, start.y),
+                new Vector2(start.x - Plane.LineHalfThickness, start.y),
                 Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward),
                 new Vector2(length, 1));
 

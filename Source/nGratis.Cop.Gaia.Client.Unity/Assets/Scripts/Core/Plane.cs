@@ -29,9 +29,11 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
     public class Plane
     {
+        public const float LineHalfThickness = 0.025f;
+
         public static readonly Plane Square10 = new Plane(1, 1);
 
-        public static readonly Plane Line10 = new Plane(1, 0.05f, 0);
+        public static readonly Plane Line10 = new Plane(1, 2 * Plane.LineHalfThickness, 0);
 
         private readonly float _width;
 
