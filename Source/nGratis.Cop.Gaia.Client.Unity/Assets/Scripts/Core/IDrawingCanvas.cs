@@ -32,5 +32,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
         void DrawLine(Color color, Vector2 start, Vector2 end);
 
         void DrawRectangle(Color color, Rect rectangle);
+
+        Vector2 ConvertToWorldPoint(Vector2 screenPoint);
     }
 }

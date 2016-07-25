@@ -25,30 +25,39 @@
 
 namespace nGratis.Cop.Gaia.Client.Unity
 {
+    using System;
     using UnityEngine;
+    using Random = UnityEngine.Random;
 
+    // TODO: Move rendering component out from this class!
+
+    [Serializable]
     public class TileMap : MonoBehaviour
     {
-        private Tile[,] _tiles;
+        [SerializeField]
+        [HideInInspector]
+        private int _numRows;
 
-        public TileMap()
-        {
-            this.Resize(64, 64);
-        }
+        [SerializeField]
+        [HideInInspector]
+        private int _numColumns;
+
+        [NonSerialized]
+        private Tile[,] _tiles;
 
         public int NumRows
         {
-            get;
-            private set;
+            get { return this._numRows; }
+            private set { this._numRows = value; }
         }
 
         public int NumColumns
         {
-            get;
-            private set;
+            get { return this._numColumns; }
+            private set { this._numColumns = value; }
         }
 
-        public Rect VisualBound
+        public Rect WorldBound
         {
             get;
             private set;
@@ -67,14 +76,38 @@ namespace nGratis.Cop.Gaia.Client.Unity
             this.NumRows = numRows;
             this.NumColumns = numColumns;
 
-            this.VisualBound = new Rect(
-                new Vector2(-numRows / 2f, -numColumns / 2f),
-                new Vector2(numRows, numColumns));
-
-            this.Generate();
+            this.CalculateBound();
+            this.GenerateTiles();
         }
 
-        public void Generate()
+        public void RebuildVisual()
+        {
+            this.GenerateMesh();
+            this.GenerateTexture();
+        }
+
+        public Vector2 ConvertToGridPoint(Vector2 worldPoint)
+        {
+            return this.WorldBound.Contains(worldPoint)
+                ? new Vector2((int)(worldPoint.x - this.WorldBound.xMin), (int)(worldPoint.y - this.WorldBound.yMin))
+                : new Vector2(-1, -1);
+        }
+
+        private void Start()
+        {
+            this.CalculateBound();
+            this.GenerateMesh();
+            this.GenerateTexture();
+        }
+
+        private void CalculateBound()
+        {
+            this.WorldBound = new Rect(
+                new Vector2(-this.NumRows / 2f, -this.NumColumns / 2f),
+                new Vector2(this.NumRows, this.NumColumns));
+        }
+
+        private void GenerateTiles()
         {
             this._tiles = new Tile[this.NumRows, this.NumColumns];
 
@@ -87,12 +120,6 @@ namespace nGratis.Cop.Gaia.Client.Unity
             }
         }
 
-        public void Start()
-        {
-            this.GenerateMesh();
-            this.GenerateTexture();
-        }
-
         private void GenerateTexture()
         {
             var texture = new Texture2D(this.NumColumns, this.NumRows);
@@ -101,7 +128,8 @@ namespace nGratis.Cop.Gaia.Client.Unity
             {
                 for (var column = 0; column < this.NumColumns; column++)
                 {
-                    var color = new Color(Random.value, Random.value, Random.value);
+                    var value = Random.value;
+                    var color = new Color(value, value, value);
                     texture.SetPixel(column, row, color);
                 }
             }
@@ -110,7 +138,13 @@ namespace nGratis.Cop.Gaia.Client.Unity
             texture.wrapMode = TextureWrapMode.Clamp;
             texture.Apply();
 
-            var meshRenderer = this.gameObject.AddComponent<MeshRenderer>();
+            var meshRenderer = this.gameObject.GetComponent<MeshRenderer>();
+
+            if (!meshRenderer)
+            {
+                meshRenderer = this.gameObject.AddComponent<MeshRenderer>();
+            }
+
             var material = new Material(Shader.Find("Diffuse")) { mainTexture = texture };
 
             meshRenderer.sharedMaterial = material;
@@ -174,7 +208,13 @@ namespace nGratis.Cop.Gaia.Client.Unity
             mesh.normals = normals;
             mesh.uv = uv;
 
-            var meshFilter = this.gameObject.AddComponent<MeshFilter>();
+            var meshFilter = this.GetComponent<MeshFilter>();
+
+            if (!meshFilter)
+            {
+                meshFilter = this.gameObject.AddComponent<MeshFilter>();
+            }
+
             meshFilter.mesh = mesh;
         }
     }

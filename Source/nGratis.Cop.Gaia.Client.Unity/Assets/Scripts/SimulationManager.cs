@@ -30,12 +30,12 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
     public class SimulationManager : BaseManager
     {
-        private readonly TileMap _tileMap = new TileMap();
+        private TileMap _tileMap;
 
         public override void DrawDiagnosticVisual(IDrawingCanvas canvas)
         {
-            var rowOffset = (int)this._tileMap.VisualBound.yMin;
-            var columnOffset = (int)this._tileMap.VisualBound.xMin;
+            var rowOffset = (int)this._tileMap.WorldBound.yMin;
+            var columnOffset = (int)this._tileMap.WorldBound.xMin;
 
             Enumerable
                 .Range(rowOffset, this._tileMap.NumRows + 1)
@@ -52,6 +52,11 @@ namespace nGratis.Cop.Gaia.Client.Unity
                     Color.gray,
                     new Vector2(index, rowOffset),
                     new Vector2(index, this._tileMap.NumRows + rowOffset)));
+        }
+
+        private void Start()
+        {
+            this._tileMap = ObjectFinder.FindExactlySingleObject<TileMap>();
         }
     }
 }

@@ -82,6 +82,11 @@ namespace nGratis.Cop.Gaia.Client.Unity
                 new Vector2(rectangle.xMin, rectangle.yMin));
         }
 
+        public Vector2 ConvertToWorldPoint(Vector2 screenPoint)
+        {
+            return this._camera.ScreenToWorldPoint(screenPoint);
+        }
+
         private static void DrawLine(Material material, Vector2 start, Vector2 end)
         {
             var angle = Mathf.Atan2(end.y - start.y, end.x - start.x);

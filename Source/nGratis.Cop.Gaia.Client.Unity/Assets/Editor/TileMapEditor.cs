@@ -31,66 +31,93 @@ namespace nGratis.Cop.Gaia.Client.Unity
     [CustomEditor(typeof(TileMap))]
     public class TileMapEditor : Editor
     {
-        private TileMap tileMap;
+        private TileMap _tileMap;
 
-        private int numRows;
+        private int _numRows;
 
-        private int numColumns;
+        private int _numColumns;
 
-        private static bool isMapSettingsShown;
+        private static bool _isMapSettingsShown;
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-
             this.BuildMapSettingsView();
 
-            EditorUtility.SetDirty(this);
+            if (GUI.changed)
+            {
+                EditorUtility.SetDirty(this._tileMap);
+            }
         }
 
-        public void OnEnable()
+        private void OnEnable()
         {
-            this.tileMap = (TileMap)this.target;
+            this._tileMap = (TileMap)this.target;
 
-            this.numRows = this.tileMap.NumRows;
-            this.numColumns = this.tileMap.NumColumns;
+            this._numRows = this._tileMap.NumRows;
+            this._numColumns = this._tileMap.NumColumns;
         }
 
-        public void OnSceneGUI()
+        private void OnSceneGUI()
         {
             this.DrawGrid();
         }
 
         private void BuildMapSettingsView()
         {
-            TileMapEditor.isMapSettingsShown = EditorGUILayout.Foldout(
-                TileMapEditor.isMapSettingsShown,
+            TileMapEditor._isMapSettingsShown = EditorGUILayout.Foldout(
+                TileMapEditor._isMapSettingsShown,
                 "Map Settings");
 
-            if (!TileMapEditor.isMapSettingsShown)
+            if (!TileMapEditor._isMapSettingsShown)
             {
                 return;
             }
 
-            this.numRows = EditorGUILayout.IntField(new GUIContent("Number of Rows"), this.numRows);
-            this.numColumns = EditorGUILayout.IntField(new GUIContent("Number of Columns"), this.numColumns);
+            this._numRows = EditorGUILayout.IntField(new GUIContent("Number of Rows"), this._numRows);
+            this._numColumns = EditorGUILayout.IntField(new GUIContent("Number of Columns"), this._numColumns);
 
-            if (GUILayout.Button("Recreate Mesh"))
+            var isRefreshRequired = false;
+
+            if (this._numRows <= 0)
             {
-                this.tileMap.Resize(this.numRows, this.numColumns);
-                SceneView.RepaintAll();
+                this._numRows = 8;
+                isRefreshRequired = true;
             }
+
+            if (this._numColumns <= 0)
+            {
+                this._numColumns = 8;
+                isRefreshRequired = true;
+            }
+
+            if (isRefreshRequired || GUILayout.Button("Recreate Mesh"))
+            {
+                this.RefreshMap();
+            }
+        }
+
+        private void RefreshMap()
+        {
+            this._tileMap.Resize(this._numRows, this._numColumns);
+
+            if (Application.isPlaying)
+            {
+                this._tileMap.RebuildVisual();
+            }
+
+            SceneView.RepaintAll();
         }
 
         private void DrawGrid()
         {
             var startPoint =
-                this.tileMap.gameObject.transform.position -
-                new Vector3(this.numColumns / 2f, this.numRows / 2f);
+                this._tileMap.gameObject.transform.position -
+                new Vector3(this._numColumns / 2f, this._numRows / 2f);
 
-            var endPoint = new Vector3(startPoint.x + this.numColumns, startPoint.y + this.numRows);
+            var endPoint = new Vector3(startPoint.x + this._numColumns, startPoint.y + this._numRows);
 
-            Handles.color = this.numRows != this.tileMap.NumRows || this.numColumns != this.tileMap.NumColumns
+            Handles.color = this._numRows != this._tileMap.NumRows || this._numColumns != this._tileMap.NumColumns
                 ? Constants.TileMap.ModifiedColor
                 : Constants.TileMap.AppliedColor;
 
@@ -99,7 +126,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
             Handles.DrawLine(new Vector3(endPoint.x, endPoint.y), new Vector3(startPoint.x, endPoint.y));
             Handles.DrawLine(new Vector3(startPoint.x, endPoint.y), new Vector3(startPoint.x, startPoint.y));
 
-            for (var row = 0; row < this.numRows; row++)
+            for (var row = 0; row < this._numRows; row++)
             {
                 var y = startPoint.y + row;
 
@@ -109,7 +136,7 @@ namespace nGratis.Cop.Gaia.Client.Unity
                     Constants.TileMap.DashLength);
             }
 
-            for (var column = 0; column < this.numColumns; column++)
+            for (var column = 0; column < this._numColumns; column++)
             {
                 var x = startPoint.x + column;
 
