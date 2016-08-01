@@ -103,8 +103,8 @@ namespace nGratis.Cop.Gaia.Client.Unity
         private void CalculateBound()
         {
             this.WorldBound = new Rect(
-                new Vector2(-this.NumRows / 2f, -this.NumColumns / 2f),
-                new Vector2(this.NumRows, this.NumColumns));
+                new Vector2(-this.NumColumns / 2f, -this.NumRows / 2f),
+                new Vector2(this.NumColumns, this.NumRows));
         }
 
         private void GenerateTiles()
