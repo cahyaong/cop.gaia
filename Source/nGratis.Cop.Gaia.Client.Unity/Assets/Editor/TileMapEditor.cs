@@ -56,6 +56,12 @@ namespace nGratis.Cop.Gaia.Client.Unity
 
             this._numRows = this._tileMap.NumRows;
             this._numColumns = this._tileMap.NumColumns;
+
+            if (!Application.isPlaying)
+            {
+                this.AdjustMapSettings();
+                this.RefreshMap();
+            }
         }
 
         private void OnSceneGUI()
@@ -77,23 +83,24 @@ namespace nGratis.Cop.Gaia.Client.Unity
             this._numRows = EditorGUILayout.IntField(new GUIContent("Number of Rows"), this._numRows);
             this._numColumns = EditorGUILayout.IntField(new GUIContent("Number of Columns"), this._numColumns);
 
-            var isRefreshRequired = false;
+            this.AdjustMapSettings();
 
+            if (GUILayout.Button("Recreate Mesh"))
+            {
+                this.RefreshMap();
+            }
+        }
+
+        private void AdjustMapSettings()
+        {
             if (this._numRows <= 0)
             {
                 this._numRows = 8;
-                isRefreshRequired = true;
             }
 
             if (this._numColumns <= 0)
             {
                 this._numColumns = 8;
-                isRefreshRequired = true;
-            }
-
-            if (isRefreshRequired || GUILayout.Button("Recreate Mesh"))
-            {
-                this.RefreshMap();
             }
         }
 

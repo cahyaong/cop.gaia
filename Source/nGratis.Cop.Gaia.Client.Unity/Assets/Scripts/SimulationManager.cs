@@ -57,6 +57,13 @@ namespace nGratis.Cop.Gaia.Client.Unity
         private void Start()
         {
             this._tileMap = ObjectFinder.FindExactlySingleObject<TileMap>();
+
+            // TODO: Replace with a logic to load level from disk or world generator!
+            if (this._tileMap.NumRows <= 0 || this._tileMap.NumColumns <= 0)
+            {
+                this._tileMap.Resize(8, 8);
+                this._tileMap.RebuildVisual();
+            }
         }
     }
 }
