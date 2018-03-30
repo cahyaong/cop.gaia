@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Engine", "nGratis.Cop.Gaia.Engine\nGratis.Cop.Gaia.Engine.csproj", "{EEC20B06-F644-41D2-B30F-9CA43CBD1376}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AC1DB36E-A2D6-40CF-8698-B3862D8D812D}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -14,55 +12,50 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AC1DB3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A13A0584-009F-4381-A5A2-E087C74DA299}"
 	ProjectSection(SolutionItems) = preProject
-		nGratis.Cop.Gaia.Common\nGratis.Cop.Gaia.UpdateVersion.ps1 = nGratis.Cop.Gaia.Common\nGratis.Cop.Gaia.UpdateVersion.ps1
+		Gaia.Common\nGratis.Cop.Gaia.UpdateVersion.ps1 = Gaia.Common\nGratis.Cop.Gaia.UpdateVersion.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Client.Wpf", "nGratis.Cop.Gaia.Client.Wpf\nGratis.Cop.Gaia.Client.Wpf.csproj", "{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Engine", "Gaia.Engine\nGratis.Cop.Gaia.Engine.csproj", "{EEC20B06-F644-41D2-B30F-9CA43CBD1376}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Client.Mono", "nGratis.Cop.Gaia.Client.Mono\nGratis.Cop.Gaia.Client.Mono.csproj", "{2A911867-C5B1-4762-9D35-8698FC2645CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Client.Wpf", "Gaia.Client.Wpf\nGratis.Cop.Gaia.Client.Wpf.csproj", "{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Client.Mono", "Gaia.Client.Mono\nGratis.Cop.Gaia.Client.Mono.csproj", "{2A911867-C5B1-4762-9D35-8698FC2645CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Debug|x86.Build.0 = Debug|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Release|x86.ActiveCfg = Release|Any CPU
+		{EEC20B06-F644-41D2-B30F-9CA43CBD1376}.Release|x86.Build.0 = Release|Any CPU
 		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Debug|x86.Build.0 = Debug|Any CPU
 		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8B7C00D-0F70-497E-A719-8B3F3672F0C6}.Release|x86.Build.0 = Release|Any CPU
 		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Debug|x86.ActiveCfg = Debug|x86
 		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Debug|x86.Build.0 = Debug|x86
 		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Release|Any CPU.ActiveCfg = Release|x86
-		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Release|x86.ActiveCfg = Release|x86
 		{2A911867-C5B1-4762-9D35-8698FC2645CD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4EB48EED-0CB7-466F-8415-4BD3172B353B}
 	EndGlobalSection
 EndGlobal

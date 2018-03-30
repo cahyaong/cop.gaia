@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EEC20B06-F644-41D2-B30F-9CA43CBD1376}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>nGratis.Cop.Gaia.Engine</RootNamespace>
+    <AssemblyName>nGratis.Cop.Gaia.Engine</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Gaia.Unity\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <DontImportPostSharp>True</DontImportPostSharp>
+    <SkipPostSharp>True</SkipPostSharp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nGratis.Cop.Core, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\nGratis.Cop.Core.0.1.226\lib\net45\nGratis.Cop.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nGratis.Cop.Core.Contract, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\nGratis.Cop.Core.0.1.226\lib\net45\nGratis.Cop.Core.Contract.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=3.2.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PostSharp, Version=4.1.13.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.4.1.13\lib\net35-client\PostSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Gaia.Common\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Common\BaseManager.cs" />
+    <Compile Include="Common\Clock.cs" />
+    <Compile Include="Common\BaseComponent.cs" />
+    <Compile Include="Common\ComponentAttribute.cs" />
+    <Compile Include="Common\ComponentBucket.cs" />
+    <Compile Include="Common\ComponentKind.cs" />
+    <Compile Include="Common\ComponentKindExtensions.cs" />
+    <Compile Include="Common\Entity.cs" />
+    <Compile Include="Common\EntityAction.cs" />
+    <Compile Include="Common\EntityState.cs" />
+    <Compile Include="Common\EntityManager.cs" />
+    <Compile Include="Common\BaseSystem.cs" />
+    <Compile Include="Common\EntityChangedEventArgs.cs" />
+    <Compile Include="Common\GameInfrastructure.cs" />
+    <Compile Include="Common\IComponent.cs" />
+    <Compile Include="Common\IComponentBucket.cs" />
+    <Compile Include="Common\IdentityManager.cs" />
+    <Compile Include="Common\IEntity.cs" />
+    <Compile Include="Common\IGameInfrastructure.cs" />
+    <Compile Include="Common\IIdentityManager.cs" />
+    <Compile Include="Common\IManager.cs" />
+    <Compile Include="Common\IProbabilityManager.cs" />
+    <Compile Include="Common\ISystem.cs" />
+    <Compile Include="Common\ISystemManager.cs" />
+    <Compile Include="Common\ITemplate.cs" />
+    <Compile Include="Common\ProbabilityManager.cs" />
+    <Compile Include="Common\SystemManager.cs" />
+    <Compile Include="Common\Template.cs" />
+    <Compile Include="Common\TemplateManager.cs" />
+    <Compile Include="Common\IEntityManager.cs" />
+    <Compile Include="Common\ITemplateManager.cs" />
+    <Compile Include="Common\TemplateManagerExtensions.cs" />
+    <Compile Include="Components\BrainComponent.cs" />
+    <Compile Include="Components\ConstitutionComponent.cs" />
+    <Compile Include="Components\PhysicsComponent.cs" />
+    <Compile Include="Components\PlacementComponent.cs" />
+    <Compile Include="Components\StatisticComponent.cs" />
+    <Compile Include="Components\TraitComponent.cs" />
+    <Compile Include="Contract\IDrawingCanvas.cs" />
+    <Compile Include="Contract\IColor.cs" />
+    <Compile Include="Contract\IRenderPrimitive.cs" />
+    <Compile Include="Core\AuxiliaryEnumerable.cs" />
+    <Compile Include="Core\Brush.cs" />
+    <Compile Include="Core\Color\HsvColor.cs" />
+    <Compile Include="Core\Color\RgbColor.cs" />
+    <Compile Include="Core\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Core\Pen.cs" />
+    <Compile Include="Core\RapidGuard.cs" />
+    <Compile Include="Core\TypeExtensions.cs" />
+    <Compile Include="Data\Coordinate.cs" />
+    <Compile Include="Data\TransformationMatrix.cs" />
+    <Compile Include="Environment\ElevationLayerGenerator.cs" />
+    <Compile Include="Environment\ILayerGenerator.cs" />
+    <Compile Include="Environment\Region.cs" />
+    <Compile Include="Environment\BaseLayerGenerator.cs" />
+    <Compile Include="Environment\LayerMode.cs" />
+    <Compile Include="GameSpecification.cs" />
+    <Compile Include="Math\DoubleExtensions.cs" />
+    <Compile Include="Math\FloatExtensions.cs" />
+    <Compile Include="Math\IntegerExtensions.cs" />
+    <Compile Include="Data\Point.cs" />
+    <Compile Include="Data\Range.cs" />
+    <Compile Include="Data\Rectangle.cs" />
+    <Compile Include="Data\Size.cs" />
+    <Compile Include="Data\Vector.cs" />
+    <Compile Include="Noise\Generators\BaseGradientNoise.cs" />
+    <Compile Include="Noise\INoiseModule.cs" />
+    <Compile Include="Math\AuxiliaryMath.cs" />
+    <Compile Include="Noise\Generators\PerlinNoise.cs" />
+    <Compile Include="Math\Quality.cs" />
+    <Compile Include="Noise\Modifiers\BlendingModifier.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Environment\Tile.cs" />
+    <Compile Include="Environment\TileMap.cs" />
+    <Compile Include="Environment\WorldMap.cs" />
+    <Compile Include="Core\StringExtensions.cs" />
+    <Compile Include="Systems\DecisionMakingSystem.cs" />
+    <Compile Include="Systems\MovementSystem.cs" />
+    <Compile Include="Systems\DiagnosticSystem.cs" />
+    <Compile Include="Systems\RenderingSystem.cs" />
+    <Compile Include="Systems\SystemConstant.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\PostSharp.4.1.13\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.4.1.13\tools\PostSharp.targets')" />
+  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
+    <Error Condition="!Exists('..\packages\PostSharp.4.1.13\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\packages\PostSharp.4.1.13\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+  </Target>
+</Project>
