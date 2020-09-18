@@ -1,4 +1,4 @@
 cop.gaia
 ======
 
-My first attempt to build a game.
+My repository for learning game development.
