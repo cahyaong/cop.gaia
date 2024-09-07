@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dni76ak0bhwsn"]
+
+[ext_resource type="PackedScene" uid="uid://ck381xusinnxd" path="res://System/WorldGenerator.tscn" id="1_1ql3b"]
+
+[node name="Universe" type="Node2D"]
+
+[node name="WorldGenerator" parent="." instance=ExtResource("1_1ql3b")]
