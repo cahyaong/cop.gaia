@@ -1,47 +1,8 @@
-﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=ClassNeverInstantiated_002EGlobal/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=UnusedMember_002ELocal/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/StaticQualifier/STATIC_MEMBERS_QUALIFY_MEMBERS/@EntryValue">Field, Property, Event, Method</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/ThisQualifier/INSTANCE_MEMBERS_QUALIFY_MEMBERS/@EntryValue">Field, Property, Event, Method</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/CSharpUsing/AddImportsToDeepestScope/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=GUI/@EntryIndexedValue">GUI</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/@KeyIndexDefined">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Description/@EntryValue">Insert file header with copyright notice.</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=CREATION_005FTIMESTAMP/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=CREATION_005FTIMESTAMP/Expression/@EntryValue">getCreationTime("U")</s:String>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=CREATION_005FTIMESTAMP/InitialRange/@EntryValue">-1</s:Int64>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=CREATION_005FTIMESTAMP/Order/@EntryValue">1</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=FILENAME/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=FILENAME/Expression/@EntryValue">getFileName()</s:String>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=FILENAME/InitialRange/@EntryValue">-1</s:Int64>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Field/=FILENAME/Order/@EntryValue">0</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Reformat/@EntryValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Scope/=139FF4CE89E7094686FDA7BF5FFBBE92/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Scope/=139FF4CE89E7094686FDA7BF5FFBBE92/Type/@EntryValue">Everywhere</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Shortcut/@EntryValue">header</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8689DB6EC4C45F4E964A2748D26520B1/Text/@EntryValue">// --------------------------------------------------------------------------------------------------------------------&#xD;
-// &lt;copyright file="$FILENAME$" company="nGratis"&gt;&#xD;
-//   The MIT License (MIT)&#xD;
-// &#xD;
-//   Copyright (c) 2014 - 2016 Cahya Ong&#xD;
-// &#xD;
-//   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and&#xD;
-//   associated documentation files (the "Software"), to deal in the Software without restriction, including&#xD;
-//   without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell&#xD;
-//   copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the&#xD;
-//   following conditions:&#xD;
-// &#xD;
-//   The above copyright notice and this permission notice shall be included in all copies or substantial&#xD;
-//   portions of the Software.&#xD;
-// &#xD;
-//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT&#xD;
-//   LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO&#xD;
-//   EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER&#xD;
-//   IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR&#xD;
-//   THE USE OR OTHER DEALINGS IN THE SOFTWARE.&#xD;
-// &lt;/copyright&gt;&#xD;
-// &lt;author&gt;Cahya Ong - cahya.ong@gmail.com&lt;/author&gt;&#xD;
-// &lt;creation_timestamp&gt;$CREATION_TIMESTAMP$ UTC&lt;/creation_timestamp&gt;&#xD;
-// --------------------------------------------------------------------------------------------------------------------</s:String></wpf:ResourceDictionary>
+	</wpf:ResourceDictionary>
