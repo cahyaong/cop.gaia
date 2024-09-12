@@ -23,6 +23,7 @@ window/size/viewport_height=1080
 [dotnet]
 
 project/assembly_name="Gaia.Client.Godot"
+project/solution_directory="../"
 
 [editor]
 
