@@ -1,0 +1,5 @@
+framework: net8.0
+source https://api.nuget.org/v3/index.json
+
+nuget System.Reactive
+nuget YamlDotNet

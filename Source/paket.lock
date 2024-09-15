@@ -1,0 +1,5 @@
+RESTRICTION: == net8.0
+NUGET
+  remote: https://api.nuget.org/v3/index.json
+    System.Reactive (6.0.1)
+    YamlDotNet (16.1)
