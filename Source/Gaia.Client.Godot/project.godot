@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Gaia.Client.Godot"
-run/main_scene="res://System/WorldGenerator.tscn"
+config/name="nGratis.Cop.Gaia.Client.Godot"
+run/main_scene="res://Stage/Univerese.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,7 +22,7 @@ window/size/viewport_height=1080
 
 [dotnet]
 
-project/assembly_name="Gaia.Client.Godot"
+project/assembly_name="nGratis.Cop.Gaia.Client.Godot"
 project/solution_directory="../"
 
 [editor]

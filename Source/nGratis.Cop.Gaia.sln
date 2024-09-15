@@ -1,12 +1,19 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nGratis.Cop.Gaia.Client.Godot", "Gaia.Client.Godot\nGratis.Cop.Gaia.Client.Godot.csproj", "{30199E3E-2404-40E0-9C9C-22461C632101}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nGratis.Cop.Gaia.Client.Godot", "Gaia.Client.Godot\nGratis.Cop.Gaia.Client.Godot.csproj", "{30199E3E-2404-40E0-9C9C-22461C632101}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{D0428BDD-B5E0-4621-9187-48D2D79BD567}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{30199E3E-2404-40E0-9C9C-22461C632101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +22,11 @@ Global
 		{30199E3E-2404-40E0-9C9C-22461C632101}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{30199E3E-2404-40E0-9C9C-22461C632101}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{30199E3E-2404-40E0-9C9C-22461C632101}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D19B2610-EC77-4B52-9DEB-710975C1CF2E}
 	EndGlobalSection
 EndGlobal
