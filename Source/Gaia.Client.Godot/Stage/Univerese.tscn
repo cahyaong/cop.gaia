@@ -1,7 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://dni76ak0bhwsn"]
+[gd_scene load_steps=5 format=3 uid="uid://dni76ak0bhwsn"]
 
-[ext_resource type="PackedScene" uid="uid://ck381xusinnxd" path="res://System/WorldGenerator.tscn" id="1_1ql3b"]
+[ext_resource type="PackedScene" uid="uid://ck381xusinnxd" path="res://Common/WorldGenerator.tscn" id="1_1ql3b"]
+[ext_resource type="Script" path="res://Common/AppBootstrapper.cs" id="1_x2542"]
+[ext_resource type="PackedScene" uid="uid://cicms3w02cifp" path="res://Common/TimeTracker.tscn" id="2_mocfj"]
+[ext_resource type="PackedScene" uid="uid://cnf3511yvomcs" path="res://Common/HeadUpDisplay.tscn" id="3_tfltx"]
 
 [node name="Universe" type="Node2D"]
 
+[node name="AppBootstrapper" type="Node" parent="."]
+script = ExtResource("1_x2542")
+
 [node name="WorldGenerator" parent="." instance=ExtResource("1_1ql3b")]
+
+[node name="TimeTracker" parent="." instance=ExtResource("2_mocfj")]
+
+[node name="HeadUpDisplay" parent="." instance=ExtResource("3_tfltx")]

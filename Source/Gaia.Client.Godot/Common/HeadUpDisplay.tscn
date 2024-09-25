@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnf3511yvomcs"]
+
+[ext_resource type="Script" path="res://Common.Renderer/HeadUpDisplay.cs" id="1_2s18s"]
+[ext_resource type="Script" path="res://Common.Renderer/DiagnosticRenderer.cs" id="2_l531h"]
+
+[node name="HeadUpDisplay" type="Node"]
+script = ExtResource("1_2s18s")
+
+[node name="DiagnosticRenderer" type="CanvasLayer" parent="."]
+script = ExtResource("2_l531h")
+
+[node name="StatisticLabel" type="RichTextLabel" parent="DiagnosticRenderer"]
+offset_left = 1136.0
+offset_top = 16.0
+offset_right = 1264.0
+offset_bottom = 80.0
+bbcode_enabled = true
+text = "[i]<DR.STATISTIC>[/i]"

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cicms3w02cifp"]
+
+[ext_resource type="Script" path="res://Common/TimeTracker.cs" id="1_2whs5"]
+
+[node name="TimeTracker" type="Node"]
+script = ExtResource("1_2whs5")

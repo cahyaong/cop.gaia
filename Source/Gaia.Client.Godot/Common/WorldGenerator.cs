@@ -9,6 +9,6 @@
 
 using Godot;
 
-public partial class WorldGenerator : Node2D
+public partial class WorldGenerator : Node
 {
 }

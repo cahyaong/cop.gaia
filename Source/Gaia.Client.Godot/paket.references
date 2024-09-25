@@ -1,2 +1,4 @@
-﻿System.Reactive
+﻿Autofac
+System.Reactive
+System.Reactive.Linq
 YamlDotNet
