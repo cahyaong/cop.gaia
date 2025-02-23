@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ck381xusinnxd" path="res://Common/WorldGenerator.tscn" id="1_1ql3b"]
 [ext_resource type="Script" path="res://Common/AppBootstrapper.cs" id="1_x2542"]
 [ext_resource type="PackedScene" uid="uid://cicms3w02cifp" path="res://Common/TimeTracker.tscn" id="2_mocfj"]
-[ext_resource type="PackedScene" uid="uid://cnf3511yvomcs" path="res://Common/HeadUpDisplay.tscn" id="3_tfltx"]
+[ext_resource type="PackedScene" uid="uid://huvwewupafi4" path="res://Common.Renderer/HeadUpDisplay.tscn" id="3_tfltx"]
 
 [node name="Universe" type="Node2D"]
 
