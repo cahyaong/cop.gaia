@@ -1,41 +1,10 @@
-﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=CheckNamespace/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=032094A93911374387D27018EEE261BA/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=032094A93911374387D27018EEE261BA/AbsolutePath/@EntryValue">C:\Workshop\11_NerdLab\cop.hermes\External\cop.olympus\Source\Olympus.Shared\nGratis.Shared.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=032094A93911374387D27018EEE261BA/RelativePath/@EntryValue">..\..\..\cop.hermes\External\cop.olympus\Source\Olympus.Shared\nGratis.Shared.DotSettings</s:String>
-	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=A5C4C5A4DCE59E4BAF13E6223FCCC596/AbsolutePath/@EntryValue">C:\Workshop\11_NerdLab\cop.hermes\External\cop.olympus\Source\Olympus.Shared\nGratis.Cop.Shared.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=A5C4C5A4DCE59E4BAF13E6223FCCC596/RelativePath/@EntryValue">..\..\..\cop.hermes\External\cop.olympus\Source\Olympus.Shared\nGratis.Cop.Shared.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=A5C4C5A4DCE59E4BAF13E6223FCCC596/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File032094A93911374387D27018EEE261BA/@KeyIndexDefined">True</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File032094A93911374387D27018EEE261BA/RelativePriority/@EntryValue">2</s:Double>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA5C4C5A4DCE59E4BAF13E6223FCCC596/@KeyIndexDefined">True</s:Boolean>
-	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA5C4C5A4DCE59E4BAF13E6223FCCC596/RelativePriority/@EntryValue">3</s:Double>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/@KeyIndexDefined">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Description/@EntryValue">Insert file header with copyright notice.</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=CREATION_005FTIMESTAMP/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=CREATION_005FTIMESTAMP/Expression/@EntryValue">getCreationTime("U")</s:String>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=CREATION_005FTIMESTAMP/InitialRange/@EntryValue">-1</s:Int64>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=CREATION_005FTIMESTAMP/Order/@EntryValue">1</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=FILENAME/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=FILENAME/Expression/@EntryValue">getFileName()</s:String>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=FILENAME/InitialRange/@EntryValue">-1</s:Int64>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Field/=FILENAME/Order/@EntryValue">0</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Reformat/@EntryValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Scope/=4B847A5ED8F7574F925C66209222DF71/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Scope/=4B847A5ED8F7574F925C66209222DF71/Type/@EntryValue">AtLineStart</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Scope/=C3001E7C0DA78E4487072B7E050D86C5/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Scope/=C3001E7C0DA78E4487072B7E050D86C5/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Scope/=C3001E7C0DA78E4487072B7E050D86C5/Type/@EntryValue">InCSharpFile</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Shortcut/@EntryValue">header_godot</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C96DBECCF17BFA4BB55F6443704D017B/Text/@EntryValue">// --------------------------------------------------------------------------------------------------------------------&#xD;
-// &lt;copyright file="$FILENAME$" company="nGratis"&gt;&#xD;
-//  The MIT License -- Copyright (c) Cahya Ong&#xD;
-//  See the LICENSE file in the project root for more information.&#xD;
-// &lt;/copyright&gt;&#xD;
-// &lt;author&gt;Cahya Ong -- cahya.ong@gmail.com&lt;/author&gt;&#xD;
-// &lt;creation_timestamp&gt;$CREATION_TIMESTAMP$ UTC&lt;/creation_timestamp&gt;&#xD;
-// --------------------------------------------------------------------------------------------------------------------&#xD;
-&#xD;
-$END$</s:String></wpf:ResourceDictionary>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA5C4C5A4DCE59E4BAF13E6223FCCC596/RelativePriority/@EntryValue">3</s:Double></wpf:ResourceDictionary>
